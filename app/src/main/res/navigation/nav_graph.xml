@@ -9,17 +9,9 @@
         android:id="@+id/homeFragment"
         android:name="com.amro.weathertastic.HomeFragment"
         android:label="Home"
-        tools:layout="@layout/home_fragment">
-        <action
-            android:id="@+id/action_homeFragment_to_favouriteFragment2"
-            app:destination="@id/favouriteFragment2"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-    </fragment>
+        tools:layout="@layout/home_fragment"/>
     <fragment
-        android:id="@+id/favouriteFragment2"
+        android:id="@+id/favouriteFragment"
         android:name="com.amro.weathertastic.FavouriteFragment"
         android:label="Favourite"
         tools:layout="@layout/favourite_fragment" />
@@ -28,4 +20,9 @@
         android:name="com.amro.weathertastic.SettingsFragment"
         android:label="Settings"
         tools:layout="@layout/settings_fragment" />
+    <fragment
+        android:id="@+id/alarmFragment"
+        android:name="com.amro.weathertastic.AlarmFragment"
+        android:label="alarm_fragment"
+        tools:layout="@layout/alarm_fragment" />
 </navigation>

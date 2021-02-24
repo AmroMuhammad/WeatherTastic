@@ -31,12 +31,4 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding.textView.setOnClickListener(View.OnClickListener {
-            val action = HomeFragmentDirections.actionHomeFragmentToFavouriteFragment2()
-            findNavController().navigate(action)
-        })
-    }
-
 }
