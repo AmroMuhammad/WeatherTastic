@@ -2,28 +2,26 @@ package com.amro.weathertastic
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.navigation.fragment.navArgs
 import com.amro.weathertastic.databinding.FavouriteFragmentBinding
-import com.amro.weathertastic.databinding.HomeFragmentBinding
+import com.amro.weathertastic.databinding.SettingsFragmentBinding
 
-class FavouriteFragment : Fragment() {
+class SettingsFragment : Fragment() {
 
-    private lateinit var viewModel: FavouriteViewModel
-    private var _binding: FavouriteFragmentBinding? = null
+    private lateinit var viewModel: SettingsViewModel
+    private var _binding: SettingsFragmentBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        _binding = FavouriteFragmentBinding.inflate(inflater,container,false)
+        _binding = SettingsFragmentBinding.inflate(inflater,container,false)
+        setHasOptionsMenu(true);
         return binding!!.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(FavouriteViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(SettingsViewModel::class.java)
         // TODO: Use the ViewModel
     }
 
@@ -32,4 +30,10 @@ class FavouriteFragment : Fragment() {
         _binding = null
     }
 
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        val item : MenuItem? = menu.findItem(R.id.settingsFragment)
+        if(item != null){
+            item.setVisible(false)
+        }
+    }
 }

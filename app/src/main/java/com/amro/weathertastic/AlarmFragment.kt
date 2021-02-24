@@ -8,14 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import com.amro.weathertastic.databinding.AlarmFragmentBinding
 import com.amro.weathertastic.databinding.FavouriteFragmentBinding
+import com.amro.weathertastic.databinding.HomeFragmentBinding
 
 class AlarmFragment : Fragment() {
 
     private lateinit var viewModel: AlarmViewModel
-    private  var binding: AlarmFragmentBinding? = null
+    private var _binding: AlarmFragmentBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = AlarmFragmentBinding.inflate(inflater,container,false)
+        _binding = AlarmFragmentBinding.inflate(inflater,container,false)
         return binding!!.root
     }
 
@@ -27,7 +29,7 @@ class AlarmFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding = null
+        _binding = null
     }
 
 }
