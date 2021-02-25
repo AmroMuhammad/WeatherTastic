@@ -70,12 +70,9 @@ dependencies {
     // Navigation Component dependencies
     implementation "androidx.navigation:navigation-fragment-ktx:2.3.0"
     implementation "androidx.navigation:navigation-ui-ktx:2.3.0"
-}
-}
 
-dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0'
+    //for autoComplete
+    implementation 'com.mapbox.mapboxsdk:mapbox-android-plugin-places-v9:0.12.0'
+
+}
 }

@@ -23,6 +23,6 @@
     <fragment
         android:id="@+id/alarmFragment"
         android:name="com.amro.weathertastic.AlarmFragment"
-        android:label="alarm_fragment"
+        android:label="Alarm"
         tools:layout="@layout/alarm_fragment" />
 </navigation>
