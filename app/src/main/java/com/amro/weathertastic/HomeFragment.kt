@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.amro.weathertastic.databinding.HomeFragmentBinding
 
@@ -24,6 +25,10 @@ class HomeFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         // TODO: Use the ViewModel
+        viewModel.fetchDailyData()
+        viewModel.dailyWeatherData.observe(viewLifecycleOwner, Observer {
+            binding.textView.text = it.toString()
+        })
     }
 
     override fun onDestroyView() {

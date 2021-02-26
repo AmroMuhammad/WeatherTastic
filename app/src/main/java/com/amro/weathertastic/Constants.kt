@@ -7,5 +7,8 @@ object Constants {
     const val LOCATION_PERMISSION_CODE = 202
     const val CURRENT_LONGITUDE = "currentLongitude"
     const val CURRENT_LATITUDE = "currentLatitude"
-
+    const val WEATHER_API_KEY = "638832e8aac95b65ba4723ffb05b1f78"
+    const val BASE_URL = "https://api.openweathermap.org/data/2.5/"
+    const val SHARED_PREF_CURRENT_LOCATION = "currentLocation"
+    const val EXCLUDE_MINUTELY = "minutely"
 }

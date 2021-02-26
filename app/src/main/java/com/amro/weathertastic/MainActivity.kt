@@ -94,7 +94,7 @@ class MainActivity : AppCompatActivity() {
                     setNumUpdates(2)
                 }
                 val fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
-                fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper())
+                fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper())
             } else {
                 enableLocation()
             }
@@ -123,7 +123,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun saveCurrentLocationToSharedPref(latitude: String,longitude: String){
-        val sharedPref = getSharedPreferences("currentLocation", MODE_PRIVATE)
+        val sharedPref = getSharedPreferences(Constants.SHARED_PREF_CURRENT_LOCATION, MODE_PRIVATE)
         val editor = sharedPref.edit()
         editor.putString(Constants.CURRENT_LATITUDE,latitude).apply()
         editor.putString(Constants.CURRENT_LONGITUDE,longitude).apply()
