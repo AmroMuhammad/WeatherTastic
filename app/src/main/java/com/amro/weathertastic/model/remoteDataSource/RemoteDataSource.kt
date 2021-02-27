@@ -1,6 +1,6 @@
 package com.amro.weathertastic.model.remoteDataSource
 
-import com.amro.weathertastic.model.Constants
+import com.amro.weathertastic.utils.Constants
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

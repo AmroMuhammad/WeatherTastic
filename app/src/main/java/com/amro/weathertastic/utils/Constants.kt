@@ -1,4 +1,4 @@
-package com.amro.weathertastic.model
+package com.amro.weathertastic.utils
 
 object Constants {
     const val MAPBOX_API_KEY = "pk.eyJ1IjoiYW1ybXVoYW1tYWQiLCJhIjoiY2tsazc2dGxxMDF6YjJ3bXdpY2ZpbWhxOCJ9.-ig2mB_01Yj0WVkiUtfeMw"

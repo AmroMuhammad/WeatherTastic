@@ -5,7 +5,7 @@ import android.content.Context.MODE_PRIVATE
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.amro.weathertastic.model.Constants
+import com.amro.weathertastic.utils.Constants
 import com.amro.weathertastic.model.entities.WeatherResponse
 import com.amro.weathertastic.model.remoteDataSource.RemoteDataSource
 import kotlinx.coroutines.CoroutineScope
@@ -18,8 +18,10 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     fun fetchDailyData(){
         val context = getApplication<Application>()
-        val lat = context.getSharedPreferences(Constants.SHARED_PREF_CURRENT_LOCATION,MODE_PRIVATE).getString(Constants.CURRENT_LATITUDE,"0").toString()
-        val long = context.getSharedPreferences(Constants.SHARED_PREF_CURRENT_LOCATION,MODE_PRIVATE).getString(Constants.CURRENT_LONGITUDE,"0").toString()
+        val lat = context.getSharedPreferences(Constants.SHARED_PREF_CURRENT_LOCATION,MODE_PRIVATE).getString(
+            Constants.CURRENT_LATITUDE,"0").toString()
+        val long = context.getSharedPreferences(Constants.SHARED_PREF_CURRENT_LOCATION,MODE_PRIVATE).getString(
+            Constants.CURRENT_LONGITUDE,"0").toString()
 
         CoroutineScope(Dispatchers.IO).launch {
             val response = RemoteDataSource.getWeatherService().getAllData(lat, long, Constants.EXCLUDE_MINUTELY, "default", "en", Constants.WEATHER_API_KEY)

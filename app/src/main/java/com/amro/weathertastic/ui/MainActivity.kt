@@ -23,7 +23,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.amro.weathertastic.R
 import com.amro.weathertastic.databinding.ActivityMainBinding
-import com.amro.weathertastic.model.Constants
+import com.amro.weathertastic.utils.Constants
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult

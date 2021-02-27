@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.amro.weathertastic.viewModel.FavouriteViewModel
 import com.amro.weathertastic.R
 import com.amro.weathertastic.databinding.FavouriteFragmentBinding
-import com.amro.weathertastic.model.Constants
+import com.amro.weathertastic.utils.Constants
 import com.mapbox.api.geocoding.v5.models.CarmenFeature
 import com.mapbox.mapboxsdk.plugins.places.autocomplete.ui.PlaceAutocompleteFragment
 import com.mapbox.mapboxsdk.plugins.places.autocomplete.ui.PlaceSelectionListener
