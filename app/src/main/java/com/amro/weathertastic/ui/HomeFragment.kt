@@ -1,4 +1,4 @@
-package com.amro.weathertastic
+package com.amro.weathertastic.ui
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
+import com.amro.weathertastic.viewModel.HomeViewModel
 import com.amro.weathertastic.databinding.HomeFragmentBinding
 
 class HomeFragment : Fragment() {

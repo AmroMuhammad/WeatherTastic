@@ -1,13 +1,18 @@
 package com.amro.weathertastic.model.entities
 
+import androidx.room.Embedded
+import androidx.room.TypeConverters
+import com.amro.weathertastic.model.entities.dataConverters.WeatherItemTypeConverter
 import com.google.gson.annotations.SerializedName
 
+@TypeConverters(WeatherItemTypeConverter::class)
 data class DailyItem(
 
 	@field:SerializedName("sunrise")
 	val sunrise: Int? = null,
 
 	@field:SerializedName("temp")
+	@Embedded(prefix = "temp_")
 	val temp: Temp? = null,
 
 	@field:SerializedName("uvi")
@@ -20,6 +25,7 @@ data class DailyItem(
 	val clouds: Int? = null,
 
 	@field:SerializedName("feels_like")
+	@Embedded(prefix = "feelsLike_")
 	val feelsLike: FeelsLike? = null,
 
 	@field:SerializedName("dt")

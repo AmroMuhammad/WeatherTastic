@@ -1,7 +1,11 @@
 package com.amro.weathertastic.model.entities
 
+import androidx.room.Embedded
+import androidx.room.TypeConverters
+import com.amro.weathertastic.model.entities.dataConverters.WeatherItemTypeConverter
 import com.google.gson.annotations.SerializedName
 
+@TypeConverters(WeatherItemTypeConverter::class)
 data class HourlyItem(
 
 	@field:SerializedName("temp")
@@ -44,8 +48,10 @@ data class HourlyItem(
 	val windSpeed: Double? = null,
 
 	@field:SerializedName("snow")
+	@Embedded(prefix = "snow_")
 	val snow: Snow? = null,
 
 	@field:SerializedName("rain")
+	@Embedded(prefix = "rain_")
 	val rain: Rain? = null
 )

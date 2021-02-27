@@ -1,4 +1,4 @@
-package com.amro.weathertastic
+package com.amro.weathertastic.ui
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -21,7 +21,9 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.amro.weathertastic.R
 import com.amro.weathertastic.databinding.ActivityMainBinding
+import com.amro.weathertastic.model.Constants
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult

@@ -1,16 +1,16 @@
-package com.amro.weathertastic
+package com.amro.weathertastic.viewModel
 
 import android.app.Application
 import android.content.Context.MODE_PRIVATE
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import com.amro.weathertastic.model.Constants
 import com.amro.weathertastic.model.entities.WeatherResponse
 import com.amro.weathertastic.model.remoteDataSource.RemoteDataSource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class HomeViewModel(application: Application) : AndroidViewModel(application) {
     // TODO: Implement the ViewModel

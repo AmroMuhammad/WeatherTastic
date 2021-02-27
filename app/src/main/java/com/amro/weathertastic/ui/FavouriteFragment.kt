@@ -1,4 +1,4 @@
-package com.amro.weathertastic
+package com.amro.weathertastic.ui
 
 import android.os.Bundle
 import android.util.Log
@@ -9,7 +9,10 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
+import com.amro.weathertastic.viewModel.FavouriteViewModel
+import com.amro.weathertastic.R
 import com.amro.weathertastic.databinding.FavouriteFragmentBinding
+import com.amro.weathertastic.model.Constants
 import com.mapbox.api.geocoding.v5.models.CarmenFeature
 import com.mapbox.mapboxsdk.plugins.places.autocomplete.ui.PlaceAutocompleteFragment
 import com.mapbox.mapboxsdk.plugins.places.autocomplete.ui.PlaceSelectionListener

@@ -1,10 +1,15 @@
 package com.amro.weathertastic.model.entities
 
+import androidx.room.Embedded
+import androidx.room.TypeConverters
+import com.amro.weathertastic.model.entities.dataConverters.WeatherItemTypeConverter
 import com.google.gson.annotations.SerializedName
 
+@TypeConverters(WeatherItemTypeConverter::class)
 data class Current(
 
 	@field:SerializedName("rain")
+	@Embedded(prefix = "rain_")
 	val rain: Rain? = null,
 
 	@field:SerializedName("sunrise")

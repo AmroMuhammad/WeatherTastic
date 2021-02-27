@@ -7,22 +7,22 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.amro.weathertastic.HomeFragment"
+        android:name="com.amro.weathertastic.ui.HomeFragment"
         android:label="Home"
         tools:layout="@layout/home_fragment"/>
     <fragment
         android:id="@+id/favouriteFragment"
-        android:name="com.amro.weathertastic.FavouriteFragment"
+        android:name="com.amro.weathertastic.ui.FavouriteFragment"
         android:label="Favourite"
         tools:layout="@layout/favourite_fragment" />
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.amro.weathertastic.SettingsFragment"
+        android:name="com.amro.weathertastic.ui.SettingsFragment"
         android:label="Settings"
         tools:layout="@layout/settings_fragment" />
     <fragment
         android:id="@+id/alarmFragment"
-        android:name="com.amro.weathertastic.AlarmFragment"
+        android:name="com.amro.weathertastic.ui.AlarmFragment"
         android:label="Alarm"
         tools:layout="@layout/alarm_fragment" />
 </navigation>

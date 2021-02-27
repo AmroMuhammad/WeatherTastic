@@ -1,4 +1,4 @@
-package com.amro.weathertastic
+package com.amro.weathertastic.ui
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -6,9 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.amro.weathertastic.viewModel.AlarmViewModel
 import com.amro.weathertastic.databinding.AlarmFragmentBinding
-import com.amro.weathertastic.databinding.FavouriteFragmentBinding
-import com.amro.weathertastic.databinding.HomeFragmentBinding
 
 class AlarmFragment : Fragment() {
 
