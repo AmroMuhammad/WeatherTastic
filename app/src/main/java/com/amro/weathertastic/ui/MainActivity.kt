@@ -28,6 +28,9 @@ import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
+import java.math.BigDecimal
+import java.math.RoundingMode
+import java.text.DecimalFormat
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -93,7 +96,6 @@ class MainActivity : AppCompatActivity() {
                 with(locationRequest) {
                     priority = LocationRequest.PRIORITY_HIGH_ACCURACY
                     interval = 1000
-                    setNumUpdates(2)
                 }
                 val fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
                 fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper())
@@ -119,8 +121,10 @@ class MainActivity : AppCompatActivity() {
         override fun onLocationResult(locationResult: LocationResult) {
             val location = locationResult.lastLocation
             // TODO use current location long and lat
-            Toast.makeText(this@MainActivity, "Latitude:${location.latitude}\nlongitude:${location.longitude}", Toast.LENGTH_LONG).show()
-            saveCurrentLocationToSharedPref(location.latitude.toString(),location.longitude.toString())
+            val lonDecimal = BigDecimal(location.longitude).setScale(4,RoundingMode.HALF_DOWN)
+            val latDecimal = BigDecimal(location.latitude).setScale(4,RoundingMode.HALF_DOWN)
+            Toast.makeText(this@MainActivity, "Latitude:${latDecimal}\nlongitude:${lonDecimal}", Toast.LENGTH_SHORT).show()
+            saveCurrentLocationToSharedPref(latDecimal.toString(),lonDecimal.toString())
         }
     }
 
