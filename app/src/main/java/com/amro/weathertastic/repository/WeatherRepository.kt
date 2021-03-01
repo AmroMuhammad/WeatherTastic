@@ -21,11 +21,17 @@ class WeatherRepository(private val application: Application) {
         val exceptionHandlerException = CoroutineExceptionHandler { _, _ ->
             Log.i(Constants.LOG_TAG,"exception from retrofit")
         }
-        CoroutineScope(Dispatchers.IO+exceptionHandlerException).launch {
-            val response = remoteDataSource.getWeatherService().getAllData(lat, long, Constants.EXCLUDE_MINUTELY, "default", "en", Constants.WEATHER_API_KEY)
-            if(response.isSuccessful){
-                localDataSource.insertDefault(response.body())
-                Log.i(Constants.LOG_TAG,"success")
+        runBlocking(Dispatchers.IO) {
+            launch {
+                try {
+                    val response = remoteDataSource.getWeatherService().getAllData(lat, long, Constants.EXCLUDE_MINUTELY, "default", "en", Constants.WEATHER_API_KEY)
+                    if(response.isSuccessful){
+                        localDataSource.insertDefault(response.body())
+                        Log.i(Constants.LOG_TAG, "success")
+                    }
+                }catch (e: Exception){
+                    Log.i(Constants.LOG_TAG, e.message.toString())
+                }
             }
         }
         return localDataSource.getDefault(lat,long)

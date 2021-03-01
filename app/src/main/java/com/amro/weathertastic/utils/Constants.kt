@@ -11,4 +11,6 @@ object Constants {
     const val BASE_URL = "https://api.openweathermap.org/data/2.5/"
     const val SHARED_PREF_CURRENT_LOCATION = "currentLocation"
     const val EXCLUDE_MINUTELY = "minutely"
+    const val SHARED_PREF_SETTINGS = "settings"
+    const val SETTINGS_IS_FIRST_TIME = "isFirstTime"
 }

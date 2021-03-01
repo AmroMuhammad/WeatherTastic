@@ -6,9 +6,12 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.LocationManager
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -64,7 +67,33 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         //latest location and permission
-        getLatestLocation()
+        if(isFirstTime()){
+            Log.i(Constants.LOG_TAG,"first time")
+        }
+        else{
+            Log.i(Constants.LOG_TAG,"not first time")
+        }
+         getLatestLocation()
+    }
+
+    private fun isOnline(context: Context): Boolean {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        if (connectivityManager != null) {
+            val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+            if (capabilities != null) {
+                if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+                    Log.i(Constants.LOG_TAG, "NetworkCapabilities.TRANSPORT_CELLULAR")
+                    return true
+                } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+                    Log.i(Constants.LOG_TAG, "NetworkCapabilities.TRANSPORT_WIFI")
+                    return true
+                } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
+                    Log.i(Constants.LOG_TAG, "NetworkCapabilities.TRANSPORT_ETHERNET")
+                    return true
+                }
+            }
+        }
+        return false
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -134,6 +163,18 @@ class MainActivity : AppCompatActivity() {
         editor.putString(Constants.CURRENT_LATITUDE,latitude).apply()
         editor.putString(Constants.CURRENT_LONGITUDE,longitude).apply()
     }
+
+    private fun isFirstTime():Boolean{
+        val sharedPref = getSharedPreferences(Constants.SHARED_PREF_SETTINGS, MODE_PRIVATE)
+        val editor = sharedPref.edit()
+        return if(!sharedPref.contains(Constants.SETTINGS_IS_FIRST_TIME)){
+            editor.putBoolean(Constants.SETTINGS_IS_FIRST_TIME,true).apply()
+            true
+        }else{
+            false
+        }
+    }
+
 
     private fun enableLocation() {
         val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
