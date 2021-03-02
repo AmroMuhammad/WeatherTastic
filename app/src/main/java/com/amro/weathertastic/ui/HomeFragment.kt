@@ -14,11 +14,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.amro.weathertastic.viewModel.HomeViewModel
 import com.amro.weathertastic.databinding.HomeFragmentBinding
 import com.amro.weathertastic.utils.Constants
@@ -34,22 +33,37 @@ class HomeFragment : Fragment() {
     private lateinit var viewModel: HomeViewModel
     private var _binding: HomeFragmentBinding? = null
     private val binding get() = _binding!!
+    private var hourlyAdapter = HourlyRecyclerAdapter(ArrayList())
+    private var dailyAdapter = DailyRecyclerAdapter(ArrayList())
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = HomeFragmentBinding.inflate(inflater,container,false)
+        //latest location and permission
         getLatestLocation()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //latest location and permission
+        //initRecyclers()
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         // TODO: Use the ViewModel
         viewModel.fetchDailyData().observe(this.viewLifecycleOwner, {
             if(it != null)
-                binding.textView.text = it.daily?.get(0)?.weather?.get(0)?.description.toString()
+                binding.mainCard.dateTxt.text = it.daily?.get(0)?.weather?.get(0)?.description.toString()
+                //hourlyAdapter.setIncomingList(it.hourly!!)
+                //dailyAdapter.setIncomingList(it.daily!!)
+
         })
+    }
+
+    fun initRecyclers(){
+        binding.hourlyRecycler.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
+        binding.dailyRecycler.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
+        binding.hourlyRecycler.adapter = hourlyAdapter
+        binding.dailyRecycler.adapter = dailyAdapter
+
     }
 
     override fun onDestroyView() {
