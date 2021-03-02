@@ -13,4 +13,6 @@ object Constants {
     const val EXCLUDE_MINUTELY = "minutely"
     const val SHARED_PREF_SETTINGS = "settings"
     const val SETTINGS_IS_FIRST_TIME = "isFirstTime"
+    const val SETTINGS_IS_LOCATION_ENABLED = "isLocationEnabled"
+
 }

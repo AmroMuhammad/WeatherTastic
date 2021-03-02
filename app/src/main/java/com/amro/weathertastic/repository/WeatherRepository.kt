@@ -16,24 +16,21 @@ class WeatherRepository(private val application: Application) {
     private val localDataSource = LocalDataSource.getInstance(application)
 
     fun loadCurrentData():LiveData<WeatherResponse>{
-        val lat = application.getSharedPreferences(Constants.SHARED_PREF_CURRENT_LOCATION, Context.MODE_PRIVATE).getString(Constants.CURRENT_LATITUDE,"0").toString()
-        val long = application.getSharedPreferences(Constants.SHARED_PREF_CURRENT_LOCATION, Context.MODE_PRIVATE).getString(Constants.CURRENT_LONGITUDE,"0").toString()
-        val exceptionHandlerException = CoroutineExceptionHandler { _, _ ->
-            Log.i(Constants.LOG_TAG,"exception from retrofit")
+        val lat = application.getSharedPreferences(Constants.SHARED_PREF_CURRENT_LOCATION, Context.MODE_PRIVATE).getString(Constants.CURRENT_LATITUDE,"null").toString()
+        val long = application.getSharedPreferences(Constants.SHARED_PREF_CURRENT_LOCATION, Context.MODE_PRIVATE).getString(Constants.CURRENT_LONGITUDE,"null").toString()
+        val exceptionHandlerException = CoroutineExceptionHandler { _, t:Throwable ->
+            Log.i(Constants.LOG_TAG,t.message.toString())
         }
-        runBlocking(Dispatchers.IO) {
-            launch {
-                try {
-                    val response = remoteDataSource.getWeatherService().getAllData(lat, long, Constants.EXCLUDE_MINUTELY, "default", "en", Constants.WEATHER_API_KEY)
-                    if(response.isSuccessful){
-                        localDataSource.insertDefault(response.body())
-                        Log.i(Constants.LOG_TAG, "success")
-                    }
-                }catch (e: Exception){
-                    Log.i(Constants.LOG_TAG, e.message.toString())
+        CoroutineScope(Dispatchers.IO+exceptionHandlerException).launch {
+            if (lat != null) {
+                val response = remoteDataSource.getWeatherService().getAllData(lat, long, Constants.EXCLUDE_MINUTELY, "default", "en", Constants.WEATHER_API_KEY)
+                if (response.isSuccessful) {
+                    localDataSource.insertDefault(response.body())
+                    Log.i(Constants.LOG_TAG, "success")
                 }
             }
         }
+        Log.i(Constants.LOG_TAG, "outhere")
         return localDataSource.getDefault(lat,long)
     }
 
