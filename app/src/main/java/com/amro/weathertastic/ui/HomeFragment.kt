@@ -50,11 +50,10 @@ class HomeFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         // TODO: Use the ViewModel
         viewModel.fetchDailyData().observe(this.viewLifecycleOwner, {
-            if(it != null)
+            if(it != null && it.timezone != null)
                 binding.mainCard.dateTxt.text = it.daily?.get(0)?.weather?.get(0)?.description.toString()
                 //hourlyAdapter.setIncomingList(it.hourly!!)
                 //dailyAdapter.setIncomingList(it.daily!!)
-
         })
     }
 
@@ -79,7 +78,7 @@ class HomeFragment : Fragment() {
                 val locationRequest = LocationRequest()
                 with(locationRequest) {
                     priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-                    interval = 10000
+                    interval = 1000
                 }
                 val fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity())
                 fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper())

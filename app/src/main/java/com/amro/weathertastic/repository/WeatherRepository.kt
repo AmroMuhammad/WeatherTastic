@@ -9,11 +9,13 @@ import com.amro.weathertastic.model.entities.WeatherResponse
 import com.amro.weathertastic.model.localDataSource.LocalDataSource
 import com.amro.weathertastic.model.remoteDataSource.*
 import com.amro.weathertastic.utils.Constants
+import com.google.gson.Gson
 import kotlinx.coroutines.*
 
 class WeatherRepository(private val application: Application) {
     private val remoteDataSource = RemoteDataSource
     private val localDataSource = LocalDataSource.getInstance(application)
+    private val localCurrentLiveData= MutableLiveData<WeatherResponse>()
 
     fun loadCurrentData():LiveData<WeatherResponse>{
         val lat = application.getSharedPreferences(Constants.SHARED_PREF_CURRENT_LOCATION, Context.MODE_PRIVATE).getString(Constants.CURRENT_LATITUDE,"null").toString()
@@ -25,13 +27,18 @@ class WeatherRepository(private val application: Application) {
             if (lat != null) {
                 val response = remoteDataSource.getWeatherService().getAllData(lat, long, Constants.EXCLUDE_MINUTELY, "default", "en", Constants.WEATHER_API_KEY)
                 if (response.isSuccessful) {
-                    localDataSource.insertDefault(response.body())
+                    val currentLocation = Gson().toJson(response.body())
+                    application.getSharedPreferences(Constants.SHARED_PREF_CURRENT_LOCATION,Context.MODE_PRIVATE).edit().putString(Constants.CURRENT_LOCATION,currentLocation).apply()
+                    localCurrentLiveData.postValue(response.body())
                     Log.i(Constants.LOG_TAG, "success")
                 }
             }
         }
         Log.i(Constants.LOG_TAG, "outhere")
-        return localDataSource.getDefault(lat,long)
+        val obo = application.getSharedPreferences(Constants.SHARED_PREF_CURRENT_LOCATION, Context.MODE_PRIVATE).getString(Constants.CURRENT_LOCATION,"{}")
+        val weatherObject = Gson().fromJson(obo.toString(),WeatherResponse::class.java)
+        localCurrentLiveData.postValue(weatherObject)
+        return  localCurrentLiveData
     }
 
 }
