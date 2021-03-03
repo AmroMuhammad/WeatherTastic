@@ -9,13 +9,16 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
-import com.amro.weathertastic.viewModel.FavouriteViewModel
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.amro.weathertastic.R
 import com.amro.weathertastic.databinding.FavouriteFragmentBinding
 import com.amro.weathertastic.utils.Constants
+import com.amro.weathertastic.viewModel.FavouriteViewModel
 import com.mapbox.api.geocoding.v5.models.CarmenFeature
 import com.mapbox.mapboxsdk.plugins.places.autocomplete.ui.PlaceAutocompleteFragment
 import com.mapbox.mapboxsdk.plugins.places.autocomplete.ui.PlaceSelectionListener
+import java.math.BigDecimal
+import java.math.RoundingMode
 
 class FavouriteFragment : Fragment() {
 
@@ -23,6 +26,8 @@ class FavouriteFragment : Fragment() {
     private var _binding: FavouriteFragmentBinding? = null
     private val binding get() = _binding!!
     private var transaction : FragmentTransaction? = null
+    private var favouriteAdapter: FavouriteRecyclerAdaptor = FavouriteRecyclerAdaptor(ArrayList())
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,19 +35,32 @@ class FavouriteFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FavouriteFragmentBinding.inflate(inflater, container, false)
+        initRecyclers()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel = ViewModelProvider(this).get(FavouriteViewModel::class.java)
         // TODO: Use the ViewModel
+        Log.i(Constants.LOG_TAG,"in livedata2222")
+        viewModel.fetchFavouriteList("0","0").observe(viewLifecycleOwner, {
+            Log.i(Constants.LOG_TAG,"in livedata")
+                if(it != null){
+                    Log.i(Constants.LOG_TAG,"in")
+                    //binding.textView3.text = it.size.toString()
+                    favouriteAdapter.setIncomingList(it)
 
+                }
+            })
         binding.favFloatingButton.setOnClickListener {
             showAutoCompleteBar()
         }
     }
 
-
+    fun initRecyclers(){
+        binding.favouriteRecycler.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL,false)
+        binding.favouriteRecycler.adapter = favouriteAdapter
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -58,9 +76,10 @@ class FavouriteFragment : Fragment() {
 
         autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
             override fun onPlaceSelected(carmenFeature: CarmenFeature) {
-                // TODO: Use the longitude and latitude
-                Toast.makeText(context,"latitude ${carmenFeature.center()?.latitude()} \n longitude ${carmenFeature.center()?.longitude()}"
-                    , Toast.LENGTH_LONG).show()
+                val lonDecimal = BigDecimal(carmenFeature.center()!!.longitude()).setScale(4, RoundingMode.HALF_DOWN)
+                val latDecimal = BigDecimal(carmenFeature.center()!!.latitude()).setScale(4, RoundingMode.HALF_DOWN)
+                Toast.makeText(context,"latitude $latDecimal \n longitude $lonDecimal", Toast.LENGTH_LONG).show()
+                viewModel.fetchFavouriteList(latDecimal.toString(),lonDecimal.toString())
                 activity?.supportFragmentManager?.beginTransaction()?.remove(autocompleteFragment)?.commit()
                 binding.searchFragmentContainer.visibility= View.GONE
             }

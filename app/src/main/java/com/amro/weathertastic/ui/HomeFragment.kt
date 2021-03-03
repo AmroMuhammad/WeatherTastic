@@ -49,10 +49,11 @@ class HomeFragment : Fragment() {
         initRecyclers()
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         viewModel.fetchDailyData().observe(viewLifecycleOwner, {
-            if(it != null && it.timezone != null)
+            if(it != null && it.timezone != null) {
                 binding.mainCard.dateTxt.text = it.timezone
                 hourlyAdapter.setIncomingList(it.hourly!!)
                 dailyAdapter.setIncomingList(it.daily!!)
+            }
         })
     }
 
@@ -61,7 +62,6 @@ class HomeFragment : Fragment() {
         binding.dailyRecycler.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
         binding.hourlyRecycler.adapter = hourlyAdapter
         binding.dailyRecycler.adapter = dailyAdapter
-
     }
 
     override fun onDestroyView() {
