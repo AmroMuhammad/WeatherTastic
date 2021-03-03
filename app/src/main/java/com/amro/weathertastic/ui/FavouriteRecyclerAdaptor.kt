@@ -2,12 +2,16 @@ package com.amro.weathertastic.ui
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.amro.weathertastic.databinding.WeatherItemBinding
 import com.amro.weathertastic.model.entities.WeatherResponse
+import com.amro.weathertastic.viewModel.FavouriteViewModel
 
-class FavouriteRecyclerAdaptor(val list: ArrayList<WeatherResponse>) : RecyclerView.Adapter<FavouriteRecyclerAdaptor.ViewHolder>() {
+class FavouriteRecyclerAdaptor(val list: ArrayList<WeatherResponse>,var viewModel:FavouriteViewModel) : RecyclerView.Adapter<FavouriteRecyclerAdaptor.ViewHolder>() {
     private lateinit var context: Context
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -20,6 +24,23 @@ class FavouriteRecyclerAdaptor(val list: ArrayList<WeatherResponse>) : RecyclerV
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.dateTxt.text = list[position].timezone
+        holder.binding.weatherItemRoot.setOnLongClickListener(View.OnLongClickListener {
+            showDeletionDialog(list[position].lat.toString(),list[position].lon.toString())
+            true
+        })
+    }
+
+    private fun showDeletionDialog(lat:String,lon: String){
+        val builder = AlertDialog.Builder(context).setCancelable(false)
+        builder.setTitle("Caution")
+        builder.setMessage("Do you want to delete this item?")
+
+        builder.setPositiveButton("Yes") { _, _ ->
+            viewModel.deleteFromFavourite(lat,lon)
+        }
+        builder.setNegativeButton("No") { _, _ ->
+        }
+        builder.show()
     }
 
     override fun getItemCount() = list.size

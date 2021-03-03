@@ -13,4 +13,8 @@ class FavouriteViewModel(application: Application) : AndroidViewModel(applicatio
     fun fetchFavouriteList(latitude: String, longitude: String):LiveData<List<WeatherResponse>> {
         return repository.fetchFavouriteList(latitude, longitude)
     }
+
+    fun deleteFromFavourite(lat:String,lon: String){
+        repository.deleteFromFavourite(lat,lon)
+    }
 }

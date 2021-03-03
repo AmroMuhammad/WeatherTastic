@@ -56,4 +56,10 @@ class WeatherRepository(application: Application) {
         return localDataSource.getFavList(lat,long)
     }
 
+    fun deleteFromFavourite(lat: String, lon: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            localDataSource.deleteDefault(lat,lon)
+        }
+    }
+
 }

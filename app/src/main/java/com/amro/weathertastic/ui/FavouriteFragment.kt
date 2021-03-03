@@ -26,7 +26,7 @@ class FavouriteFragment : Fragment() {
     private var _binding: FavouriteFragmentBinding? = null
     private val binding get() = _binding!!
     private var transaction : FragmentTransaction? = null
-    private var favouriteAdapter: FavouriteRecyclerAdaptor = FavouriteRecyclerAdaptor(ArrayList())
+    private lateinit var favouriteAdapter: FavouriteRecyclerAdaptor
 
 
     override fun onCreateView(
@@ -35,12 +35,15 @@ class FavouriteFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FavouriteFragmentBinding.inflate(inflater, container, false)
+        viewModel = ViewModelProvider(this).get(FavouriteViewModel::class.java)
+        favouriteAdapter = FavouriteRecyclerAdaptor(ArrayList(),viewModel)
         initRecyclers()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel = ViewModelProvider(this).get(FavouriteViewModel::class.java)
+
+        favouriteAdapter.viewModel = viewModel
         // TODO: Use the ViewModel
         Log.i(Constants.LOG_TAG,"in livedata2222")
         viewModel.fetchFavouriteList("0","0").observe(viewLifecycleOwner, {
