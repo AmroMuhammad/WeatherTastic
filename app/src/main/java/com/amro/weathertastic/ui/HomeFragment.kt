@@ -4,26 +4,23 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.LocationManager
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.lifecycle.distinctUntilChanged
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.amro.weathertastic.viewModel.HomeViewModel
 import com.amro.weathertastic.databinding.HomeFragmentBinding
 import com.amro.weathertastic.utils.Constants
+import com.amro.weathertastic.viewModel.HomeViewModel
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
@@ -49,14 +46,13 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //initRecyclers()
+        initRecyclers()
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
-        // TODO: Use the ViewModel
         viewModel.fetchDailyData().observe(viewLifecycleOwner, {
             if(it != null && it.timezone != null)
                 binding.mainCard.dateTxt.text = it.timezone
-                //hourlyAdapter.setIncomingList(it.hourly!!)
-                //dailyAdapter.setIncomingList(it.daily!!)
+                hourlyAdapter.setIncomingList(it.hourly!!)
+                dailyAdapter.setIncomingList(it.daily!!)
         })
     }
 
@@ -88,7 +84,7 @@ class HomeFragment : Fragment() {
             } else {
                 val isLocationEnabled = activity?.getSharedPreferences(Constants.SHARED_PREF_SETTINGS, AppCompatActivity.MODE_PRIVATE)?.getBoolean(Constants.SETTINGS_IS_LOCATION_ENABLED,false)
                 if(!isLocationEnabled!!)
-                    showErrorDialog("No Location Error","Kindly enable Location to use Application properly")
+                    showErrorDialog()
             }
         } else {
             requestPermission()
@@ -113,10 +109,8 @@ class HomeFragment : Fragment() {
     private val locationCallback = object : LocationCallback(){
         override fun onLocationResult(locationResult: LocationResult) {
             val location = locationResult.lastLocation
-            // TODO use current location long and lat
             val lonDecimal = BigDecimal(location.longitude).setScale(4, RoundingMode.HALF_DOWN)
             val latDecimal = BigDecimal(location.latitude).setScale(4, RoundingMode.HALF_DOWN)
-            //Toast.makeText(requireContext(), "Latitude:${latDecimal}\nlongitude:${lonDecimal}", Toast.LENGTH_SHORT).show()
             saveCurrentLocationToSharedPref(latDecimal.toString(),lonDecimal.toString())
         }
     }
@@ -149,10 +143,10 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun showErrorDialog( title:String, message:String){
+    private fun showErrorDialog(){
         val builder = AlertDialog.Builder(requireActivity())
-        builder.setTitle(title)
-        builder.setMessage(message)
+        builder.setTitle("No Location Error")
+        builder.setMessage("Kindly enable Location to use Application properly")
 
         builder.setPositiveButton("Get Permission") { _, _ ->
             enableLocation()

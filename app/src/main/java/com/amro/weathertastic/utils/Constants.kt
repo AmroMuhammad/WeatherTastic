@@ -14,7 +14,6 @@ object Constants {
     const val SHARED_PREF_SETTINGS = "settings"
     const val SETTINGS_IS_FIRST_TIME = "isFirstTime"
     const val SETTINGS_IS_LOCATION_ENABLED = "isLocationEnabled"
-    const val CURRENT_LOCATION = "currentLocation"
     const val OLD_LONGITUDE = "oldLongitude"
     const val OLD_LATITUDE = "oldLatitude"
 

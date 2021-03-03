@@ -4,18 +4,18 @@ import android.app.Application
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.amro.weathertastic.model.entities.WeatherResponse
 import com.amro.weathertastic.model.localDataSource.LocalDataSource
-import com.amro.weathertastic.model.remoteDataSource.*
+import com.amro.weathertastic.model.remoteDataSource.RemoteDataSource
 import com.amro.weathertastic.utils.Constants
-import com.google.gson.Gson
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class WeatherRepository(private val application: Application) {
     private val remoteDataSource = RemoteDataSource
     private val localDataSource = LocalDataSource.getInstance(application)
-    private val localCurrentLiveData= MutableLiveData<WeatherResponse>()
 
     fun loadCurrentData():LiveData<WeatherResponse>{
         val lat = application.getSharedPreferences(Constants.SHARED_PREF_CURRENT_LOCATION, Context.MODE_PRIVATE).getString(Constants.CURRENT_LATITUDE,"null").toString()
@@ -31,18 +31,11 @@ class WeatherRepository(private val application: Application) {
                 if (response.isSuccessful) {
                     localDataSource.insertDefault(response.body())
                     localDataSource.deleteDefault(oldLat,oldLong)
-//                    val currentLocation = Gson().toJson(response.body())
-//                    application.getSharedPreferences(Constants.SHARED_PREF_CURRENT_LOCATION,Context.MODE_PRIVATE).edit().putString(Constants.CURRENT_LOCATION,currentLocation).apply()
-//                    localCurrentLiveData.postValue(response.body())
                     Log.i(Constants.LOG_TAG, "success")
                 }
             }
         }
         Log.i(Constants.LOG_TAG, "outhere")
-//        val obo = application.getSharedPreferences(Constants.SHARED_PREF_CURRENT_LOCATION, Context.MODE_PRIVATE).getString(Constants.CURRENT_LOCATION,"{}")
-//        val weatherObject = Gson().fromJson(obo.toString(),WeatherResponse::class.java)
-//        localCurrentLiveData.postValue(weatherObject)
-//        return  localCurrentLiveData
         return localDataSource.getDefault(lat,long)
     }
 
