@@ -4,12 +4,14 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.LocationManager
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +19,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.distinctUntilChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.amro.weathertastic.viewModel.HomeViewModel
 import com.amro.weathertastic.databinding.HomeFragmentBinding
@@ -49,9 +52,9 @@ class HomeFragment : Fragment() {
         //initRecyclers()
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         // TODO: Use the ViewModel
-        viewModel.fetchDailyData().observe(this.viewLifecycleOwner, {
+        viewModel.fetchDailyData().observe(viewLifecycleOwner, {
             if(it != null && it.timezone != null)
-                binding.mainCard.dateTxt.text = it.daily?.get(0)?.weather?.get(0)?.description.toString()
+                binding.mainCard.dateTxt.text = it.timezone
                 //hourlyAdapter.setIncomingList(it.hourly!!)
                 //dailyAdapter.setIncomingList(it.daily!!)
         })
@@ -100,7 +103,7 @@ class HomeFragment : Fragment() {
     private fun checkLocation(): Boolean {
         val locationManager = activity?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-            activity?.getSharedPreferences(Constants.SHARED_PREF_SETTINGS, AppCompatActivity.MODE_PRIVATE)?.edit()?.putBoolean(Constants.SETTINGS_IS_LOCATION_ENABLED,true)?.apply()
+            activity?.getSharedPreferences(Constants.SHARED_PREF_SETTINGS, AppCompatActivity.MODE_PRIVATE)?.edit()?.putBoolean(Constants.SETTINGS_IS_LOCATION_ENABLED,true)?.commit()
             return true
         }else{
             return false;
@@ -121,8 +124,12 @@ class HomeFragment : Fragment() {
     private fun saveCurrentLocationToSharedPref(latitude: String,longitude: String){
         val sharedPref = activity?.getSharedPreferences(Constants.SHARED_PREF_CURRENT_LOCATION, AppCompatActivity.MODE_PRIVATE)
         val editor = sharedPref?.edit()
-        editor?.putString(Constants.CURRENT_LATITUDE,latitude)?.apply()
-        editor?.putString(Constants.CURRENT_LONGITUDE,longitude)?.apply()
+        if(sharedPref?.getString(Constants.CURRENT_LONGITUDE,"null") != longitude){
+            editor?.putString(Constants.OLD_LATITUDE,sharedPref.getString(Constants.CURRENT_LATITUDE,"null"))?.apply()
+            editor?.putString(Constants.OLD_LONGITUDE,sharedPref.getString(Constants.CURRENT_LONGITUDE,"null"))?.apply()
+            editor?.putString(Constants.CURRENT_LATITUDE,latitude)?.apply()
+            editor?.putString(Constants.CURRENT_LONGITUDE,longitude)?.apply()
+        }
     }
 
     private fun enableLocation() {

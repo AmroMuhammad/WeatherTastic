@@ -18,4 +18,7 @@ interface WeatherDao {
     @Query("SELECT * from WeatherResponse WHERE lon = :lon AND lat= :lat")
     fun getDefault(lat:String,lon:String):LiveData<WeatherResponse>
 
+    @Query("DELETE from WeatherResponse WHERE lon = :lon AND lat= :lat")
+    fun deleteDefault(lat:String,lon:String)
+
 }
