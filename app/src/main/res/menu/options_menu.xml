@@ -2,14 +2,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:title="Settings"
-        app:showAsAction="never"
+        android:id="@+id/settingsFragment"
         android:menuCategory="secondary"
-        android:id="@+id/settingsFragment"/>
+        android:title="Settings"
+        app:showAsAction="never"/>
 
     <item
-        android:title="About Us"
-        app:showAsAction="never"
+        android:id="@+id/changeLanguageMenuItem"
         android:menuCategory="secondary"
-        android:id="@+id/aboutUsMenuItem"/>
+        android:title="@string/change_language"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/changeUnitsMenuItem"
+        android:menuCategory="secondary"
+        android:title="@string/change_units"
+        app:showAsAction="never"/>
 </menu>

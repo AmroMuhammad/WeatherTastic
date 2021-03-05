@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
+import com.amro.weathertastic.R
 import com.amro.weathertastic.databinding.WeatherItemBinding
 import com.amro.weathertastic.model.entities.WeatherResponse
 import com.amro.weathertastic.viewModel.FavouriteViewModel
@@ -32,13 +33,13 @@ class FavouriteRecyclerAdaptor(val list: ArrayList<WeatherResponse>,var viewMode
 
     private fun showDeletionDialog(lat:String,lon: String){
         val builder = AlertDialog.Builder(context).setCancelable(false)
-        builder.setTitle("Caution")
-        builder.setMessage("Do you want to delete this item?")
+        builder.setTitle(R.string.caution)
+        builder.setMessage(R.string.alertMessage1)
 
-        builder.setPositiveButton("Yes") { _, _ ->
+        builder.setPositiveButton(R.string.yes) { _, _ ->
             viewModel.deleteFromFavourite(lat,lon)
         }
-        builder.setNegativeButton("No") { _, _ ->
+        builder.setNegativeButton(R.string.no) { _, _ ->
         }
         builder.show()
     }

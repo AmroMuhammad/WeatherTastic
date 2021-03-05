@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
+import com.amro.weathertastic.R
 import com.amro.weathertastic.databinding.HomeFragmentBinding
 import com.amro.weathertastic.model.entities.WeatherResponse
 import com.amro.weathertastic.utils.Constants
@@ -145,13 +146,13 @@ class HomeFragment : Fragment() {
 
     private fun showErrorDialog(){
         val builder = AlertDialog.Builder(requireActivity())
-        builder.setTitle("No Location Error")
-        builder.setMessage("Kindly enable Location to use Application properly")
+        builder.setTitle(R.string.errorLocation)
+        builder.setMessage(R.string.locationMessage)
 
-        builder.setPositiveButton("Get Permission") { _, _ ->
+        builder.setPositiveButton(R.string.getPermission) { _, _ ->
             enableLocation()
         }
-        builder.setNegativeButton("Ignore") { _, _ ->
+        builder.setNegativeButton(R.string.ignore) { _, _ ->
         }
         builder.show()
     }

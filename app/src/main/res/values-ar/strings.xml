@@ -1,0 +1,25 @@
+<resources>
+    <string name="hello">مرحبا</string>
+    <string name="caution">تحذير</string>
+    <string name="alertMessage1">هل تريد مسح هذا العنصر؟</string>
+    <string name="yes">نعم</string>
+    <string name="no">لا</string>
+    <string name="errorLocation">خطأ في تحديد الموقع</string>
+    <string name="locationMessage">يرجى تشغيل تحديد الموقع لاستخدام التطبيق بشكل صحيح</string>
+    <string name="getPermission">الحصول علي إذن</string>
+    <string name="ignore">تجاهل</string>
+    <string name="NetworkError">خطأ في الاتصال</string>
+    <string name="NetworkMessage">يرجى تشغيل الإنترنت لأول مرة لاستخدام التطبيق بشكل صحيح</string>
+    <string name="Exit">خروج</string>
+    <string name="language">اختيار اللغة</string>
+    <string name="save">حفظ</string>
+    <string name="cancel">الغاء</string>
+    <string name="home">الرئيسية</string>
+    <string name="favourite">المفضلة</string>
+    <string name="alarm">المنبه</string>
+    <string name="change_language">تغيير اللغة</string>
+    <string name="change_units">تغيير الوحدات</string>
+    <string name="units">اختيار الوحدة</string>
+
+
+</resources>

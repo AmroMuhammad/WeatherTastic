@@ -16,5 +16,10 @@ object Constants {
     const val SETTINGS_IS_LOCATION_ENABLED = "isLocationEnabled"
     const val OLD_LONGITUDE = "oldLongitude"
     const val OLD_LATITUDE = "oldLatitude"
+    const val LANGUAGE = "language"
+    const val UNITS = "units"
+    const val LANGUAGE_VALUE = "en"
+    const val UNITS_VALUE = "default"
+
 
 }

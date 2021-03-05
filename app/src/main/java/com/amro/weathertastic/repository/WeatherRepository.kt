@@ -20,6 +20,9 @@ class WeatherRepository(application: Application) {
     private val long = application.getSharedPreferences(Constants.SHARED_PREF_CURRENT_LOCATION, Context.MODE_PRIVATE).getString(Constants.CURRENT_LONGITUDE,"null").toString()
     private val oldLat = application.getSharedPreferences(Constants.SHARED_PREF_CURRENT_LOCATION, Context.MODE_PRIVATE).getString(Constants.OLD_LATITUDE,"null").toString()
     private val oldLong = application.getSharedPreferences(Constants.SHARED_PREF_CURRENT_LOCATION, Context.MODE_PRIVATE).getString(Constants.OLD_LONGITUDE,"null").toString()
+    private val language = application.getSharedPreferences(Constants.SHARED_PREF_SETTINGS, Context.MODE_PRIVATE).getString(Constants.LANGUAGE,"en").toString()
+    private val units = application.getSharedPreferences(Constants.SHARED_PREF_SETTINGS, Context.MODE_PRIVATE).getString(Constants.UNITS,"default").toString()
+
 
 
     fun loadAllData():LiveData<List<WeatherResponse>>{
@@ -28,7 +31,7 @@ class WeatherRepository(application: Application) {
         }
         CoroutineScope(Dispatchers.IO+exceptionHandlerException).launch {
             if (lat != null) {
-                val response = remoteDataSource.getWeatherService().getAllData(lat, long, Constants.EXCLUDE_MINUTELY, "default", "en", Constants.WEATHER_API_KEY)
+                val response = remoteDataSource.getWeatherService().getAllData(lat, long, Constants.EXCLUDE_MINUTELY, units, language, Constants.WEATHER_API_KEY)
                 if (response.isSuccessful) {
                     localDataSource.insertDefault(response.body())
                     localDataSource.deleteDefault(oldLat,oldLong)
@@ -45,7 +48,7 @@ class WeatherRepository(application: Application) {
             Log.i(Constants.LOG_TAG,t.message.toString()) }
         CoroutineScope(Dispatchers.IO+exceptionHandlerException).launch {
             if(latitude!="0" && longitude!="0"){
-                val response = remoteDataSource.getWeatherService().getAllData(latitude, longitude, Constants.EXCLUDE_MINUTELY, "default", "en", Constants.WEATHER_API_KEY)
+                val response = remoteDataSource.getWeatherService().getAllData(latitude, longitude, Constants.EXCLUDE_MINUTELY, units, language, Constants.WEATHER_API_KEY)
                 if (response.isSuccessful) {
                     localDataSource.insertDefault(response.body())
                     Log.i(Constants.LOG_TAG, "success fav")
