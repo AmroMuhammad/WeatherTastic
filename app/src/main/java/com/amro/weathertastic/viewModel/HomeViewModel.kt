@@ -9,7 +9,7 @@ import com.amro.weathertastic.repository.WeatherRepository
 class HomeViewModel(application: Application) : AndroidViewModel(application) {
     private val repository = WeatherRepository(getApplication())
 
-    fun fetchDailyData():LiveData<WeatherResponse>{
-        return repository.loadCurrentData()
+    fun fetchDailyData():LiveData<List<WeatherResponse>>{
+        return repository.loadAllData()
     }
 }

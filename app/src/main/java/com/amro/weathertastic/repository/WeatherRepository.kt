@@ -22,7 +22,7 @@ class WeatherRepository(application: Application) {
     private val oldLong = application.getSharedPreferences(Constants.SHARED_PREF_CURRENT_LOCATION, Context.MODE_PRIVATE).getString(Constants.OLD_LONGITUDE,"null").toString()
 
 
-    fun loadCurrentData():LiveData<WeatherResponse>{
+    fun loadAllData():LiveData<List<WeatherResponse>>{
         val exceptionHandlerException = CoroutineExceptionHandler { _, t:Throwable ->
             Log.i(Constants.LOG_TAG,t.message.toString())
         }
@@ -37,7 +37,7 @@ class WeatherRepository(application: Application) {
             }
         }
         Log.i(Constants.LOG_TAG, "outhere")
-        return localDataSource.getDefault(lat,long)
+        return localDataSource.getAllData()
     }
 
     fun fetchFavouriteList(latitude: String, longitude: String): LiveData<List<WeatherResponse>> {

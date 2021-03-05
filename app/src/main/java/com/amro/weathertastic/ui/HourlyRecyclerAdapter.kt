@@ -18,6 +18,8 @@ class HourlyRecyclerAdapter(var list: ArrayList<HourlyItem?>) : RecyclerView.Ada
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.dateTxt.text = list[position]?.weather?.get(0)?.description.toString()
+        holder.binding.degreeMax.text = list[position]?.feelsLike.toString()
+
     }
 
     override fun getItemCount() = list.size

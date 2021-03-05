@@ -15,8 +15,8 @@ interface WeatherDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertDefault(weatherResponse: WeatherResponse?)
 
-    @Query("SELECT * from WeatherResponse WHERE lon = :lon AND lat= :lat")
-    fun getDefault(lat:String,lon:String):LiveData<WeatherResponse>
+    @Query("SELECT * from WeatherResponse")
+    fun getAllData():LiveData<List<WeatherResponse>>
 
     @Query("DELETE from WeatherResponse WHERE lon = :lon AND lat= :lat")
     fun deleteDefault(lat:String,lon:String)

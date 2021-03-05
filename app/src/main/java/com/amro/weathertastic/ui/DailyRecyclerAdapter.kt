@@ -17,6 +17,8 @@ class DailyRecyclerAdapter(val list : ArrayList<DailyItem?> ) : RecyclerView.Ada
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.dateTxt.text = list[position]?.weather?.get(0)?.description.toString()
+        holder.binding.degreeMax.text = list[position]?.feelsLike?.night.toString()
+
     }
 
     override fun getItemCount()= list.size

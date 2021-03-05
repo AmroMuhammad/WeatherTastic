@@ -51,7 +51,7 @@ class FavouriteFragment : Fragment() {
                 if(it != null){
                     Log.i(Constants.LOG_TAG,"in")
                     //binding.textView3.text = it.size.toString()
-                    favouriteAdapter.setIncomingList(it)
+                    favouriteAdapter.setIncomingList(it.reversed())
 
                 }
             })

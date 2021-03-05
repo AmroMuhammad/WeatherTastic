@@ -9,6 +9,7 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,13 +19,16 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewpager2.widget.ViewPager2
 import com.amro.weathertastic.databinding.HomeFragmentBinding
+import com.amro.weathertastic.model.entities.WeatherResponse
 import com.amro.weathertastic.utils.Constants
 import com.amro.weathertastic.viewModel.HomeViewModel
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
+import me.relex.circleindicator.CircleIndicator3
 import java.math.BigDecimal
 import java.math.RoundingMode
 
@@ -33,8 +37,7 @@ class HomeFragment : Fragment() {
     private lateinit var viewModel: HomeViewModel
     private var _binding: HomeFragmentBinding? = null
     private val binding get() = _binding!!
-    private var hourlyAdapter = HourlyRecyclerAdapter(ArrayList())
-    private var dailyAdapter = DailyRecyclerAdapter(ArrayList())
+    private var viewPagerAdapter = ViewPagerAdapter(ArrayList())
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -46,23 +49,20 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initRecyclers()
+        //initialize ViewPager
+        binding.viewPager2.adapter = viewPagerAdapter
+
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         viewModel.fetchDailyData().observe(viewLifecycleOwner, {
-            if(it != null && it.timezone != null) {
-                binding.mainCard.dateTxt.text = it.timezone
-                hourlyAdapter.setIncomingList(it.hourly!!)
-                dailyAdapter.setIncomingList(it.daily!!)
+            if(it != null) {
+                Log.i(Constants.LOG_TAG,"Here")
+                viewPagerAdapter.setIncomingList(it.reversed())
+                binding.indicator.setViewPager(binding.viewPager2)
             }
         })
     }
 
-    fun initRecyclers(){
-        binding.hourlyRecycler.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
-        binding.dailyRecycler.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
-        binding.hourlyRecycler.adapter = hourlyAdapter
-        binding.dailyRecycler.adapter = dailyAdapter
-    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
