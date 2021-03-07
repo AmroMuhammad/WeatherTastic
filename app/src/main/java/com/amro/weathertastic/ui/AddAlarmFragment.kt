@@ -1,4 +1,4 @@
-package com.amro.weathertastic
+package com.amro.weathertastic.ui
 
 import android.app.TimePickerDialog
 import android.content.Context
@@ -10,11 +10,11 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.widget.RadioGroup
 import android.widget.TextView
 import android.widget.TimePicker
 import android.widget.Toast
-import androidx.core.view.get
+import com.amro.weathertastic.viewModel.AddAlarmViewModel
+import com.amro.weathertastic.R
 import com.amro.weathertastic.databinding.AddAlarmFragmentBinding
 import com.amro.weathertastic.utils.Constants
 import org.angmarch.views.OnSpinnerItemSelectedListener
@@ -62,8 +62,8 @@ class AddAlarmFragment : Fragment() {
             binding.fromTimeTV.visibility= GONE
             binding.toTimeTV.visibility= GONE
             timeCondition = "anytime"
-            binding.fromTimeTV.text = resources.getString(R.string.ChooseBeginTime)
-            binding.toTimeTV.text = resources.getString(R.string.chooseEndTIme)
+            binding.fromTimeTV.text = "--:--"
+            binding.toTimeTV.text = "--:--"
         }
 
         binding.periodOfTimeRB.setOnClickListener {
@@ -72,6 +72,29 @@ class AddAlarmFragment : Fragment() {
             timeCondition = "period"
         }
 
+        binding.saveBtn.setOnClickListener {
+            if(isDataValidated()){
+                Toast.makeText(requireContext(),"Data is Validated",Toast.LENGTH_SHORT).show()  //add object to database
+                activity?.onBackPressed()
+            }
+        }
+
+
+    }
+
+    private fun isDataValidated(): Boolean {
+        if(returnChoosenDays() == null){
+            Toast.makeText(requireContext(),resources.getString(R.string.weekend),Toast.LENGTH_SHORT).show()
+            return false
+        }else if(returnAlarmType() == ""){
+            Toast.makeText(requireContext(),resources.getString(R.string.alertType),Toast.LENGTH_SHORT).show()
+            return false
+        }else if( (binding.fromTimeTV.text == "--:--" || binding.toTimeTV.text == "--:--") && timeCondition == "period"){
+            Toast.makeText(requireContext(),resources.getString(R.string.time),Toast.LENGTH_SHORT).show()
+            return false
+        }else{
+            return true
+        }
     }
 
     private fun returnChoosenDays():List<String>?{

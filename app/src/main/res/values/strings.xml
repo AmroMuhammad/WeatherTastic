@@ -31,9 +31,20 @@
     <string name="empty"></string>
     <string name="anytime">Anytime</string>
     <string name="periodOfTime">Period Of Time</string>
-    <string name="beginTime">Begin Time</string>
-    <string name="ChooseBeginTime">Choose Begin Time</string>
-    <string name="chooseEndTIme">Choose end time</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
+    <string name="weekend">Kindly choose at least one day</string>
+    <string name="alertType">Kindly choose Alert type</string>
+    <string name="time">Kindly choose from and to time</string>
+    <string name="alarmOff">Alarm OFF</string>
+    <string name="alarmOn">Alarm ON</string>
+    <string name="checkEvent">Check Event At</string>
+    <string name="hour24">24 Hour</string>
+    <string name="hour48">48 Hour</string>
+    <string name="hour72">72 Hour</string>
+    <string name="cautionTime">Kindly choose time to check event at</string>
+
+
 
     <string-array name="alertTypes">
         <item>@string/empty</item>

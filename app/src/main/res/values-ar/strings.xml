@@ -30,8 +30,19 @@
     <string name="empty"></string>
     <string name="anytime">أي وقت</string>
     <string name="periodOfTime">فترة معينة</string>
-    <string name="ChooseBeginTime">أختر وقت البدأ</string>
-    <string name="chooseEndTIme">اختر وقت الانتهاء</string>
+    <string name="from">من</string>
+    <string name="to">الي</string>
+    <string name="weekend">من فضلك اختر علي الاقل يوم واحد</string>
+    <string name="alertType">من فضلك اختر نوع الانذار</string>
+    <string name="time">من فضلك اختر وقت البدأ و الانتهاء</string>
+    <string name="alarmOff">المنبه مغلق</string>
+    <string name="alarmOn">المنبه مفعل</string>
+    <string name="checkEvent">تحقق من الحالة عند</string>
+    <string name="hour24">24 ساعة</string>
+    <string name="hour48">48 ساعة</string>
+    <string name="hour72">72 ساعة</string>
+    <string name="cautionTime">من فضلك اختر وقت للتحقق من الحالة</string>
+
 
 
 </resources>

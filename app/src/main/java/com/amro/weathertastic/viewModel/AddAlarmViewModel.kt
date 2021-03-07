@@ -1,4 +1,4 @@
-package com.amro.weathertastic
+package com.amro.weathertastic.viewModel
 
 import androidx.lifecycle.ViewModel
 

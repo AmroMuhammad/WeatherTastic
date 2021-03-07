@@ -5,7 +5,7 @@
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddAlarmFragment">
+    tools:context=".ui.AddAlarmFragment">
 
     <ca.antonious.materialdaypicker.MaterialDayPicker
         android:id="@+id/day_picker"
@@ -24,19 +24,6 @@
         android:backgroundTint="@color/teal_700"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/day_picker"/>
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="142dp"
-        android:layout_marginEnd="239dp"
-        android:hint="hello"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
 
     <RadioGroup
         android:id="@+id/radioGroup"
@@ -66,7 +53,7 @@
         android:id="@+id/fromTimeTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/ChooseBeginTime"
+        android:text="--:--"
         android:textSize="20sp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -81,7 +68,7 @@
         android:id="@+id/toTimeTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/chooseEndTIme"
+        android:text="--:--"
         android:textSize="20sp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -93,6 +80,7 @@
         tools:visibility="visible" />
 
     <Button
+        android:id="@+id/saveBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/save"
