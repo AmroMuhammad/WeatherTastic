@@ -100,9 +100,16 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:2.3.3"
     implementation "androidx.navigation:navigation-ui-ktx:2.3.3"
 
+    //view pager and circle indicator
     implementation "androidx.viewpager2:viewpager2:1.0.0"
     implementation 'me.relex:circleindicator:2.1.6'
 
+
+    //day picker
+    implementation 'ca.antonious:materialdaypicker:0.7.4'
+
+    //simple spinner
+    implementation 'com.github.arcadefire:nice-spinner:1.4.4'
 
 }
 }

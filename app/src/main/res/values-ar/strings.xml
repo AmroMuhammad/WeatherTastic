@@ -20,6 +20,18 @@
     <string name="change_language">تغيير اللغة</string>
     <string name="change_units">تغيير الوحدات</string>
     <string name="units">اختيار الوحدة</string>
+    <string name="rain">امطار</string>
+    <string name="temp">درجة حرارة</string>
+    <string name="wind">رياح</string>
+    <string name="fog">ضباب/شبورة</string>
+    <string name="snow">ثلوج</string>
+    <string name="cloudiness">غيوم</string>
+    <string name="thunderstorm">عواصف رعدية</string>
+    <string name="empty"></string>
+    <string name="anytime">أي وقت</string>
+    <string name="periodOfTime">فترة معينة</string>
+    <string name="ChooseBeginTime">أختر وقت البدأ</string>
+    <string name="chooseEndTIme">اختر وقت الانتهاء</string>
 
 
 </resources>

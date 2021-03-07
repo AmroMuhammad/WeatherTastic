@@ -24,5 +24,14 @@
         android:id="@+id/alarmFragment"
         android:name="com.amro.weathertastic.ui.AlarmFragment"
         android:label="@string/alarm"
-        tools:layout="@layout/alarm_fragment" />
+        tools:layout="@layout/alarm_fragment" >
+        <action
+            android:id="@+id/action_alarmFragment_to_addAlarmFragment"
+            app:destination="@id/addAlarmFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addAlarmFragment"
+        android:name="com.amro.weathertastic.AddAlarmFragment"
+        android:label="add_alarm_fragment"
+        tools:layout="@layout/add_alarm_fragment" />
 </navigation>

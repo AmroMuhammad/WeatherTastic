@@ -21,5 +21,30 @@
     <string name="change_language">Change Language</string>
     <string name="change_units">Change Units</string>
     <string name="units">Choose Unit</string>
+    <string name="rain">Rain</string>
+    <string name="temp">Temperature</string>
+    <string name="wind">Wind</string>
+    <string name="fog">Fog/Mist/Haze</string>
+    <string name="snow">Snow</string>
+    <string name="cloudiness">Cloudiness</string>
+    <string name="thunderstorm">ThunderStorm</string>
+    <string name="empty"></string>
+    <string name="anytime">Anytime</string>
+    <string name="periodOfTime">Period Of Time</string>
+    <string name="beginTime">Begin Time</string>
+    <string name="ChooseBeginTime">Choose Begin Time</string>
+    <string name="chooseEndTIme">Choose end time</string>
+
+    <string-array name="alertTypes">
+        <item>@string/empty</item>
+        <item>@string/rain</item>
+        <item>@string/temp</item>
+        <item>@string/wind</item>
+        <item>@string/fog</item>
+        <item>@string/snow</item>
+        <item>@string/cloudiness</item>
+        <item>@string/thunderstorm</item>
+    </string-array>
+
 
 </resources>
