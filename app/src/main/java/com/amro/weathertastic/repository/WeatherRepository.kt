@@ -4,18 +4,19 @@ import android.app.Application
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
+import com.amro.weathertastic.model.alarmEntities.AlertDataSource
+import com.amro.weathertastic.model.alarmEntities.AlertModel
 import com.amro.weathertastic.model.entities.WeatherResponse
 import com.amro.weathertastic.model.localDataSource.LocalDataSource
 import com.amro.weathertastic.model.remoteDataSource.RemoteDataSource
 import com.amro.weathertastic.utils.Constants
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class WeatherRepository(application: Application) {
     private val remoteDataSource = RemoteDataSource
     private val localDataSource = LocalDataSource.getInstance(application)
+    private val localAlarmDatabase = AlertDataSource.getInstance(application)
+
     private val lat = application.getSharedPreferences(Constants.SHARED_PREF_CURRENT_LOCATION, Context.MODE_PRIVATE).getString(Constants.CURRENT_LATITUDE,"null").toString()
     private val long = application.getSharedPreferences(Constants.SHARED_PREF_CURRENT_LOCATION, Context.MODE_PRIVATE).getString(Constants.CURRENT_LONGITUDE,"null").toString()
     private val oldLat = application.getSharedPreferences(Constants.SHARED_PREF_CURRENT_LOCATION, Context.MODE_PRIVATE).getString(Constants.OLD_LATITUDE,"null").toString()
@@ -64,5 +65,36 @@ class WeatherRepository(application: Application) {
             localDataSource.deleteDefault(lat,lon)
         }
     }
+
+    fun insertAlert(alert:AlertModel) {
+        CoroutineScope(Dispatchers.IO).launch {
+            localAlarmDatabase.insertAlarm(alert)
+        }
+    }
+
+    fun getAllAlerts(): LiveData<List<AlertModel>> {
+            return localAlarmDatabase.getAllAlarms()
+    }
+
+    fun getCurrentForBroadCast(){
+        runBlocking(Dispatchers.IO) {
+            launch {
+                try{
+            if (lat != null) {
+                val response = remoteDataSource.getWeatherService().getAllData(lat, long, Constants.EXCLUDE_MINUTELY, units, language, Constants.WEATHER_API_KEY)
+                if (response.isSuccessful) {
+                    localDataSource.insertDefault(response.body())
+                    localDataSource.deleteDefault(oldLat,oldLong)
+                    Log.i(Constants.LOG_TAG, "success")
+                }
+            }
+            }catch(e:Exception){
+                Log.i(Constants.LOG_TAG,e.message.toString())
+            }
+        }
+        }
+        Log.i(Constants.LOG_TAG, "outhere")
+    }
+
 
 }

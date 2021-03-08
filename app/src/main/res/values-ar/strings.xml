@@ -42,6 +42,10 @@
     <string name="hour48">48 ساعة</string>
     <string name="hour72">72 ساعة</string>
     <string name="cautionTime">من فضلك اختر وقت للتحقق من الحالة</string>
+    <string name="max">اكبر من</string>
+    <string name="min">اصغر من</string>
+    <string name="threshold">من فضلك ادخل قيمة المراد المقارنة بها</string>
+
 
 
 

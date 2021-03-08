@@ -24,4 +24,7 @@ interface WeatherDao {
     @Query("SELECT * from WeatherResponse WHERE lon != :lon AND lat != :lat")
     fun getFavList(lat:String,lon:String):LiveData<List<WeatherResponse>>
 
+    @Query("SELECT * from WeatherResponse WHERE lon = :lon AND lat = :lat")
+    fun getCurrentForBroadCast(lat:String,lon:String):WeatherResponse
+
 }

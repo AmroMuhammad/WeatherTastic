@@ -43,6 +43,10 @@
     <string name="hour48">48 Hour</string>
     <string name="hour72">72 Hour</string>
     <string name="cautionTime">Kindly choose time to check event at</string>
+    <string name="max">More than</string>
+    <string name="min">Less than</string>
+    <string name="threshold">kindly enter threshold value</string>
+
 
 
 

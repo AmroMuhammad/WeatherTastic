@@ -16,10 +16,12 @@ import android.widget.Toast
 import com.amro.weathertastic.viewModel.AddAlarmViewModel
 import com.amro.weathertastic.R
 import com.amro.weathertastic.databinding.AddAlarmFragmentBinding
+import com.amro.weathertastic.model.alarmEntities.AlertModel
 import com.amro.weathertastic.utils.Constants
 import org.angmarch.views.OnSpinnerItemSelectedListener
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.min
 
 class AddAlarmFragment : Fragment() {
 
@@ -31,6 +33,8 @@ class AddAlarmFragment : Fragment() {
     private var calenderFrom = Calendar.getInstance()
     private var calenderTo = Calendar.getInstance()
     private var timeCondition = "anytime"
+    private var maxOrMin = "min"
+    private var thresholdValue = 0.0
 
 
 
@@ -75,7 +79,23 @@ class AddAlarmFragment : Fragment() {
         binding.saveBtn.setOnClickListener {
             if(isDataValidated()){
                 Toast.makeText(requireContext(),"Data is Validated",Toast.LENGTH_SHORT).show()  //add object to database
+                thresholdValue = binding.valueET.text.trim().toString().toDouble()
+                alarmType = returnAlarmType()
+                val alert = AlertModel(days = returnChoosenDays(),alertType = alarmType,periodType = timeCondition,
+                    startTime = binding.fromTimeTV.text.toString(),endTime = binding.toTimeTV.text.toString(),maxMinValue = maxOrMin,thresholdValue = thresholdValue)
+                viewModel.insertAlert(alert)
                 activity?.onBackPressed()
+
+            }
+        }
+
+        binding.radioGroupMaxMin.setOnCheckedChangeListener { radioGroup, i ->
+            if(i==R.id.maxRB){
+                maxOrMin = "max"
+                Toast.makeText(requireContext(),"max",Toast.LENGTH_SHORT).show()
+            }
+            else{ maxOrMin = "min"
+                Toast.makeText(requireContext(),"min",Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -92,6 +112,9 @@ class AddAlarmFragment : Fragment() {
         }else if( (binding.fromTimeTV.text == "--:--" || binding.toTimeTV.text == "--:--") && timeCondition == "period"){
             Toast.makeText(requireContext(),resources.getString(R.string.time),Toast.LENGTH_SHORT).show()
             return false
+        }else if(binding.valueET.text.trim().isEmpty()){
+            Toast.makeText(requireContext(),resources.getString(R.string.threshold),Toast.LENGTH_SHORT).show()
+            return false
         }else{
             return true
         }
@@ -99,7 +122,7 @@ class AddAlarmFragment : Fragment() {
 
     private fun returnChoosenDays():List<String>?{
         binding.dayPicker.locale = Locale.forLanguageTag(lang)
-        var selectedDays = binding.dayPicker.selectedDays //to be null
+        var selectedDays = binding.dayPicker.selectedDays
         binding.dayPicker.setDaySelectionChangedListener { it ->
             selectedDays = binding.dayPicker.selectedDays
         }

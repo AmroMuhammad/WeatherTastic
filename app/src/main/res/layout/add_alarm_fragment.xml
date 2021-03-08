@@ -47,7 +47,48 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/periodOfTime" />
+
     </RadioGroup>
+
+
+    <RadioGroup
+        android:id="@+id/radioGroupMaxMin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/radioGroup"
+        app:layout_constraintTop_toTopOf="@+id/radioGroup"
+        app:layout_constraintVertical_bias="0.00">
+
+        <RadioButton
+            android:id="@+id/minRB"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/min" />
+
+        <RadioButton
+            android:id="@+id/maxRB"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/max" />
+
+    </RadioGroup>
+
+    <EditText
+        android:id="@+id/valueET"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/threshold"
+        android:inputType="numberDecimal"
+        android:selectAllOnFocus="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.858"
+        app:layout_constraintStart_toEndOf="@+id/fromTimeTV"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroupMaxMin"
+        app:layout_constraintVertical_bias="0.167" />
 
     <TextView
         android:id="@+id/fromTimeTV"
