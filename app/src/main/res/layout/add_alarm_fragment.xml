@@ -32,7 +32,8 @@
         android:layout_marginStart="28dp"
         android:layout_marginTop="30dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nice_spinner">
+        app:layout_constraintTop_toBottomOf="@+id/nice_spinner"
+        android:visibility="gone">
 
 
         <RadioButton
@@ -57,9 +58,10 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/radioGroup"
-        app:layout_constraintTop_toTopOf="@+id/radioGroup"
-        app:layout_constraintVertical_bias="0.00">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nice_spinner"
+        app:layout_constraintVertical_bias="0.06"
+        app:layout_constraintHorizontal_bias="0.8">
 
         <RadioButton
             android:id="@+id/minRB"
@@ -83,12 +85,14 @@
         android:hint="@string/threshold"
         android:inputType="numberDecimal"
         android:selectAllOnFocus="false"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.858"
         app:layout_constraintStart_toEndOf="@+id/fromTimeTV"
         app:layout_constraintTop_toBottomOf="@+id/radioGroupMaxMin"
-        app:layout_constraintVertical_bias="0.167" />
+        app:layout_constraintVertical_bias="0.167"
+        tools:visibility="visible" />
 
     <TextView
         android:id="@+id/fromTimeTV"

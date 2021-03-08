@@ -8,8 +8,10 @@ import android.content.Intent
 import android.os.Build
 import android.util.Log
 import android.widget.Toast
+import androidx.media.app.NotificationCompat
 import com.amro.weathertastic.model.alarmEntities.AlertDataSource
 import com.amro.weathertastic.model.alarmEntities.AlertModel
+import com.amro.weathertastic.model.entities.DailyItem
 import com.amro.weathertastic.model.entities.WeatherResponse
 import com.amro.weathertastic.model.localDataSource.LocalDataSource
 import com.amro.weathertastic.repository.WeatherRepository
@@ -17,6 +19,8 @@ import com.amro.weathertastic.utils.Constants
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import java.text.SimpleDateFormat
+import java.util.*
 import kotlin.properties.Delegates
 
 
@@ -26,6 +30,7 @@ class AlarmReceiver : BroadcastReceiver() {
     lateinit var requiredWeatherResponse:WeatherResponse
     lateinit var requiredAlertResponse: AlertModel
     var alarmId by Delegates.notNull<Int>()
+    var result = ""
     override fun onReceive(context: Context, intent: Intent) {
         mainContext = context
         alarmId = intent.getExtras()!!.getInt(Constants.ALARM_ID)
@@ -42,12 +47,10 @@ class AlarmReceiver : BroadcastReceiver() {
                 requiredAlertResponse = AlertDataSource.getInstance(context.applicationContext as Application).getSingleAlarm(alarmId.toString())
             }
         }
-        // This method is called when the BroadcastReceiver is receiving an Intent broadcast.
-        Toast.makeText(context, "helllo", Toast.LENGTH_SHORT).show()
         Log.i(Constants.LOG_TAG, "hello from alarmReceiver")
         Log.i(Constants.LOG_TAG, requiredWeatherResponse.timezone.toString())
         Log.i(Constants.LOG_TAG, requiredAlertResponse.alertType)
-        sendNotification()
+        checkData(requiredAlertResponse)
     }
 
     private fun sendNotification() {
@@ -59,17 +62,143 @@ class AlarmReceiver : BroadcastReceiver() {
         } else {
             builder = Notification.Builder(mainContext)
         }
-        builder.setContentTitle("Weather Alert")
-        builder.setContentText("Current Weather is")
+        builder.setContentTitle("WeatherTastic")
+        builder.setContentText("Weather Report")
         builder.setSmallIcon(R.drawable.ic_menu_add)
+        builder.setStyle(Notification.BigTextStyle().bigText(result))
         val notification: Notification = builder.build()
         manager.notify(10, notification)
     }
 
 
-    private fun checkData(weatherResponse: WeatherResponse,alertModel: AlertModel){
-        when(alertModel.alertType){
-
+    private fun checkData(alertModel: AlertModel){
+        for(day in alertModel.days!!){
+            when(day){
+                "saturday" -> {
+                    checkWeatherDate(day,alertModel.alertType)}
+                "sunday" -> {
+                    checkWeatherDate(day,alertModel.alertType)}
+                "monday" -> {
+                    checkWeatherDate(day,alertModel.alertType)}
+                "tuesday" -> {
+                    checkWeatherDate(day,alertModel.alertType)}
+                "wednesday" -> {
+                    checkWeatherDate(day,alertModel.alertType)}
+                "thursday" -> {
+                    checkWeatherDate(day,alertModel.alertType)}
+                "friday" -> {
+                    checkWeatherDate(day,alertModel.alertType)}
+            }
+        }
+        if(result != ""){
+            sendNotification()
         }
     }
+
+
+
+    private fun checkWeatherDate(reqDay:String,alertType:String){
+        for(element in requiredWeatherResponse.daily!!){
+            if(reqDay.toLowerCase() == getDayFromWeatherResponse(element!!.dt!!.toLong())){
+                checkAlertTypeOfDate(requiredWeatherResponse.daily!!.indexOf(element),alertType,reqDay)
+            }
+        }
+    }
+
+    private fun getDayFromWeatherResponse(dt:Long):String{
+        val calender = Calendar.getInstance()
+        calender.timeInMillis = (dt)*1000L
+        val dateFormat = SimpleDateFormat("EEEE");
+        return dateFormat.format(calender.time).toLowerCase()
+    }
+
+    private fun checkAlertTypeOfDate(dailyNum:Int,alertType:String,reqDay: String){
+        val item = requiredWeatherResponse.daily?.get(dailyNum)!!
+        when(alertType){
+            "Rain" -> { checkMaxMinRain(item,reqDay) }
+            "Temperature" -> { checkMaxMinTemp(item,reqDay) }
+            "Wind" -> { checkMaxMinWind(item,reqDay) }
+            "Fog/Mist/Haze" -> { checkMaxMinHaze(item,reqDay) }
+            "Snow" -> { checkMaxMinSnow(item,reqDay) }
+            "Cloudiness" -> { checkMaxMinCloudness(item,reqDay) }
+            "Thunderstorm" -> { checkMaxMinThunder(item,reqDay) }
+        }
+
+    }
+
+    private fun checkMaxMinRain(item:DailyItem,reqDay: String){
+        if(item?.weather?.get(0)?.main == "Rain") {
+            if (requiredAlertResponse.maxMinValue == "max") {
+                if (requiredAlertResponse.thresholdValue <= item.rain!!) {
+                    result += "\n${reqDay} Rain: more than ${item.rain}"
+                }
+            } else {
+                if (requiredAlertResponse.thresholdValue > item.rain!!) {
+                    result += "\n${reqDay} Rain: less than ${item.rain}"
+                }
+            }
+        }
+    }
+
+    private fun checkMaxMinTemp(item:DailyItem,reqDay: String){
+            if (requiredAlertResponse.maxMinValue == "max") {
+                if (requiredAlertResponse.thresholdValue <= item.temp?.day!!) {
+                    result += "\n${reqDay} Temperature: more than ${item.temp.day}"
+                }
+            } else {
+                if (requiredAlertResponse.thresholdValue > item.temp?.day!!) {
+                    result += "\n${reqDay} Temperature: less than ${item.temp.day}"
+                }
+            }
+
+    }
+
+    private fun checkMaxMinWind(item:DailyItem,reqDay: String){
+            if (requiredAlertResponse.maxMinValue == "max") {
+                if (requiredAlertResponse.thresholdValue <= item.windSpeed!!) {
+                    result += "\n${reqDay} Wind: more than ${item.windSpeed}"
+                }
+            } else {
+                if (requiredAlertResponse.thresholdValue > item.windSpeed!!) {
+                    result += "\n${reqDay} Wind: less than ${item.windSpeed}"
+                }
+            }
+    }
+
+    private fun checkMaxMinHaze(item:DailyItem,reqDay: String){
+        if(item.weather?.get(0)?.main == "Haze" ||item.weather?.get(0)?.main == "Mist" ||item.weather?.get(0)?.main == "Fog") {
+            result += "\n${reqDay} This day has Haze"
+        }
+    }
+
+    private fun checkMaxMinSnow(item:DailyItem,reqDay: String){
+        if(item.weather?.get(0)?.main == "Snow") {
+            result += "\n${reqDay} This day has Snow"
+        }
+    }
+
+    private fun checkMaxMinCloudness(item:DailyItem,reqDay: String){
+        if(item.weather?.get(0)?.main == "Clouds") {
+            if (requiredAlertResponse.maxMinValue == "max") {
+                if (requiredAlertResponse.thresholdValue <= item.clouds!!) {
+                    result += "\n${reqDay} Cloudiness: more than ${item.clouds}"
+                }
+            } else {
+                if (requiredAlertResponse.thresholdValue > item.temp?.day!!) {
+                    result += "\n${reqDay} Cloudiness: more than ${item.clouds}"
+                }
+            }
+        }
+    }
+
+    private fun checkMaxMinThunder(item:DailyItem,reqDay: String){
+        if(item.weather?.get(0)?.main == "Thunderstorm") {
+            result += "\n${reqDay} This day has ThunderStorm"
+        }
+    }
+
+
+
+
+
 }

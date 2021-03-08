@@ -96,5 +96,11 @@ class WeatherRepository(application: Application) {
         Log.i(Constants.LOG_TAG, "outhere")
     }
 
+    fun deleteAlarmById(id:String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            localAlarmDatabase.deleteAlarmById(id)
+        }
+    }
+
 
 }

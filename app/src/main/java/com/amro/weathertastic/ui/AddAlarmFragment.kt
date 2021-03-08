@@ -50,6 +50,7 @@ class AddAlarmFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         lang = (activity?.getSharedPreferences(Constants.SHARED_PREF_SETTINGS,Context.MODE_PRIVATE)?.getString(Constants.LANGUAGE,"en").toString())
+        binding.dayPicker.locale = Locale.forLanguageTag(lang)
         viewModel = ViewModelProvider(this).get(AddAlarmViewModel::class.java)
     }
 
@@ -80,7 +81,6 @@ class AddAlarmFragment : Fragment() {
             if(isDataValidated()){
                 Toast.makeText(requireContext(),"Data is Validated",Toast.LENGTH_SHORT).show()  //add object to database
                 thresholdValue = binding.valueET.text.trim().toString().toDouble()
-                alarmType = returnAlarmType()
                 val alert = AlertModel(days = returnChoosenDays(),alertType = alarmType,periodType = timeCondition,
                     startTime = binding.fromTimeTV.text.toString(),endTime = binding.toTimeTV.text.toString(),maxMinValue = maxOrMin,thresholdValue = thresholdValue)
                 viewModel.insertAlert(alert)
@@ -99,6 +99,22 @@ class AddAlarmFragment : Fragment() {
             }
         }
 
+        binding.niceSpinner.onSpinnerItemSelectedListener =
+            OnSpinnerItemSelectedListener { parent, _, position, _ ->
+                val ara = mapOf("" to "","امطار" to "Rain","درجة حرارة" to "Temperature","رياح" to "Wind","ضباب/شبورة" to "Fog/Mist/Haze","ثلوج" to "Snow","غيوم" to "Cloudiness","عواصف رعدية" to "Thunderstorm")
+                alarmType = parent?.getItemAtPosition(position).toString()
+                if(lang=="ar"){
+                    alarmType = ara[alarmType].toString()
+                }
+                if(alarmType == "Rain" || alarmType == "Temperature" || alarmType == "Wind" || alarmType == "Cloudiness"){
+                    binding.valueET.visibility = VISIBLE
+                    binding.valueET.setText("")
+                }else{
+                    binding.valueET.visibility = GONE
+                    binding.valueET.setText("0.0")
+                }
+            }
+
 
     }
 
@@ -106,7 +122,7 @@ class AddAlarmFragment : Fragment() {
         if(returnChoosenDays() == null){
             Toast.makeText(requireContext(),resources.getString(R.string.weekend),Toast.LENGTH_SHORT).show()
             return false
-        }else if(returnAlarmType() == ""){
+        }else if(alarmType == ""){
             Toast.makeText(requireContext(),resources.getString(R.string.alertType),Toast.LENGTH_SHORT).show()
             return false
         }else if( (binding.fromTimeTV.text == "--:--" || binding.toTimeTV.text == "--:--") && timeCondition == "period"){
@@ -131,17 +147,6 @@ class AddAlarmFragment : Fragment() {
         return if(arr.isEmpty()) null else arr
     }
 
-    private fun returnAlarmType():String{
-        binding.niceSpinner.onSpinnerItemSelectedListener =
-            OnSpinnerItemSelectedListener { parent, _, position, _ ->
-                val ara = mapOf("" to "","امطار" to "Rain","درجة حرارة" to "Temperature","رياح" to "Wind","ضباب/شبورة" to "Fog/Mist/Haze","ثلوج" to "Snow","غيوم" to "Cloudiness","عواصف رعدية" to "ThunderStorm")
-                alarmType = parent?.getItemAtPosition(position).toString()
-                if(lang=="ar"){
-                    alarmType = ara[alarmType].toString()
-                }
-            }
-        return alarmType
-    }
 
     private fun calenderTime(textView:TextView,hour:Int,min:Int){
         TimePickerDialog(requireContext(), object: TimePickerDialog.OnTimeSetListener{

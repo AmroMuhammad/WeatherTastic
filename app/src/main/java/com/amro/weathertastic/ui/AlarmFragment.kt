@@ -5,6 +5,7 @@ import android.app.PendingIntent
 import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Log
@@ -16,6 +17,7 @@ import android.widget.TextView
 import android.widget.TimePicker
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.amro.weathertastic.R
 import com.amro.weathertastic.viewModel.AlarmViewModel
 import com.amro.weathertastic.databinding.AlarmFragmentBinding
@@ -34,6 +36,10 @@ class AlarmFragment : Fragment() {
     private var calenderEvent = Calendar.getInstance()
     private var hourDuration = 24;
     private var alarmList = ArrayList<AlertModel>()
+    private lateinit var sharedPref:SharedPreferences
+    private var switchCase = false
+    private lateinit var alarmAdaptor: AlarmRecyclerAdaptor
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = AlarmFragmentBinding.inflate(inflater,container,false)
@@ -43,10 +49,25 @@ class AlarmFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this).get(AlarmViewModel::class.java)
+        alarmAdaptor = AlarmRecyclerAdaptor(ArrayList(),viewModel)
+        initRecyclers()
+        sharedPref = activity?.getSharedPreferences(Constants.SHARED_PREF_SETTINGS,Context.MODE_PRIVATE)!!
+        switchCase = sharedPref!!.getBoolean(Constants.isSwitchOn,false)
+//        if(switchCase){
+//            binding.include.onOffSwitch.isChecked = switchCase
+//            binding.include.cardView2.visibility = View.GONE
+//        }else{
+//            binding.include.onOffSwitch.isChecked = switchCase
+//            binding.include.cardView2.visibility = View.VISIBLE
+//
+//        }
+
+
         viewModel.getAllData().observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             if(it!= null){
                 Toast.makeText(requireContext(),it.toString(),Toast.LENGTH_SHORT).show()
                 alarmList.addAll(it)
+                alarmAdaptor.setIncomingList(it)
             }
 
         })
@@ -66,12 +87,16 @@ class AlarmFragment : Fragment() {
                 binding.include.alarmStateTV.text = resources.getString(R.string.alarmOn)
                 registerAll()
                 binding.include.cardView2.visibility = View.GONE
+                binding.include.groupRB.visibility = View.GONE
+                sharedPref?.edit()?.putBoolean(Constants.isSwitchOn,true)?.apply()
             }else{
                 Toast.makeText(requireContext(),"Alarm is Off",Toast.LENGTH_SHORT).show()
                 binding.include.alarmStateTV.text = resources.getString(R.string.alarmOff)
                 binding.include.cardView2.visibility = View.VISIBLE
-
-                //unregister all
+                binding.include.groupRB.visibility = View.VISIBLE
+                binding.include.alarmTimeTV.text = "--:--"
+                unregisterAll()
+                sharedPref?.edit()?.putBoolean(Constants.isSwitchOn,false)?.apply()
             }
         }
 
@@ -121,16 +146,71 @@ class AlarmFragment : Fragment() {
                 notifyIntent.putExtra(Constants.ALARM_ID,element.id)
                 var time = calenderEvent.timeInMillis
                 calenderEvent.timeInMillis = time.plus(Constants.HOUR_24_IN_SECONDS)
-                val pendingIntent = PendingIntent.getBroadcast(context,element.id,notifyIntent,PendingIntent.FLAG_UPDATE_CURRENT)
+                var pendingIntent = PendingIntent.getBroadcast(context,element.id,notifyIntent,PendingIntent.FLAG_UPDATE_CURRENT)
                 alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,calenderEvent.timeInMillis,pendingIntent)
-                Log.i(Constants.LOG_TAG,"${calenderEvent.timeInMillis}")
+                Log.i(Constants.LOG_TAG,"twentyfour${calenderEvent.timeInMillis}")
+                if(hourDuration == 72){
+                    pendingIntent = PendingIntent.getBroadcast(context,element.id+1000,notifyIntent,PendingIntent.FLAG_UPDATE_CURRENT)
+                    alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,calenderEvent.timeInMillis+Constants.HOUR_24_IN_SECONDS,pendingIntent)
+                    Log.i(Constants.LOG_TAG,"fourtyeight${calenderEvent.timeInMillis+Constants.HOUR_24_IN_SECONDS}")
+                    pendingIntent = PendingIntent.getBroadcast(context,element.id+2000,notifyIntent,PendingIntent.FLAG_UPDATE_CURRENT)
+                    alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,calenderEvent.timeInMillis+Constants.HOUR_48_IN_SECONDS,pendingIntent)
+                    Log.i(Constants.LOG_TAG,"sevenTwo${calenderEvent.timeInMillis+Constants.HOUR_48_IN_SECONDS}")
+                }else if(hourDuration == 48){
+                    pendingIntent = PendingIntent.getBroadcast(context,element.id+1000,notifyIntent,PendingIntent.FLAG_UPDATE_CURRENT)
+                    alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,calenderEvent.timeInMillis+Constants.HOUR_24_IN_SECONDS,pendingIntent)
+                    Log.i(Constants.LOG_TAG,"fourtyeight${calenderEvent.timeInMillis+Constants.HOUR_24_IN_SECONDS}")
+                }
             }else{
                 notifyIntent.putExtra(Constants.ALARM_ID,element.id)
-                val pendingIntent = PendingIntent.getBroadcast(activity,element.id,notifyIntent,PendingIntent.FLAG_UPDATE_CURRENT)
+                var pendingIntent = PendingIntent.getBroadcast(activity,element.id,notifyIntent,PendingIntent.FLAG_UPDATE_CURRENT)
                 alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,calenderEvent.timeInMillis,pendingIntent)
-                Log.i(Constants.LOG_TAG,"${calenderEvent.timeInMillis}")
+                Log.i(Constants.LOG_TAG,"twentyfour${calenderEvent.timeInMillis}")
+                if(hourDuration == 72){
+                    pendingIntent = PendingIntent.getBroadcast(context,element.id+1000,notifyIntent,PendingIntent.FLAG_UPDATE_CURRENT)
+                    alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,calenderEvent.timeInMillis+Constants.HOUR_24_IN_SECONDS,pendingIntent)
+                    Log.i(Constants.LOG_TAG,"fourtyeight${calenderEvent.timeInMillis+Constants.HOUR_24_IN_SECONDS}")
+                    pendingIntent = PendingIntent.getBroadcast(context,element.id+2000,notifyIntent,PendingIntent.FLAG_UPDATE_CURRENT)
+                    alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,calenderEvent.timeInMillis+Constants.HOUR_48_IN_SECONDS,pendingIntent)
+                    Log.i(Constants.LOG_TAG,"sevenTwo${calenderEvent.timeInMillis+Constants.HOUR_48_IN_SECONDS}")
+                }else if(hourDuration == 48){
+                    pendingIntent = PendingIntent.getBroadcast(context,element.id+1000,notifyIntent,PendingIntent.FLAG_UPDATE_CURRENT)
+                    alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,calenderEvent.timeInMillis+Constants.HOUR_24_IN_SECONDS,pendingIntent)
+                    Log.i(Constants.LOG_TAG,"fourtyeight${calenderEvent.timeInMillis+Constants.HOUR_24_IN_SECONDS}")
+                }
             }
         }
+    }
+
+    private fun unregisterAll(){
+        for(element in alarmList){
+        val notifyIntent = Intent(context,AlarmReceiver::class.java)
+        var pendingIntent = PendingIntent.getBroadcast(context,element.id,notifyIntent,PendingIntent.FLAG_UPDATE_CURRENT)
+        val alarmManager = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        if (alarmManager != null) {
+            alarmManager.cancel(pendingIntent)
+        }
+            if(hourDuration == 72){
+            pendingIntent = PendingIntent.getBroadcast(context,element.id+1000,notifyIntent,PendingIntent.FLAG_UPDATE_CURRENT)
+            if (alarmManager != null) {
+                alarmManager.cancel(pendingIntent)
+            }
+            pendingIntent = PendingIntent.getBroadcast(context,element.id+2000,notifyIntent,PendingIntent.FLAG_UPDATE_CURRENT)
+            if (alarmManager != null) {
+                alarmManager.cancel(pendingIntent)
+            }
+            }else if(hourDuration == 48){
+            pendingIntent = PendingIntent.getBroadcast(context,element.id+1000,notifyIntent,PendingIntent.FLAG_UPDATE_CURRENT)
+            if (alarmManager != null) {
+                alarmManager.cancel(pendingIntent)
+            }
+            }
+        }
+    }
+
+    fun initRecyclers(){
+        binding.alarmRecycler.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL,false)
+        binding.alarmRecycler.adapter = alarmAdaptor
     }
 
 

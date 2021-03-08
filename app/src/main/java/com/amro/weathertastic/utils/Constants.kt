@@ -1,6 +1,7 @@
 package com.amro.weathertastic.utils
 
 object Constants {
+    const val isSwitchOn = "isSwitchOn"
     const val ALARM_ID: String = "alarmId"
     const val NOTIFICATION_CHANNEL_ID = "weather"
     const val MAPBOX_API_KEY = "pk.eyJ1IjoiYW1ybXVoYW1tYWQiLCJhIjoiY2tsazc2dGxxMDF6YjJ3bXdpY2ZpbWhxOCJ9.-ig2mB_01Yj0WVkiUtfeMw"
@@ -23,4 +24,6 @@ object Constants {
     const val LANGUAGE_VALUE = "en"
     const val UNITS_VALUE = "default"
     const val HOUR_24_IN_SECONDS = 86400000
+    const val HOUR_48_IN_SECONDS = 172800000
+
 }

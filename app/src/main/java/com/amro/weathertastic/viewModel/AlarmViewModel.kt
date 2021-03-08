@@ -14,4 +14,8 @@ class AlarmViewModel(application:Application) : AndroidViewModel(application) {
     fun getAllData(): LiveData<List<AlertModel>> {
         return repository.getAllAlerts()
     }
+
+    fun deleteAlarmById(id:String){
+        return repository.deleteAlarmById(id)
+    }
 }

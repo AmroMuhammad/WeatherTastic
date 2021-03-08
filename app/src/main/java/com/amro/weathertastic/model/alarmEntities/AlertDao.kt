@@ -17,4 +17,7 @@ interface AlertDao {
 
     @Query("SELECT * FROM AlertModel where id = :alertId")
     fun getSingleAlarm(alertId:String):AlertModel
+
+    @Query("DELETE FROM AlertModel where id = :alertId")
+    fun deleteAlarmById(alertId:String)
 }

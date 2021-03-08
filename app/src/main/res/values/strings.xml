@@ -27,7 +27,7 @@
     <string name="fog">Fog/Mist/Haze</string>
     <string name="snow">Snow</string>
     <string name="cloudiness">Cloudiness</string>
-    <string name="thunderstorm">ThunderStorm</string>
+    <string name="thunderstorm">Thunderstorm</string>
     <string name="empty"></string>
     <string name="anytime">Anytime</string>
     <string name="periodOfTime">Period Of Time</string>
