@@ -8,7 +8,7 @@ import com.amro.weathertastic.databinding.WeatherItemBinding
 import com.amro.weathertastic.model.entities.DailyItem
 import com.amro.weathertastic.model.entities.HourlyItem
 
-class HourlyRecyclerAdapter(var list: ArrayList<HourlyItem?>) : RecyclerView.Adapter<HourlyRecyclerAdapter.ViewHolder>() {
+class HourlyRecyclerAdapter(var list: List<HourlyItem?>) : RecyclerView.Adapter<HourlyRecyclerAdapter.ViewHolder>() {
     private lateinit var context: Context
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -23,12 +23,6 @@ class HourlyRecyclerAdapter(var list: ArrayList<HourlyItem?>) : RecyclerView.Ada
     }
 
     override fun getItemCount() = list.size
-
-    fun setIncomingList(incomingList: List<HourlyItem?>){
-        list.clear()
-        list.addAll(incomingList)
-        notifyDataSetChanged()
-    }
 
 
     inner class ViewHolder(val binding: WeatherItemBinding) : RecyclerView.ViewHolder(binding.root)

@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.amro.weathertastic.databinding.WeatherItemBinding
 import com.amro.weathertastic.model.entities.DailyItem
 
-class DailyRecyclerAdapter(val list : ArrayList<DailyItem?> ) : RecyclerView.Adapter<DailyRecyclerAdapter.ViewHolder>() {
+class DailyRecyclerAdapter(val list : List<DailyItem?> ) : RecyclerView.Adapter<DailyRecyclerAdapter.ViewHolder>() {
     private lateinit var context:Context
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -23,11 +23,6 @@ class DailyRecyclerAdapter(val list : ArrayList<DailyItem?> ) : RecyclerView.Ada
 
     override fun getItemCount()= list.size
 
-    fun setIncomingList(incomingList: List<DailyItem?>){
-        list.clear()
-        list.addAll(incomingList)
-        notifyDataSetChanged()
-    }
 
     inner class ViewHolder (val binding: WeatherItemBinding) : RecyclerView.ViewHolder(binding.root)
 }
