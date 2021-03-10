@@ -46,8 +46,9 @@
     <string name="max">More than</string>
     <string name="min">Less than</string>
     <string name="threshold">kindly enter threshold value</string>
-
-
+    <string name="forcastHours">Today Forecast</string>
+    <string name="forcastDaily">This Week Forecast</string>
+    <string name="sunRiseSet">Sunrise and Sunset</string>
 
 
     <string-array name="alertTypes">

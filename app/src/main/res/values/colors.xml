@@ -7,6 +7,13 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="trans">#00FFFFFF</color>
+    <color name="greyCard">#E6E6E6</color>
+    <color name="greyText">#E6E6E6</color>
+    <color name="sepratorNight">#F44336</color>
+    <color name="sepratorDay">#000000</color>
+    <color name="sunColor">#f9d71c</color>
+
 
     <!-- Customizing colors for disabled days-->
     <color name="dayPressed">@color/colorPrimaryDark</color>
@@ -20,4 +27,12 @@
     <color name="daySelectedAndDisabledTextColor">@color/daySelectedTextColor</color>
     <color name="dayDeselectedAndDisabled">@color/dayDeselected</color>
     <color name="dayDeselectedAndDisabledTextColor">@android:color/darker_gray</color>
+    <color name="yellow">#FFC107</color>
+
+    <color name="star_color_1">#ffffff</color>
+    <color name="star_color_2">#25ADFF</color>
+    <color name="star_color_3">#FFC100</color>
+    <color name="star_color_4">#FF3800</color>
+
+
 </resources>

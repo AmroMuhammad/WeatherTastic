@@ -111,6 +111,23 @@ dependencies {
     //simple spinner
     implementation 'com.github.arcadefire:nice-spinner:1.4.4'
 
+    //sunrise and sunset
+    implementation 'com.github.tianma8023:SunriseSunsetView:0.0.3'
+
+    compile 'com.github.MatteoBattilana:WeatherView:1.1.0'
+
+    //animated stars
+    implementation 'com.sofakingforever.libraries:animated-stars-android:1.1.4@aar'
+
+    //wind
+    implementation 'com.github.AhmadNemati:WindView:1.1.1'
+
+    //lottie
+    implementation "com.airbnb.android:lottie:3.6.1"
+
+    implementation 'com.github.Cutta:GifView:1.4'
+
+
 }
 }
 

@@ -16,8 +16,8 @@ class DailyRecyclerAdapter(val list : List<DailyItem?> ) : RecyclerView.Adapter<
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.binding.dateTxt.text = list[position]?.weather?.get(0)?.description.toString()
-        holder.binding.degreeMax.text = list[position]?.feelsLike?.night.toString()
+//        holder.binding.dateTxt.text = list[position]?.weather?.get(0)?.description.toString()
+//        holder.binding.degreeMax.text = list[position]?.feelsLike?.night.toString()
 
     }
 

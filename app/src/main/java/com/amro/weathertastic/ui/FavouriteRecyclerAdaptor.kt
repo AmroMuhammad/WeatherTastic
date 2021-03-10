@@ -24,7 +24,7 @@ class FavouriteRecyclerAdaptor(val list: ArrayList<WeatherResponse>,var viewMode
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.binding.dateTxt.text = list[position].timezone
+//        holder.binding.dateTxt.text = list[position].timezone
         holder.binding.weatherItemRoot.setOnLongClickListener(View.OnLongClickListener {
             showDeletionDialog(list[position].lat.toString(),list[position].lon.toString())
             true
