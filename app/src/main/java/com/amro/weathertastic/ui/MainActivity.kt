@@ -2,6 +2,7 @@ package com.amro.weathertastic.ui
 
 import android.content.Context
 import android.content.DialogInterface
+import android.content.res.Configuration
 import android.content.res.Resources
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
@@ -181,12 +182,21 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setAppLocale(localeCode: String){
-        val resources = resources;
-        val dm = resources.getDisplayMetrics()
-        val config = resources.getConfiguration()
-        config.setLocale(Locale(localeCode.toLowerCase()));
-        resources.updateConfiguration(config, dm);
+//    private fun setAppLocale(localeCode: String){
+//        val resources = resources;
+//        val dm = resources.getDisplayMetrics()
+//        val config = resources.getConfiguration()
+//        config.setLocale(Locale(localeCode.toLowerCase()));
+//        resources.updateConfiguration(config, dm);
+//    }
+
+    fun setAppLocale(languageCode: String?) {
+        val locale = Locale(languageCode)
+        Locale.setDefault(locale)
+        val resources: Resources = resources
+        val config: Configuration = resources.configuration
+        config.setLocale(locale)
+        resources.updateConfiguration(config, resources.displayMetrics)
     }
 
     override fun onSupportNavigateUp(): Boolean {

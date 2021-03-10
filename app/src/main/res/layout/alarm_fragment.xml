@@ -6,7 +6,8 @@
     android:id="@+id/alarmConstraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.AlarmFragment">
+    tools:context=".ui.AlarmFragment"
+    android:backgroundTint="#00000000">
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

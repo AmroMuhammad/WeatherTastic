@@ -114,7 +114,8 @@ dependencies {
     //sunrise and sunset
 //    implementation 'com.github.tianma8023:SunriseSunsetView:0.0.2'
 
-    compile 'com.github.MatteoBattilana:WeatherView:1.1.0'
+    implementation 'com.github.MatteoBattilana:WeatherView:3.0.0'
+
 
     //animated stars
     implementation 'com.sofakingforever.libraries:animated-stars-android:1.1.4@aar'
@@ -125,7 +126,9 @@ dependencies {
     //lottie
     implementation "com.airbnb.android:lottie:3.6.1"
 
-    implementation 'com.github.Cutta:GifView:1.4'
+    //flip button
+    implementation 'com.github.Chrisvin:FlipTabs:v1.5'
+
 
 
 }

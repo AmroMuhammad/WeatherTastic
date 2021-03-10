@@ -1,214 +1,226 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/HomeConstraintLayout"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/HomeConstraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.sofakingforever.stars.AnimatedStarsView
+            android:id="@+id/stars_white"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/linearLayout1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:starsView_bigStarThreshold="20dp"
+            app:starsView_maxStarSize="10dp"
+            app:starsView_meteoritesColors="@array/meteorites_colors"
+            app:starsView_meteoritesEnabled="true"
+            app:starsView_meteoritesInterval="1000"
+            app:starsView_minStarSize="1dp"
+            app:starsView_starColors="@array/star_colors_small"
+            app:starsView_starCount="70" />
+
+
+        <com.sofakingforever.stars.AnimatedStarsView
+            android:id="@+id/stars"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/linearLayout1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:starsView_bigStarThreshold="8dp"
+            app:starsView_maxStarSize="16dp"
+            app:starsView_meteoritesEnabled="false"
+            app:starsView_minStarSize="8dp"
+            app:starsView_starColors="@array/star_colors_big"
+            app:starsView_starCount="10" />
+
+        <include
+            android:id="@+id/main_card"
+            layout="@layout/weather_item"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/main_card">
 
-            <com.sofakingforever.stars.AnimatedStarsView
-                android:id="@+id/stars_white"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintBottom_toBottomOf="@+id/linearLayout1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:starsView_bigStarThreshold="20dp"
-                app:starsView_maxStarSize="10dp"
-                app:starsView_meteoritesColors="@array/meteorites_colors"
-                app:starsView_meteoritesEnabled="true"
-                app:starsView_meteoritesInterval="1000"
-                app:starsView_minStarSize="1dp"
-                app:starsView_starColors="@array/star_colors_small"
-                app:starsView_starCount="70" />
+            <com.jem.fliptabs.FlipTab
+                android:id="@+id/flibTabSwitch"
+                android:layout_gravity="center"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                app:borderWidth="4dp"
+                app:flipAnimationDuration="400"
+                app:leftTabText="@string/forcastHours"
+                app:textColor="#8E3F3F"
+                app:highlightColor="@color/black"
+                app:removeDefaultPadding="false"
+                app:rightTabText="@string/forcastDaily"
+                app:startingTab="left"
+                app:wobbleAngle="3"
+                app:wobbleReturnAnimationDuration="200"
+                android:backgroundTint="@color/teal_700"/>
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/hourly_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-            <com.sofakingforever.stars.AnimatedStarsView
-                android:id="@+id/stars"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintBottom_toBottomOf="@+id/linearLayout1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:starsView_bigStarThreshold="8dp"
-                app:starsView_maxStarSize="16dp"
-                app:starsView_meteoritesEnabled="false"
-                app:starsView_minStarSize="8dp"
-                app:starsView_starColors="@array/star_colors_big"
-                app:starsView_starCount="10" />
-
-            <include
-                android:id="@+id/main_card"
-                layout="@layout/weather_item"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:layout_marginTop="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.497"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <LinearLayout
-                android:id="@+id/linearLayout1"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/daily_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/main_card">
+                android:visibility="gone"/>
 
-                <TextView
-                    android:id="@+id/seprator1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:fontFamily="@font/sanchez"
-                    android:text="@string/forcastHours" />
+        </LinearLayout>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/hourly_recycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+        <View
+            android:id="@+id/view1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout1"
+            app:layout_constraintVertical_bias="0.0" />
 
-                <TextView
-                    android:id="@+id/seprator2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:fontFamily="@font/sanchez"
-                    android:text="@string/forcastDaily" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/daily_recycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
-
-            <View
-                android:id="@+id/view1"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="2dp"
-                android:background="@android:color/darker_gray"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout1"
-                app:layout_constraintVertical_bias="0.0" />
-
-            <TextView
-                android:id="@+id/seprator3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:fontFamily="@font/sanchez"
-                android:text="@string/wind"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/view1" />
+        <TextView
+            android:id="@+id/seprator3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:fontFamily="@font/sanchez"
+            android:text="@string/wind"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view1" />
 
 
-            <com.github.ahmadnemati.wind.WindView
-                android:id="@+id/windview"
-                android:layout_width="match_parent"
-                android:layout_height="106dp"
-                app:barometerTickSpacing="9dp"
-                app:bigPoleX="38dp"
-                app:labelFontSize="12sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/seprator3"
-                app:numericFontSize="25sp"
-                app:poleBottomY="98dp"
-                app:pressureLineY="73dp"
-                app:pressureTextX="12dp"
-                app:pressureTextY="4dp"
-                app:smallPoleX="75dp"
-                app:windTextX="10dp"
-                app:windTextY="29dp" />
+        <com.github.ahmadnemati.wind.WindView
+            android:id="@+id/windview"
+            android:layout_width="match_parent"
+            android:layout_height="106dp"
+            app:barometerTickSpacing="9dp"
+            app:bigPoleX="38dp"
+            app:labelFontSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/seprator3"
+            app:numericFontSize="25sp"
+            app:poleBottomY="98dp"
+            app:pressureLineY="73dp"
+            app:pressureTextX="12dp"
+            app:pressureTextY="4dp"
+            app:smallPoleX="75dp"
+            app:windTextX="10dp"
+            app:windTextY="29dp" />
 
-            <View
-                android:id="@+id/view2"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="2dp"
-                android:background="@android:color/darker_gray"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/windview"
-                app:layout_constraintVertical_bias="0.0" />
+        <View
+            android:id="@+id/view2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/windview"
+            app:layout_constraintVertical_bias="0.0" />
 
-            <TextView
-                android:id="@+id/seprator4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:fontFamily="@font/sanchez"
-                android:text="@string/sunRiseSet"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/view2" />
+        <TextView
+            android:id="@+id/seprator4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:fontFamily="@font/sanchez"
+            android:text="@string/sunRiseSet"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view2" />
 
-            <View
-                android:id="@+id/view3"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="2dp"
-                android:background="@android:color/darker_gray"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/seprator4"
-                app:layout_constraintVertical_bias="0.0" />
+        <View
+            android:id="@+id/view3"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/seprator4"
+            app:layout_constraintVertical_bias="0.0" />
 
-            <com.amro.weathertastic.SunriseViewLibrary.SunriseSunsetView
-                android:id="@+id/ssv"
-                android:layout_width="269dp"
-                android:layout_height="62dp"
-                android:layout_margin="10dp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.496"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/view3"
-                app:ssv_label_horizontal_offset="10dp"
-                app:ssv_label_text_color="@color/black"
-                app:ssv_label_text_size="15sp"
-                app:ssv_label_vertical_offset="2dp"
-                app:ssv_shadow_color="@color/sunShadow"
-                app:ssv_sun_color="@color/sunColor"
-                app:ssv_sun_radius="7dp"
-                app:ssv_track_color="@color/teal_700"
-                app:ssv_track_width="3dp" />
+        <com.amro.weathertastic.ui.SunriseViewLibrary.SunriseSunsetView
+            android:id="@+id/ssv"
+            android:layout_width="269dp"
+            android:layout_height="62dp"
+            android:layout_margin="10dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view3"
+            app:ssv_label_horizontal_offset="10dp"
+            app:ssv_label_text_color="@color/black"
+            app:ssv_label_text_size="15sp"
+            app:ssv_label_vertical_offset="2dp"
+            app:ssv_shadow_color="@color/sunShadow"
+            app:ssv_sun_color="@color/sunColor"
+            app:ssv_sun_radius="7dp"
+            app:ssv_track_color="@color/teal_700"
+            app:ssv_track_width="3dp" />
 
-            <View
-                android:id="@+id/view4"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="2dp"
-                android:background="@android:color/darker_gray"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ssv"
-                app:layout_constraintVertical_bias="0.0" />
+        <View
+            android:id="@+id/view4"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="2dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ssv"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <com.github.matteobattilana.weather.WeatherView
+            android:id="@+id/weather_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lifeTime="3000"
+            app:fadeOutTime="3000"/>
 
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.core.widget.NestedScrollView>
+</androidx.core.widget.NestedScrollView>

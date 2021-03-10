@@ -75,7 +75,8 @@
             app:layout_constraintHorizontal_bias="0.122"
             app:layout_constraintStart_toEndOf="@+id/degree_min"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.442" />
+            app:layout_constraintVertical_bias="0.442"
+            android:layoutDirection="ltr"/>
 
         <TextView
             android:id="@+id/degree_min"
