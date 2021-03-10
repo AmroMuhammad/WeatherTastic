@@ -13,6 +13,7 @@
     <color name="sepratorNight">#F44336</color>
     <color name="sepratorDay">#000000</color>
     <color name="sunColor">#f9d71c</color>
+    <color name="sunShadow">#756A2F</color>
 
 
     <!-- Customizing colors for disabled days-->

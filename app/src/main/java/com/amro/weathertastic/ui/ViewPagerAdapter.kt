@@ -1,9 +1,7 @@
     package com.amro.weathertastic.ui
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.location.Geocoder
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +13,6 @@ import com.amro.weathertastic.model.entities.WeatherResponse
 import com.amro.weathertastic.utils.Constants
 import com.github.tianma8023.formatter.SunriseSunsetLabelFormatter
 import com.github.tianma8023.model.Time
-import java.io.Console
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -88,8 +85,8 @@ import kotlin.collections.ArrayList
             holder.binding.mainCard.tempDegreeTV.setImageResource(R.drawable.ic_fahrenheit)
         }
 
-//        holder.binding.ssv.sunriseTime = Time(sunRiseTime(position).substringBefore(":").toInt(), sunRiseTime(position).substringAfter(":").toInt());
-//        holder.binding.ssv.sunsetTime = Time(sunsetTime(position).substringBefore(":").toInt(), sunsetTime(position).substringAfter(":").toInt())
+        holder.binding.ssv.sunriseTime = Time(sunRiseTime(position).substringBefore(":").toInt(), sunRiseTime(position).substringAfter(":").toInt());
+        holder.binding.ssv.sunsetTime = Time(sunsetTime(position).substringBefore(":").toInt(), sunsetTime(position).substringAfter(":").toInt())
         holder.binding.ssv.labelFormatter = object: SunriseSunsetLabelFormatter {
             private fun formatLabel(time: Time):String {
                 return String.format(Locale.getDefault(), "%02dh %02dm", time.hour, time.minute);
@@ -103,10 +100,7 @@ import kotlin.collections.ArrayList
                 return formatLabel(sunset);
             }
         };
-        holder.binding.ssv.sunriseTime = Time(5,20);
-        holder.binding.ssv.sunsetTime = Time(19,20)
-        holder.binding.ssv.setRatio(5.5F)
-        holder.binding.ssv.startAnimate()
+        holder.binding.ssv.startAnimate(setCalnder(position))
 
     }
 
@@ -220,6 +214,12 @@ import kotlin.collections.ArrayList
                     return R.raw.clearsky
                 }
             }
+        }
+
+        private fun setCalnder(position: Int):Calendar{
+            val calendere = Calendar.getInstance()
+            calendere.timeInMillis = (list[position].current?.dt?.plus(list[position].timezoneOffset!!)?.minus(7200)?.toLong() ?: 10)*1000L
+            return calendere
         }
 
 }
