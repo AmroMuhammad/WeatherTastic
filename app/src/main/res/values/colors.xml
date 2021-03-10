@@ -12,7 +12,8 @@
     <color name="greyText">#E6E6E6</color>
     <color name="sepratorNight">#F44336</color>
     <color name="sepratorDay">#000000</color>
-    <color name="sunColor">#f9d71c</color>
+    <color name="sunColor">#FF9800</color>
+    <color name="sunShadow">#DCC658</color>
 
 
     <!-- Customizing colors for disabled days-->

@@ -1,21 +1,18 @@
     package com.amro.weathertastic.ui
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.location.Geocoder
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.amro.weathertastic.R
+import com.amro.weathertastic.SunriseViewLibrary.SimpleSunriseSunsetLabelFormatter
+import com.amro.weathertastic.SunriseViewLibrary.Time
 import com.amro.weathertastic.databinding.ItemPageBinding
 import com.amro.weathertastic.model.entities.WeatherResponse
 import com.amro.weathertastic.utils.Constants
-import com.github.tianma8023.formatter.SunriseSunsetLabelFormatter
-import com.github.tianma8023.model.Time
-import java.io.Console
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -88,25 +85,25 @@ import kotlin.collections.ArrayList
             holder.binding.mainCard.tempDegreeTV.setImageResource(R.drawable.ic_fahrenheit)
         }
 
-//        holder.binding.ssv.sunriseTime = Time(sunRiseTime(position).substringBefore(":").toInt(), sunRiseTime(position).substringAfter(":").toInt());
-//        holder.binding.ssv.sunsetTime = Time(sunsetTime(position).substringBefore(":").toInt(), sunsetTime(position).substringAfter(":").toInt())
-        holder.binding.ssv.labelFormatter = object: SunriseSunsetLabelFormatter {
+        holder.binding.ssv.sunriseTime = Time(sunRiseTime(position).substringBefore(":").toInt(), sunRiseTime(position).substringAfter(":").toInt());
+        holder.binding.ssv.sunsetTime = Time(sunsetTime(position).substringBefore(":").toInt(), sunsetTime(position).substringAfter(":").toInt())
+        holder.binding.ssv.labelFormatter = object: SimpleSunriseSunsetLabelFormatter() {
             private fun formatLabel(time: Time):String {
                 return String.format(Locale.getDefault(), "%02dh %02dm", time.hour, time.minute);
             }
 
             override fun formatSunriseLabel(sunrise: Time): String {
-                return formatLabel(sunrise);
+                return formatLabel(sunrise)
             }
 
             override fun formatSunsetLabel(sunset: Time): String {
-                return formatLabel(sunset);
+                return formatLabel(sunset)
             }
         };
         holder.binding.ssv.sunriseTime = Time(5,20);
         holder.binding.ssv.sunsetTime = Time(19,20)
         holder.binding.ssv.setRatio(5.5F)
-        holder.binding.ssv.startAnimate()
+        holder.binding.ssv.startAnimate(getTimeInCalender(position))
 
     }
 
@@ -148,6 +145,12 @@ import kotlin.collections.ArrayList
             calender.timeInMillis = (list[position].current?.dt?.plus(list[position].timezoneOffset!!)?.minus(7200)?.toLong() ?: 10)*1000L
             val dateFormat = SimpleDateFormat("EE, HH:MM");
             return dateFormat.format(calender.time)
+        }
+
+        private fun getTimeInCalender(position: Int):Calendar{
+            val calenderr = Calendar.getInstance()
+            calenderr.timeInMillis = (list[position].current?.dt?.plus(list[position].timezoneOffset!!)?.minus(7200)?.toLong() ?: 10)*1000L
+            return calenderr
         }
 
         private fun sunRiseTime(position: Int):String{

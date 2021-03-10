@@ -112,7 +112,7 @@ dependencies {
     implementation 'com.github.arcadefire:nice-spinner:1.4.4'
 
     //sunrise and sunset
-    implementation 'com.github.tianma8023:SunriseSunsetView:0.0.3'
+//    implementation 'com.github.tianma8023:SunriseSunsetView:0.0.2'
 
     compile 'com.github.MatteoBattilana:WeatherView:1.1.0'
 
