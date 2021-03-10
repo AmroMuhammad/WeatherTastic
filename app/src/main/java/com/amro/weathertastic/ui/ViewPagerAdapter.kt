@@ -99,10 +99,7 @@ import kotlin.collections.ArrayList
             override fun formatSunsetLabel(sunset: Time): String {
                 return formatLabel(sunset)
             }
-        };
-        holder.binding.ssv.sunriseTime = Time(5,20);
-        holder.binding.ssv.sunsetTime = Time(19,20)
-        holder.binding.ssv.setRatio(5.5F)
+        }
         holder.binding.ssv.startAnimate(getTimeInCalender(position))
 
     }
