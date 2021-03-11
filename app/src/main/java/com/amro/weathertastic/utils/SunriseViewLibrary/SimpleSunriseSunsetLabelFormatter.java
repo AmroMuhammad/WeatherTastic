@@ -1,4 +1,4 @@
-package com.amro.weathertastic.ui.SunriseViewLibrary;
+package com.amro.weathertastic.utils.SunriseViewLibrary;
 
 import java.util.Locale;
 

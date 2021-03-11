@@ -27,4 +27,6 @@ interface WeatherDao {
     @Query("SELECT * from WeatherResponse WHERE lon = :lon AND lat = :lat")
     fun getCurrentForBroadCast(lat:String,lon:String):WeatherResponse
 
+    @Query("SELECT * from WeatherResponse Order by id")
+    fun getFavDataForRefresh():List<WeatherResponse>
 }

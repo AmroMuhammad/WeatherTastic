@@ -19,7 +19,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WeatherTastic">
         <receiver
-            android:name=".model.AlarmReceiver"
+            android:name=".utils.AlarmReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>

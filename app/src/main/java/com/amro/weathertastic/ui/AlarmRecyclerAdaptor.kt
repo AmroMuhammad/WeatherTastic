@@ -11,7 +11,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.amro.weathertastic.R
 import com.amro.weathertastic.databinding.AlarmItemBinding
-import com.amro.weathertastic.model.AlarmReceiver
+import com.amro.weathertastic.utils.AlarmReceiver
 import com.amro.weathertastic.model.alarmEntities.AlertModel
 import com.amro.weathertastic.viewModel.AlarmViewModel
 
@@ -54,7 +54,7 @@ class AlarmRecyclerAdaptor(val list: ArrayList<AlertModel>,val viewModel: AlarmV
     }
 
     private fun unregisterAlarm(id:Int){
-            val notifyIntent = Intent(context,AlarmReceiver::class.java)
+            val notifyIntent = Intent(context, AlarmReceiver::class.java)
             var pendingIntent = PendingIntent.getBroadcast(context,id,notifyIntent,PendingIntent.FLAG_UPDATE_CURRENT)
             val alarmManager = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             if (alarmManager != null) {

@@ -12,4 +12,12 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     fun fetchDailyData():LiveData<List<WeatherResponse>>{
         return repository.loadAllData()
     }
+
+    fun refreshFavData(lat:String,lon:String){
+        repository.refreshFavData(lat,lon)
+    }
+
+    fun getUnrefreshedData():List<WeatherResponse>?{
+        return repository.fetchFavFromLocalDatabase()
+    }
 }

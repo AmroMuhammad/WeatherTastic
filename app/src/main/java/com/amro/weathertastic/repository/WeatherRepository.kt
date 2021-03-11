@@ -102,5 +102,28 @@ class WeatherRepository(application: Application) {
         }
     }
 
+    fun refreshFavData(lat:String,long:String){
+        CoroutineScope(Dispatchers.IO).launch {
+                try{
+                        val response = remoteDataSource.getWeatherService().getAllData(lat, long, Constants.EXCLUDE_MINUTELY, units, language, Constants.WEATHER_API_KEY)
+                        if (response.isSuccessful) {
+                            localDataSource.insertDefault(response.body())
+                        }
+                }catch(e:Exception){
+                    Log.i(Constants.LOG_TAG,e.message.toString())
+                }
+            }
+    }
+
+    fun fetchFavFromLocalDatabase():List<WeatherResponse>?{
+        var unrefreshedList:List<WeatherResponse>? = null
+        runBlocking(Dispatchers.IO){
+            launch {
+                unrefreshedList = localDataSource.getFavDataForRefresh()
+            }
+        }
+        return unrefreshedList
+    }
+
 
 }

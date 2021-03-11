@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.amro.weathertastic.R
 import com.amro.weathertastic.viewModel.AlarmViewModel
 import com.amro.weathertastic.databinding.AlarmFragmentBinding
-import com.amro.weathertastic.model.AlarmReceiver
+import com.amro.weathertastic.utils.AlarmReceiver
 import com.amro.weathertastic.model.alarmEntities.AlertModel
 import com.amro.weathertastic.utils.Constants
 import java.text.SimpleDateFormat
@@ -139,7 +139,7 @@ class AlarmFragment : Fragment() {
 
 
     private fun registerAll(){
-        val notifyIntent = Intent(context,AlarmReceiver::class.java)
+        val notifyIntent = Intent(context, AlarmReceiver::class.java)
         val alarmManager = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         for(element in alarmList){
             if(Calendar.getInstance().timeInMillis >= calenderEvent.timeInMillis){
@@ -184,7 +184,7 @@ class AlarmFragment : Fragment() {
 
     private fun unregisterAll(){
         for(element in alarmList){
-        val notifyIntent = Intent(context,AlarmReceiver::class.java)
+        val notifyIntent = Intent(context, AlarmReceiver::class.java)
         var pendingIntent = PendingIntent.getBroadcast(context,element.id,notifyIntent,PendingIntent.FLAG_UPDATE_CURRENT)
         val alarmManager = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         if (alarmManager != null) {

@@ -19,6 +19,7 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager2.widget.ViewPager2
 import com.amro.weathertastic.R
 import com.amro.weathertastic.databinding.HomeFragmentBinding
@@ -52,8 +53,8 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         //initialize ViewPager
         binding.viewPager2.adapter = viewPagerAdapter
-
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+        refreshFav()
         viewModel.fetchDailyData().observe(viewLifecycleOwner, {
             if(it != null) {
                 Log.i(Constants.LOG_TAG,"Here")
@@ -61,9 +62,26 @@ class HomeFragment : Fragment() {
                 binding.indicator.setViewPager(binding.viewPager2)
             }
         })
+
+        binding.homeRefreshLayout.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
+            refreshFav()
+            binding.homeRefreshLayout.isRefreshing = false
+        })
     }
 
 
+    fun refreshFav(){
+        var list = viewModel.getUnrefreshedData()
+        if(list != null){
+            for(element in list){
+                viewModel.refreshFavData(element.lat.toString(),element.lon.toString())
+                Log.i(Constants.LOG_TAG,element.timezone.toString())
+            }
+        }else{
+            Log.i(Constants.LOG_TAG,"not updated")
+
+        }
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

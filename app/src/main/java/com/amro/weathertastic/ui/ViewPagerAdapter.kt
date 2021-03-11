@@ -1,7 +1,6 @@
     package com.amro.weathertastic.ui
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.location.Geocoder
 import android.view.LayoutInflater
 import android.view.View
@@ -9,8 +8,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.amro.weathertastic.R
-import com.amro.weathertastic.ui.SunriseViewLibrary.SimpleSunriseSunsetLabelFormatter
-import com.amro.weathertastic.ui.SunriseViewLibrary.Time
+import com.amro.weathertastic.utils.SunriseViewLibrary.SimpleSunriseSunsetLabelFormatter
+import com.amro.weathertastic.utils.SunriseViewLibrary.Time
 import com.amro.weathertastic.databinding.ItemPageBinding
 import com.amro.weathertastic.model.entities.WeatherResponse
 import com.amro.weathertastic.utils.Constants

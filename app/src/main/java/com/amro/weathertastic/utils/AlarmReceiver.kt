@@ -1,4 +1,4 @@
-package com.amro.weathertastic.model
+package com.amro.weathertastic.utils
 
 import android.R
 import android.app.*
@@ -7,15 +7,12 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.util.Log
-import android.widget.Toast
-import androidx.media.app.NotificationCompat
 import com.amro.weathertastic.model.alarmEntities.AlertDataSource
 import com.amro.weathertastic.model.alarmEntities.AlertModel
 import com.amro.weathertastic.model.entities.DailyItem
 import com.amro.weathertastic.model.entities.WeatherResponse
 import com.amro.weathertastic.model.localDataSource.LocalDataSource
 import com.amro.weathertastic.repository.WeatherRepository
-import com.amro.weathertastic.utils.Constants
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
