@@ -16,6 +16,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.TimePicker
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.amro.weathertastic.R
@@ -48,6 +49,7 @@ class AlarmFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
         viewModel = ViewModelProvider(this).get(AlarmViewModel::class.java)
         alarmAdaptor = AlarmRecyclerAdaptor(ArrayList(),viewModel)
         initRecyclers()

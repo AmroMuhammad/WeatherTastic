@@ -14,6 +14,8 @@
     <color name="sepratorDay">#000000</color>
     <color name="sunColor">#FF9800</color>
     <color name="sunShadow">#DCC658</color>
+    <color name="menuColor1">#000A2F</color>
+    <color name="menuColor2">#E4931A</color>
 
 
     <!-- Customizing colors for disabled days-->

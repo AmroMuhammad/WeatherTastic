@@ -30,7 +30,6 @@ import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
-import me.relex.circleindicator.CircleIndicator3
 import java.math.BigDecimal
 import java.math.RoundingMode
 
@@ -52,6 +51,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //initialize ViewPager
+        (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
         binding.viewPager2.adapter = viewPagerAdapter
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         refreshFav()
@@ -59,7 +59,7 @@ class HomeFragment : Fragment() {
             if(it != null) {
                 Log.i(Constants.LOG_TAG,"Here")
                 viewPagerAdapter.setIncomingList(it.reversed())
-                binding.indicator.setViewPager(binding.viewPager2)
+                binding.indicator.setViewPager2(binding.viewPager2)
             }
         })
 

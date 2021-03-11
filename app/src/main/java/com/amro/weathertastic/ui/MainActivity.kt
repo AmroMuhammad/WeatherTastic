@@ -23,12 +23,14 @@ import androidx.navigation.ui.setupWithNavController
 import com.amro.weathertastic.R
 import com.amro.weathertastic.databinding.ActivityMainBinding
 import com.amro.weathertastic.utils.Constants
+import java.text.SimpleDateFormat
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
+//    private val
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setAppLocale(getSharedPreferences(Constants.SHARED_PREF_SETTINGS, Context.MODE_PRIVATE).getString(Constants.LANGUAGE,"en")!!)
@@ -40,8 +42,8 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.findNavController()
 
         appBarConfiguration = AppBarConfiguration(setOf(R.id.homeFragment, R.id.favouriteFragment, R.id.alarmFragment))
-        setSupportActionBar(binding.toolbar)
-        setupActionBarWithNavController(navController, appBarConfiguration)
+//        setSupportActionBar(binding.toolbar)
+//        setupActionBarWithNavController(navController, appBarConfiguration)
 
         //inflate and connect Bottom Navigation view to Nav Comp
         binding.bottomNav.setupWithNavController(navController)
@@ -53,9 +55,10 @@ class MainActivity : AppCompatActivity() {
             }else{
                 showErrorDialog(this)
             }
+        } else{
         }
-        else{
-        }
+
+
     }
 
     private fun showErrorDialog(context: Context){
@@ -66,7 +69,6 @@ class MainActivity : AppCompatActivity() {
         builder.setPositiveButton(R.string.Exit) { _, _ ->
             finish()
         }
-
         builder.show()
     }
 
@@ -210,5 +212,36 @@ class MainActivity : AppCompatActivity() {
         editor?.putString(Constants.UNITS,Constants.UNITS_VALUE)?.apply()
     }
 
+    private fun dayOrNight(currentTime: String,sunrise:String,sunset:String): String {
+        val currentNum = currentTime.substringAfter(" ").substringBefore(":")
+        val sunriseNum = sunrise.substringBefore(":")
+        val sunsetNum = sunset.substringBefore(":")
+        if(currentNum in sunriseNum..sunsetNum){
+            return "day"
+        }else{
+            return "night"
+        }
+    }
+
+//    private fun sunRiseTime(position: Int):String{
+//        val calender = Calendar.getInstance()
+//        calender.timeInMillis = (list[position].current?.sunrise?.plus(list[position].timezoneOffset!!)?.minus(7200)?.toLong() ?: 10)*1000L
+//        val dateFormat = SimpleDateFormat("HH:MM",Locale(savedLang));
+//        return dateFormat.format(calender.time)
+//    }
+//
+//    private fun sunsetTime(position: Int):String{
+//        val calender = Calendar.getInstance()
+//        calender.timeInMillis = (list[position].current?.sunset?.plus(list[position].timezoneOffset!!)?.minus(7200)?.toLong() ?: 10)*1000L
+//        val dateFormat = SimpleDateFormat("HH:MM",Locale(savedLang));
+//        return dateFormat.format(calender.time)
+//    }
+//
+//    private fun getDayTime(position: Int):String{
+//        val calender = Calendar.getInstance()
+//        calender.timeInMillis = (list[position].current?.dt?.plus(list[position].timezoneOffset!!)?.minus(7200)?.toLong() ?: 10)*1000L
+//        val dateFormat = SimpleDateFormat("EE, HH:MM",Locale(savedLang));
+//        return dateFormat.format(calender.time)
+//    }
 
 }

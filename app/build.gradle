@@ -102,7 +102,7 @@ dependencies {
 
     //view pager and circle indicator
     implementation "androidx.viewpager2:viewpager2:1.0.0"
-    implementation 'me.relex:circleindicator:2.1.6'
+//    implementation 'me.relex:circleindicator:2.1.6'
 
 
     //day picker
@@ -129,6 +129,7 @@ dependencies {
     //flip button
     implementation 'com.github.Chrisvin:FlipTabs:v1.5'
 
+    implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:4.1.2'
 
 
 }
