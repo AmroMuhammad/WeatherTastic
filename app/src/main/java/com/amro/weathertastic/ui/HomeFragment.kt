@@ -60,10 +60,17 @@ class HomeFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 //        refreshFav()
         viewModel.fetchDailyData().observe(viewLifecycleOwner, {
-            if(it != null) {
-                Log.i(Constants.LOG_TAG,"Here")
-                viewPagerAdapter.setIncomingList(it.reversed())
-                binding.indicator.setViewPager2(binding.viewPager2)
+            if(it != null ) {
+                if(! it.isEmpty()) {
+                    Log.i(Constants.LOG_TAG, "Here")
+                    viewPagerAdapter.setIncomingList(it.reversed())
+                    binding.indicator.setViewPager2(binding.viewPager2)
+                    binding.backgroundNoData.visibility = View.GONE
+                }else{
+                binding.backgroundNoData.visibility = View.VISIBLE
+                }
+            }else{
+                binding.backgroundNoData.visibility = View.VISIBLE
             }
         })
 
@@ -83,7 +90,6 @@ class HomeFragment : Fragment() {
             }
         }else{
             Log.i(Constants.LOG_TAG,"not updated")
-
         }
     }
 
@@ -177,16 +183,6 @@ class HomeFragment : Fragment() {
         builder.setNegativeButton(R.string.ignore) { _, _ ->
         }
         builder.show()
-    }
-
-    fun Toolbar.changeToolbarFont(){
-        for (i in 0 until childCount) {
-            val view = getChildAt(i)
-            if (view is TextView && view.text == title) {
-                view.typeface = Typeface.createFromAsset(view.context.assets, "font/sanchez.xml")
-                break
-            }
-        }
     }
 
 }

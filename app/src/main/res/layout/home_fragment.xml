@@ -8,6 +8,15 @@
     android:layout_height="match_parent"
     android:background="#00FFFFFF">
 
+    <ImageView
+        android:layout_marginTop="60dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/nodata"
+        android:visibility="gone"
+        android:id="@+id/backgroundNoData"
+        android:scaleType="centerCrop"/>
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/homeRefreshLayout"
         android:layout_width="match_parent"

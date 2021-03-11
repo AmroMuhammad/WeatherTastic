@@ -50,10 +50,16 @@ class FavouriteFragment : Fragment() {
         viewModel.fetchFavouriteList("0","0").observe(viewLifecycleOwner, {
             Log.i(Constants.LOG_TAG,"in livedata")
                 if(it != null){
-                    Log.i(Constants.LOG_TAG,"in")
-                    //binding.textView3.text = it.size.toString()
-                    favouriteAdapter.setIncomingList(it.reversed())
-
+                    if(!it.isEmpty()){
+                        Log.i(Constants.LOG_TAG,"in")
+                        //binding.textView3.text = it.size.toString()
+                        favouriteAdapter.setIncomingList(it.reversed())
+                        binding.backgroundNoData.visibility = View.GONE
+                    }else{
+                     binding.backgroundNoData.visibility = View.VISIBLE
+                    }
+                }else{
+                    binding.backgroundNoData.visibility = View.VISIBLE
                 }
             })
         binding.favFloatingButton.setOnClickListener {

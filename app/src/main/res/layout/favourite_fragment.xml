@@ -23,6 +23,15 @@
         android:layout_height="match_parent"
         android:layout_marginTop="60dp"/>
 
+    <ImageView
+        android:layout_marginTop="60dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/nodata"
+        android:visibility="gone"
+        android:id="@+id/backgroundNoData"
+        android:scaleType="centerCrop"/>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/favFloatingButton"
         android:layout_width="wrap_content"

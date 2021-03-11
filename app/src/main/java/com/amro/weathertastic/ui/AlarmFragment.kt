@@ -67,9 +67,18 @@ class AlarmFragment : Fragment() {
 
         viewModel.getAllData().observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             if(it!= null){
+                if(! it.isEmpty()){
                 Toast.makeText(requireContext(),it.toString(),Toast.LENGTH_SHORT).show()
                 alarmList.addAll(it)
                 alarmAdaptor.setIncomingList(it)
+                    binding.backgroundNoData.visibility = View.GONE
+
+                }else{
+                    binding.backgroundNoData.visibility = View.VISIBLE
+
+                }
+            }else{
+                binding.backgroundNoData.visibility = View.VISIBLE
             }
 
         })

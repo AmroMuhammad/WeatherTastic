@@ -22,7 +22,7 @@ object Constants {
     const val LANGUAGE = "language"
     const val UNITS = "units"
     const val LANGUAGE_VALUE = "en"
-    const val UNITS_VALUE = "default"
+    const val UNITS_VALUE = "metric"
     const val HOUR_24_IN_SECONDS = 86400000
     const val HOUR_48_IN_SECONDS = 172800000
 
