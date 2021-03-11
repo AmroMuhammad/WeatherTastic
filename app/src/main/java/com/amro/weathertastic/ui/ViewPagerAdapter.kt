@@ -2,6 +2,7 @@
 
 import android.content.Context
 import android.location.Geocoder
+import android.opengl.Visibility
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -60,12 +61,10 @@ import kotlin.collections.ArrayList
             )
             if (dayOrNight(getDayTime(position), sunRiseTime(position), sunsetTime(position)) == "day"
             ) {
-                holder.binding.starsWhite.onStop()
-                holder.binding.stars.onStop()
                 holder.binding.stars.visibility = View.GONE
                 holder.binding.starsWhite.visibility = View.GONE
-                holder.binding.HomeConstraintLayout.background =
-                    context.resources.getDrawable(R.drawable.gradient_day)
+//                holder.binding.HomeConstraintLayout.background = context.resources.getDrawable(R.drawable.gradient_day)
+                holder.binding.gifBG.visibility = View.VISIBLE
 //                holder.binding.seprator1.setTextColor(context.resources.getColor(R.color.sepratorDay))
 //                holder.binding.seprator2.setTextColor(context.resources.getColor(R.color.sepratorDay))
                 holder.binding.seprator3.setTextColor(context.resources.getColor(R.color.sepratorDay))
@@ -78,8 +77,8 @@ import kotlin.collections.ArrayList
                 holder.binding.stars.onStart()
                 holder.binding.stars.visibility = View.VISIBLE
                 holder.binding.starsWhite.visibility = View.VISIBLE
-                holder.binding.HomeConstraintLayout.background =
-                    context.resources.getDrawable(R.drawable.gradient_sky)
+                holder.binding.HomeConstraintLayout.background = context.resources.getDrawable(R.drawable.gradient_sky)
+                holder.binding.gifBG.visibility = View.GONE
 //                holder.binding.seprator1.setTextColor(context.resources.getColor(R.color.sepratorNight))
 //                holder.binding.seprator2.setTextColor(context.resources.getColor(R.color.sepratorNight))
                 holder.binding.seprator3.setTextColor(context.resources.getColor(R.color.sepratorNight))

@@ -5,8 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.MainActivity"
-    android:background="@drawable/gradient_day"
-    android:id="@+id/relativeMain">
+    android:background="@drawable/gradient_sky"
+    android:id="@+id/relativeMain"
+    >
 
 
 <!--    <androidx.appcompat.widget.Toolbar-->
@@ -18,6 +19,13 @@
 <!--        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"-->
 <!--        app:popupTheme="@color/black"-->
 <!--        />-->
+
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/gifBG"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/summer"
+        android:scaleType="fitXY"/>
 
     <com.sofakingforever.stars.AnimatedStarsView
         android:id="@+id/stars_white"

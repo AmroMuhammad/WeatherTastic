@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.res.Configuration
 import android.content.res.Resources
+import android.graphics.drawable.ColorDrawable
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
@@ -11,6 +12,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -36,7 +38,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setAppLocale(getSharedPreferences(Constants.SHARED_PREF_SETTINGS, Context.MODE_PRIVATE).getString(Constants.LANGUAGE,"en")!!)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    //hide status bar
+    getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+    setContentView(binding.root)
 
         //inflate toolbar
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
@@ -63,13 +68,13 @@ class MainActivity : AppCompatActivity() {
             binding.stars.onStop()
             binding.stars.visibility = View.GONE
             binding.starsWhite.visibility = View.GONE
-            binding.relativeMain.background = resources.getDrawable(R.drawable.gradient_day)
+            binding.gifBG.visibility = View.VISIBLE
         }else{
             binding.starsWhite.onStart()
             binding.stars.onStart()
             binding.stars.visibility = View.VISIBLE
             binding.starsWhite.visibility = View.VISIBLE
-            binding.relativeMain.background = resources.getDrawable(R.drawable.gradient_sky)
+            binding.gifBG.visibility = View.GONE
 
         }
 

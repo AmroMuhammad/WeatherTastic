@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/homeRefreshLayout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.HomeFragment"
-    android:background="#00FFFFFF">
-
-<FrameLayout
     android:id="@+id/HomeConstraintLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#00FFFFFF">
 
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/homeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.HomeFragment"
+        android:background="#00FFFFFF">
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/view_pager2"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
         android:layout_gravity="center|top"
@@ -33,7 +36,11 @@
         android:backgroundTint="#00F44336"
         />
 
-
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/trans">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -42,9 +49,8 @@
         android:background="#00F4F4F4"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        />
+        app:layout_scrollFlags="scroll|enterAlways" />
 
+    </com.google.android.material.appbar.AppBarLayout>
 
-
-</FrameLayout>
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

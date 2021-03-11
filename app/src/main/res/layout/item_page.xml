@@ -5,7 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/gifBG"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/summer"
+            android:scaleType="fitXY"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/HomeConstraintLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -220,5 +231,9 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    </FrameLayout>
 
 </androidx.core.widget.NestedScrollView>

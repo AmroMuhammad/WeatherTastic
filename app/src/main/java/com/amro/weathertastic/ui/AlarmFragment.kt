@@ -91,6 +91,7 @@ class AlarmFragment : Fragment() {
                 binding.include.cardView2.visibility = View.GONE
                 binding.include.groupRB.visibility = View.GONE
                 sharedPref?.edit()?.putBoolean(Constants.isSwitchOn,true)?.apply()
+                binding.favFloatingButton.visibility = View.GONE
             }else{
                 Toast.makeText(requireContext(),"Alarm is Off",Toast.LENGTH_SHORT).show()
                 binding.include.alarmStateTV.text = resources.getString(R.string.alarmOff)
@@ -99,6 +100,7 @@ class AlarmFragment : Fragment() {
                 binding.include.alarmTimeTV.text = "--:--"
                 unregisterAll()
                 sharedPref?.edit()?.putBoolean(Constants.isSwitchOn,false)?.apply()
+                binding.favFloatingButton.visibility = View.VISIBLE
             }
         }
 
