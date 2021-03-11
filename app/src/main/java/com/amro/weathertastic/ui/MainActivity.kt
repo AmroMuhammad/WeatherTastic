@@ -63,19 +63,20 @@ class MainActivity : AppCompatActivity() {
             }
         } else{
         }
-        if(dayOrNight(getDayTime(),"06:00","17:00") == "day"){
+        if(dayOrNight(getDayTime(),"06:00","17:00") == "day" ){
             binding.starsWhite.onStop()
             binding.stars.onStop()
             binding.stars.visibility = View.GONE
             binding.starsWhite.visibility = View.GONE
             binding.gifBG.visibility = View.VISIBLE
+            Log.i(Constants.LOG_TAG, "day")
         }else{
             binding.starsWhite.onStart()
             binding.stars.onStart()
             binding.stars.visibility = View.VISIBLE
             binding.starsWhite.visibility = View.VISIBLE
             binding.gifBG.visibility = View.GONE
-
+            Log.i(Constants.LOG_TAG, "night")
         }
 
     }
@@ -232,10 +233,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun dayOrNight(currentTime: String,sunrise:String,sunset:String): String {
-        val currentNum = currentTime.substringAfter(" ").substringBefore(":")
-        val sunriseNum = sunrise.substringBefore(":")
-        val sunsetNum = sunset.substringBefore(":")
-        if(currentNum in sunriseNum..sunsetNum){
+        val currentNum = currentTime.substringBefore(":").toInt()
+        val sunriseNum = sunrise.substringBefore(":").toInt()
+        val sunsetNum = sunset.substringBefore(":").toInt()
+        if(currentNum in sunriseNum until sunsetNum){
             return "day"
         }else{
             return "night"
@@ -246,7 +247,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun getDayTime():String{
         val calender = Calendar.getInstance()
-        val dateFormat = SimpleDateFormat("EE, HH:MM",);
+        val dateFormat = SimpleDateFormat("HH:MM", Locale("en"));
+        Log.i(Constants.LOG_TAG, "${dateFormat.format(calender.time)}")
         return dateFormat.format(calender.time)
     }
 

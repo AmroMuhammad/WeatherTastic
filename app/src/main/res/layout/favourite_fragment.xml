@@ -39,12 +39,13 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="20dp"
         android:src="@drawable/ic_add"
+        android:backgroundTint="@color/greyCard"
         />
 
     <androidx.fragment.app.FragmentContainerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/purple_500"
+        android:background="@color/greyCard"
         android:id="@+id/search_fragment_container"
         android:visibility="gone"/>
 

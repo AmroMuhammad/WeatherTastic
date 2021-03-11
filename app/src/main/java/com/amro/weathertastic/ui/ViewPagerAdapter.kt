@@ -70,7 +70,7 @@ import kotlin.collections.ArrayList
                 holder.binding.seprator3.setTextColor(context.resources.getColor(R.color.sepratorDay))
                 holder.binding.seprator4.setTextColor(context.resources.getColor(R.color.sepratorDay))
                 holder.binding.flibTabSwitch.setOverallColor(context.resources.getColor(R.color.sepratorDay))
-
+                holder.binding.windview.textColor = context.resources.getColor(R.color.sepratorDay)
 
             } else {
                 holder.binding.starsWhite.onStart()
@@ -84,6 +84,7 @@ import kotlin.collections.ArrayList
                 holder.binding.seprator3.setTextColor(context.resources.getColor(R.color.sepratorNight))
                 holder.binding.seprator4.setTextColor(context.resources.getColor(R.color.sepratorNight))
                 holder.binding.flibTabSwitch.setOverallColor(context.resources.getColor(R.color.sepratorNight))
+                holder.binding.windview.textColor = context.resources.getColor(R.color.sepratorNight)
 
             }
 

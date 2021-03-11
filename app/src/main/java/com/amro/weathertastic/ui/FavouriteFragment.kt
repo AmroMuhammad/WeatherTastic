@@ -63,6 +63,7 @@ class FavouriteFragment : Fragment() {
                 }
             })
         binding.favFloatingButton.setOnClickListener {
+            binding.favFloatingButton.visibility = View.GONE
             showAutoCompleteBar()
         }
     }
@@ -92,12 +93,14 @@ class FavouriteFragment : Fragment() {
                 viewModel.fetchFavouriteList(latDecimal.toString(),lonDecimal.toString())
                 activity?.supportFragmentManager?.beginTransaction()?.remove(autocompleteFragment)?.commit()
                 binding.searchFragmentContainer.visibility= View.GONE
+                binding.favFloatingButton.visibility = View.VISIBLE
             }
 
             override fun onCancel() {
                 Log.i(Constants.LOG_TAG,"cancel")
                 activity?.supportFragmentManager?.beginTransaction()?.remove(autocompleteFragment)?.commit()
                 binding.searchFragmentContainer.visibility= View.GONE
+                binding.favFloatingButton.visibility = View.VISIBLE
             }
         })
     }
