@@ -81,12 +81,11 @@
             android:id="@+id/temp_degreeTV"
             android:layout_width="20dp"
             android:layout_height="20dp"
+            android:layout_marginStart="128dp"
             android:layoutDirection="ltr"
             android:src="@drawable/ic_celsius"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.657"
-            app:layout_constraintStart_toEndOf="@+id/degree_max"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.076" />
 

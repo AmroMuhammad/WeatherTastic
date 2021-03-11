@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.MainActivity"
-    android:background="@drawable/gradient_day">
+    android:background="@drawable/gradient_day"
+    android:id="@+id/relativeMain">
 
 
 <!--    <androidx.appcompat.widget.Toolbar-->
@@ -18,12 +19,41 @@
 <!--        app:popupTheme="@color/black"-->
 <!--        />-->
 
+    <com.sofakingforever.stars.AnimatedStarsView
+        android:id="@+id/stars_white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:starsView_bigStarThreshold="20dp"
+        app:starsView_maxStarSize="10dp"
+        app:starsView_meteoritesColors="@array/meteorites_colors"
+        app:starsView_meteoritesEnabled="true"
+        app:starsView_meteoritesInterval="1000"
+        app:starsView_minStarSize="1dp"
+        app:starsView_starColors="@array/star_colors_small"
+        app:starsView_starCount="70" />
+
+    <com.sofakingforever.stars.AnimatedStarsView
+        android:id="@+id/stars"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:starsView_bigStarThreshold="8dp"
+        app:starsView_maxStarSize="16dp"
+        app:starsView_meteoritesEnabled="false"
+        app:starsView_minStarSize="8dp"
+        app:starsView_starColors="@array/star_colors_big"
+        app:starsView_starCount="10" />
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbar"
         app:defaultNavHost="true"
         android:layout_above="@id/bottomNav"
         app:navGraph="@navigation/nav_graph"/>

@@ -16,11 +16,6 @@
         android:label="@string/favourite"
         tools:layout="@layout/favourite_fragment" />
     <fragment
-        android:id="@+id/settingsFragment"
-        android:name="com.amro.weathertastic.ui.SettingsFragment"
-        android:label="Settings"
-        tools:layout="@layout/settings_fragment" />
-    <fragment
         android:id="@+id/alarmFragment"
         android:name="com.amro.weathertastic.ui.AlarmFragment"
         android:label="@string/alarm"

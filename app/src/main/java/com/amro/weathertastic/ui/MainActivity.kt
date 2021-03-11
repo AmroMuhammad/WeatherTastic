@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -57,7 +58,20 @@ class MainActivity : AppCompatActivity() {
             }
         } else{
         }
+        if(dayOrNight(getDayTime(),"06:00","17:00") == "day"){
+            binding.starsWhite.onStop()
+            binding.stars.onStop()
+            binding.stars.visibility = View.GONE
+            binding.starsWhite.visibility = View.GONE
+            binding.relativeMain.background = resources.getDrawable(R.drawable.gradient_day)
+        }else{
+            binding.starsWhite.onStart()
+            binding.stars.onStart()
+            binding.stars.visibility = View.VISIBLE
+            binding.starsWhite.visibility = View.VISIBLE
+            binding.relativeMain.background = resources.getDrawable(R.drawable.gradient_sky)
 
+        }
 
     }
 
@@ -115,7 +129,7 @@ class MainActivity : AppCompatActivity() {
         } else if(item.itemId == R.id.changeUnitsMenuItem) {
             showUnitsOptionsDialog()
             true
-        }else{ item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
+        }else{  super.onOptionsItemSelected(item)
         }
     }
 
@@ -153,10 +167,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showUnitsOptionsDialog() {
-        var newUnit = "default"
-        val list = arrayOf("default","metric","imperial")
+        var newUnit = "metric"
+        val list = arrayOf("metric","imperial")
         val sharedPref = getSharedPreferences(Constants.SHARED_PREF_SETTINGS, MODE_PRIVATE)
-        val lastUnit:String = if(sharedPref.getString(Constants.UNITS,"default") == "default"){ "default" }else if(sharedPref.getString(Constants.UNITS,"default") == "metric"){"metric"}else{"imperial"}
+        val lastUnit:String = if(sharedPref.getString(Constants.UNITS,"metric") == "metric"){ "metric" }else{"imperial"}
         val selectedUnitNum = list.indexOf(lastUnit)
         val builder = AlertDialog.Builder(this)
         with(builder){
@@ -184,13 +198,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-//    private fun setAppLocale(localeCode: String){
-//        val resources = resources;
-//        val dm = resources.getDisplayMetrics()
-//        val config = resources.getConfiguration()
-//        config.setLocale(Locale(localeCode.toLowerCase()));
-//        resources.updateConfiguration(config, dm);
-//    }
+ /*   private fun setAppLocale(localeCode: String){
+        val resources = resources;
+        val dm = resources.getDisplayMetrics()
+        val config = resources.getConfiguration()
+        config.setLocale(Locale(localeCode.toLowerCase()));
+        resources.updateConfiguration(config, dm);
+    }*/
 
     fun setAppLocale(languageCode: String?) {
         val locale = Locale(languageCode)
@@ -223,25 +237,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-//    private fun sunRiseTime(position: Int):String{
-//        val calender = Calendar.getInstance()
-//        calender.timeInMillis = (list[position].current?.sunrise?.plus(list[position].timezoneOffset!!)?.minus(7200)?.toLong() ?: 10)*1000L
-//        val dateFormat = SimpleDateFormat("HH:MM",Locale(savedLang));
-//        return dateFormat.format(calender.time)
-//    }
-//
-//    private fun sunsetTime(position: Int):String{
-//        val calender = Calendar.getInstance()
-//        calender.timeInMillis = (list[position].current?.sunset?.plus(list[position].timezoneOffset!!)?.minus(7200)?.toLong() ?: 10)*1000L
-//        val dateFormat = SimpleDateFormat("HH:MM",Locale(savedLang));
-//        return dateFormat.format(calender.time)
-//    }
-//
-//    private fun getDayTime(position: Int):String{
-//        val calender = Calendar.getInstance()
-//        calender.timeInMillis = (list[position].current?.dt?.plus(list[position].timezoneOffset!!)?.minus(7200)?.toLong() ?: 10)*1000L
-//        val dateFormat = SimpleDateFormat("EE, HH:MM",Locale(savedLang));
-//        return dateFormat.format(calender.time)
-//    }
+
+
+    private fun getDayTime():String{
+        val calender = Calendar.getInstance()
+        val dateFormat = SimpleDateFormat("EE, HH:MM",);
+        return dateFormat.format(calender.time)
+    }
 
 }

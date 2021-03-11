@@ -27,13 +27,13 @@ class DailyRecyclerAdapter(val list : List<DailyItem?>, private val timezoneOffs
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        var araNum = NumberFormat.getInstance(Locale(savedLang)).format(list[position]?.temp?.max);
+        var araNum = NumberFormat.getInstance(Locale(savedLang)).format(list[position]?.temp?.max?.toInt());
         holder.binding.degreeMax.text = araNum.toString()
-        araNum = NumberFormat.getInstance(Locale(savedLang)).format(list[position]?.temp?.min);
+        araNum = NumberFormat.getInstance(Locale(savedLang)).format(list[position]?.temp?.min?.toInt());
         holder.binding.degreeMin.text = araNum.toString()
         holder.binding.condTV.text = list[position]?.weather?.get(0)?.description.toString()
         holder.binding.cityTimeTV.text = getDayTime(position)
-        araNum = NumberFormat.getInstance(Locale(savedLang)).format(list[position]?.windSpeed);
+        araNum = NumberFormat.getInstance(Locale(savedLang)).format(list[position]?.windSpeed?.toInt());
         holder.binding.windValueTV.text = araNum.toString()
         araNum = NumberFormat.getInstance(Locale(savedLang)).format(list[position]?.clouds);
         holder.binding.cloudValueTV.text = araNum.toString()

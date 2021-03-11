@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Typeface
 import android.location.LocationManager
 import android.os.Bundle
 import android.os.Looper
@@ -13,8 +14,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -52,9 +55,10 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         //initialize ViewPager
         (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
+        binding.toolbar.setTitleTextAppearance(context,R.style.SanchezTextAppearance)
         binding.viewPager2.adapter = viewPagerAdapter
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
-        refreshFav()
+//        refreshFav()
         viewModel.fetchDailyData().observe(viewLifecycleOwner, {
             if(it != null) {
                 Log.i(Constants.LOG_TAG,"Here")
@@ -173,6 +177,16 @@ class HomeFragment : Fragment() {
         builder.setNegativeButton(R.string.ignore) { _, _ ->
         }
         builder.show()
+    }
+
+    fun Toolbar.changeToolbarFont(){
+        for (i in 0 until childCount) {
+            val view = getChildAt(i)
+            if (view is TextView && view.text == title) {
+                view.typeface = Typeface.createFromAsset(view.context.assets, "font/sanchez.xml")
+                break
+            }
+        }
     }
 
 }
