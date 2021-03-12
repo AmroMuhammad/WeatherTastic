@@ -54,7 +54,8 @@
     <string name="chooseDAy">Choose Alarm Day(s)</string>
     <string name="alarmType">Alarm Type</string>
     <string name="rainUnit">mm</string>
-
+    <string name="checkMore">Check more than</string>
+    <string name="checkLess">check less than</string>
 
 
     <string-array name="alertTypes">

@@ -135,6 +135,10 @@ dependencies {
     //gif
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.17'
 
+    //splash
+    implementation 'com.github.ViksaaSkool:AwesomeSplash:v1.0.0'
+
+
 
 }
 }

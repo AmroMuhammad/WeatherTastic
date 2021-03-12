@@ -8,27 +8,30 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.compose.runtime.saveable.SaveableStateRegistry
 import androidx.recyclerview.widget.RecyclerView
 import com.amro.weathertastic.R
 import com.amro.weathertastic.databinding.AlarmItemBinding
 import com.amro.weathertastic.utils.AlarmReceiver
 import com.amro.weathertastic.model.alarmDatabase.AlertModel
+import com.amro.weathertastic.utils.Constants
 import com.amro.weathertastic.viewModel.AlarmViewModel
 
 class AlarmRecyclerAdaptor(val list: ArrayList<AlertModel>,val viewModel: AlarmViewModel) : RecyclerView.Adapter<AlarmRecyclerAdaptor.ViewHolder>() {
     private lateinit var context: Context
+    private var savedUnit:String = "metric"
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         context = parent.context
+        savedUnit = (context?.getSharedPreferences(Constants.SHARED_PREF_SETTINGS,Context.MODE_PRIVATE)?.getString(Constants.UNITS,"metric").toString())
         return ViewHolder(AlarmItemBinding.inflate(LayoutInflater.from(context), parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.binding.conditionTV.text = list[position].alertType
         if(list[position].maxMinValue == "max"){
-            holder.binding.descriptiomTV.text = "More than ${list[position].thresholdValue}"
+            holder.binding.descriptiomTV.text = context.resources.getString(R.string.checkMore)+" ${list[position].thresholdValue} "+checkUnit(list[position].alertType)
         }else{
-            holder.binding.descriptiomTV.text = "Less than ${list[position].thresholdValue}"
+            holder.binding.descriptiomTV.text = context.resources.getString(R.string.checkMore)+" ${list[position].thresholdValue} "+checkUnit(list[position].alertType)
         }
         setWeekImages(position,holder)
 
@@ -36,6 +39,7 @@ class AlarmRecyclerAdaptor(val list: ArrayList<AlertModel>,val viewModel: AlarmV
             showDeletionDialog(position)
             true
         })
+        holder.binding.condImg.setAnimation(getIcon(list[position].alertType,holder))
     }
 
     private fun showDeletionDialog(position: Int){
@@ -93,4 +97,75 @@ class AlarmRecyclerAdaptor(val list: ArrayList<AlertModel>,val viewModel: AlarmV
     }
 
     inner class ViewHolder(val binding: AlarmItemBinding) : RecyclerView.ViewHolder(binding.root)
+
+    fun getIcon(id:String,holder: ViewHolder): Int{
+        when(id){
+            "Rain"->{
+                holder.binding.descriptiomTV.visibility = View.VISIBLE
+                holder.binding.conditionTV.text = context.resources.getString(R.string.rain)
+                return R.raw.rain
+            }
+            "Temperature"->{
+                holder.binding.descriptiomTV.visibility = View.VISIBLE
+                holder.binding.conditionTV.text = context.resources.getString(R.string.temp)
+                return R.raw.clearsky
+            }
+            "Wind"->{
+                holder.binding.descriptiomTV.visibility = View.VISIBLE
+                holder.binding.conditionTV.text = context.resources.getString(R.string.wind)
+                return R.raw.mist
+            }
+            "Fog/Mist/Haze"->{
+                holder.binding.descriptiomTV.visibility = View.GONE
+                holder.binding.conditionTV.text = context.resources.getString(R.string.fog)
+                return R.raw.mist
+            }
+            "Snow"->{
+                holder.binding.descriptiomTV.visibility = View.GONE
+                holder.binding.conditionTV.text = context.resources.getString(R.string.snow)
+                return R.raw.snow
+            }
+            "Cloudiness"->{
+                holder.binding.descriptiomTV.visibility = View.VISIBLE
+                holder.binding.conditionTV.text = context.resources.getString(R.string.cloudiness)
+                return R.raw.clearsky
+            }
+            "Thunderstorm"->{
+                holder.binding.descriptiomTV.visibility = View.GONE
+                holder.binding.conditionTV.text = context.resources.getString(R.string.thunderstorm)
+                return R.raw.thunder
+            }
+            else->{
+                return R.raw.clearsky
+            }
+        }
+    }
+
+    private fun checkUnit(alertType:String):String{
+        when(alertType){
+            "Rain"->{
+                    return context.resources.getString(R.string.rainUnit)
+            }
+            "Temperature"->{
+                if(savedUnit == "metric"){
+                    return "C"
+                }
+                else{
+                    return "F"
+                }
+            }
+            "Wind"->{
+                if(savedUnit == "metric"){
+                    return context.resources.getString(R.string.meterSec)
+                }
+                else{
+                    return context.resources.getString(R.string.mileHr)
+                }
+            }
+            "Cloudiness"->{
+                return "%"
+            }
+        }
+        return ""
+    }
 }

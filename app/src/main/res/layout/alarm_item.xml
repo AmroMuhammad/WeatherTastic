@@ -5,8 +5,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
-    android:id="@+id/alarmItemContainer">
+    android:layout_marginStart="10dp"
+    android:layout_marginEnd="10dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp"
+    android:id="@+id/alarmItemContainer"
+    app:cardCornerRadius="20dp"
+    android:backgroundTint="@color/greyCard">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -27,6 +32,8 @@
             app:layout_constraintVertical_bias="0.022" />
 
         <TextView
+            android:textColorHint="@color/black"
+            android:fontFamily="@font/sanchez"
             android:id="@+id/conditionTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -40,6 +47,8 @@
             app:layout_constraintVertical_bias="0.03" />
 
         <TextView
+            android:textColorHint="@color/black"
+            android:fontFamily="@font/sanchez"
             android:id="@+id/descriptiomTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -67,64 +76,77 @@
             app:layout_constraintVertical_bias="0.0">
 
             <ImageView
-                android:layout_margin="5dp"
                 android:id="@+id/saturdayImg"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
+                android:layout_margin="5dp"
                 android:src="@drawable/ic_s"
-                android:visibility="gone"/>
+                android:visibility="gone"
+                tools:visibility="visible" />
 
             <ImageView
-                android:layout_margin="5dp"
                 android:id="@+id/sundayImg"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
+                android:layout_margin="5dp"
                 android:src="@drawable/ic_s"
-                android:visibility="gone" />
+                android:visibility="gone"
+                tools:visibility="visible" />
 
             <ImageView
-                android:layout_margin="5dp"
                 android:id="@+id/mondayImg"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
+                android:layout_margin="5dp"
                 android:src="@drawable/ic_m"
-                tools:visibility="gone" />
+                tools:visibility="visible" />
 
             <ImageView
-                android:layout_margin="5dp"
                 android:id="@+id/tuesdayImg"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
+                android:layout_margin="5dp"
                 android:src="@drawable/ic_t"
-                tools:visibility="gone" />
+                tools:visibility="visible" />
 
             <ImageView
-                android:layout_margin="5dp"
                 android:id="@+id/wednesdayImg"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
+                android:layout_margin="5dp"
                 android:src="@drawable/ic_w"
-                tools:visibility="gone" />
+                tools:visibility="visible" />
 
             <ImageView
-                android:layout_margin="5dp"
                 android:id="@+id/thursdayImg"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
+                android:layout_margin="5dp"
                 android:src="@drawable/ic_t"
-                tools:visibility="gone" />
+                tools:visibility="visible" />
 
             <ImageView
-                android:layout_margin="5dp"
                 android:id="@+id/fridayImg"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
+                android:layout_margin="5dp"
                 android:src="@drawable/ic_f"
-                tools:visibility="gone" />
+                tools:visibility="visible" />
 
         </LinearLayout>
 
-
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/cond_Img"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.885"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/rain" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

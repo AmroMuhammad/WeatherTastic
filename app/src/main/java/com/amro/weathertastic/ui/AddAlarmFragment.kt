@@ -102,11 +102,7 @@ class AddAlarmFragment : Fragment() {
     private fun checkUnit(alarmType: String) {
         when(alarmType){
             "Rain" -> {
-                    if(savedUnit == "metric"){
                         binding.unitTV.text = context?.resources?.getString(R.string.rainUnit)
-                    }else{
-                        binding.unitTV.text = context?.resources?.getString(R.string.rainUnit)
-                    }
             }
             "Temperature" -> {
                 if(savedUnit == "metric"){

@@ -1,12 +1,13 @@
 package com.amro.weathertastic.utils
 
-import android.R
 import android.app.*
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Build
 import android.util.Log
+import com.amro.weathertastic.R
 import com.amro.weathertastic.model.alarmDatabase.AlertDataSource
 import com.amro.weathertastic.model.alarmDatabase.AlertModel
 import com.amro.weathertastic.model.entities.DailyItem
@@ -61,10 +62,10 @@ class AlarmReceiver : BroadcastReceiver() {
         }
         builder.setContentTitle("WeatherTastic")
         builder.setContentText("Weather Report")
-        builder.setSmallIcon(R.drawable.ic_menu_add)
+        builder.setSmallIcon(R.drawable.ic_icon)
         builder.setStyle(Notification.BigTextStyle().bigText(result))
         val notification: Notification = builder.build()
-        manager.notify(10, notification)
+        manager.notify(requiredAlertResponse.id, notification)
     }
 
 
@@ -127,11 +128,11 @@ class AlarmReceiver : BroadcastReceiver() {
         if(item?.weather?.get(0)?.main == "Rain") {
             if (requiredAlertResponse.maxMinValue == "max") {
                 if (requiredAlertResponse.thresholdValue <= item.rain!!) {
-                    result += "\n${reqDay} Rain: more than ${item.rain}"
+                    result += "\n${reqDay} Rain is ${item.rain} more than ${requiredAlertResponse.thresholdValue}"
                 }
             } else {
                 if (requiredAlertResponse.thresholdValue > item.rain!!) {
-                    result += "\n${reqDay} Rain: less than ${item.rain}"
+                    result += "\n${reqDay} Rain is ${item.rain} less than ${requiredAlertResponse.thresholdValue}"
                 }
             }
         }
@@ -140,11 +141,11 @@ class AlarmReceiver : BroadcastReceiver() {
     private fun checkMaxMinTemp(item:DailyItem,reqDay: String){
             if (requiredAlertResponse.maxMinValue == "max") {
                 if (requiredAlertResponse.thresholdValue <= item.temp?.day!!) {
-                    result += "\n${reqDay} Temperature: more than ${item.temp.day}"
+                    result += "\n${reqDay} Temperature is ${item.temp.day} more than ${requiredAlertResponse.thresholdValue}"
                 }
             } else {
                 if (requiredAlertResponse.thresholdValue > item.temp?.day!!) {
-                    result += "\n${reqDay} Temperature: less than ${item.temp.day}"
+                    result += "\n${reqDay} Temperature is ${item.temp.day} less than ${requiredAlertResponse.thresholdValue}"
                 }
             }
 
@@ -153,11 +154,11 @@ class AlarmReceiver : BroadcastReceiver() {
     private fun checkMaxMinWind(item:DailyItem,reqDay: String){
             if (requiredAlertResponse.maxMinValue == "max") {
                 if (requiredAlertResponse.thresholdValue <= item.windSpeed!!) {
-                    result += "\n${reqDay} Wind: more than ${item.windSpeed}"
+                    result += "\n${reqDay} Wind is ${item.windSpeed} more than ${requiredAlertResponse.thresholdValue}"
                 }
             } else {
                 if (requiredAlertResponse.thresholdValue > item.windSpeed!!) {
-                    result += "\n${reqDay} Wind: less than ${item.windSpeed}"
+                    result += "\n${reqDay} Wind is ${item.windSpeed} less than ${requiredAlertResponse.thresholdValue}"
                 }
             }
     }
@@ -178,11 +179,11 @@ class AlarmReceiver : BroadcastReceiver() {
         if(item.weather?.get(0)?.main == "Clouds") {
             if (requiredAlertResponse.maxMinValue == "max") {
                 if (requiredAlertResponse.thresholdValue <= item.clouds!!) {
-                    result += "\n${reqDay} Cloudiness: more than ${item.clouds}"
+                    result += "\n${reqDay} Cloudiness is ${item.clouds} more than ${requiredAlertResponse.thresholdValue}"
                 }
             } else {
                 if (requiredAlertResponse.thresholdValue > item.temp?.day!!) {
-                    result += "\n${reqDay} Cloudiness: more than ${item.clouds}"
+                    result += "\n${reqDay} Cloudiness is ${item.clouds} less than ${requiredAlertResponse.thresholdValue}"
                 }
             }
         }

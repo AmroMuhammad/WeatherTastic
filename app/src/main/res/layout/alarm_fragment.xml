@@ -28,7 +28,8 @@
         android:layout_margin="20dp"
         android:src="@drawable/ic_alarm"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:backgroundTint="@color/greyCard"/>
 
     <LinearLayout
         android:layout_marginTop="50dp"

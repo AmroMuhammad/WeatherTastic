@@ -53,6 +53,9 @@
     <string name="chooseDAy">اختر اليوم(الأيام) المراد التحقق منه</string>
     <string name="alarmType">نوع المنبه</string>
     <string name="rainUnit">مم</string>
+    <string name="checkMore">تحقق من ان القيمة اكبر من</string>
+    <string name="checkLess">تحقق من ان القيمة اصغر من</string>
+
 
 
 </resources>
