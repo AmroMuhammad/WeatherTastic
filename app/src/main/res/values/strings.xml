@@ -45,12 +45,16 @@
     <string name="cautionTime">Kindly choose time to check event at</string>
     <string name="max">More than</string>
     <string name="min">Less than</string>
-    <string name="threshold">kindly enter threshold value</string>
+    <string name="threshold">required value</string>
     <string name="forcastHours">Hourly</string>
     <string name="forcastDaily">Daily</string>
     <string name="sunRiseSet">Sunrise and Sunset</string>
     <string name="meterSec">m/sec</string>
     <string name="mileHr">mile/hr</string>
+    <string name="chooseDAy">Choose Alarm Day(s)</string>
+    <string name="alarmType">Alarm Type</string>
+    <string name="rainUnit">mm</string>
+
 
 
     <string-array name="alertTypes">

@@ -1,7 +1,6 @@
-package com.amro.weathertastic.model.alarmEntities
+package com.amro.weathertastic.model.alarmDatabase
 
 import androidx.room.TypeConverter
-import com.amro.weathertastic.model.entities.AlertsItem
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 

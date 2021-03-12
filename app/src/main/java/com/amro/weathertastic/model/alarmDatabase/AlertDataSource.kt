@@ -1,9 +1,7 @@
-package com.amro.weathertastic.model.alarmEntities
+package com.amro.weathertastic.model.alarmDatabase
 
 import android.app.Application
 import androidx.room.Room
-import com.amro.weathertastic.model.localDataSource.WeatherDao
-import com.amro.weathertastic.model.localDataSource.WeatherDatabase
 
 object AlertDataSource {
     fun getInstance(application: Application) : AlertDao {

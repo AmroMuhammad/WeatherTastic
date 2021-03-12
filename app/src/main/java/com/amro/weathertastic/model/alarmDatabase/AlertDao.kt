@@ -1,9 +1,8 @@
-package com.amro.weathertastic.model.alarmEntities
+package com.amro.weathertastic.model.alarmDatabase
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
 
 @Dao

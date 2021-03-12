@@ -44,12 +44,15 @@
     <string name="cautionTime">من فضلك اختر وقت للتحقق من الحالة</string>
     <string name="max">اكبر من</string>
     <string name="min">اصغر من</string>
-    <string name="threshold">من فضلك ادخل قيمة المراد المقارنة بها</string>
+    <string name="threshold">القيمة المطلوبة</string>
     <string name="forcastHours">ساعات</string>
     <string name="forcastDaily">يوميا</string>
     <string name="sunRiseSet">الشروق و الغروب</string>
     <string name="meterSec">متر/ث</string>
     <string name="mileHr">ميل/ساعة</string>
+    <string name="chooseDAy">اختر اليوم(الأيام) المراد التحقق منه</string>
+    <string name="alarmType">نوع المنبه</string>
+    <string name="rainUnit">مم</string>
 
 
 </resources>

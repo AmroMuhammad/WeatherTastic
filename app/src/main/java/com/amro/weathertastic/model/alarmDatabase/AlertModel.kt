@@ -1,4 +1,4 @@
-package com.amro.weathertastic.model.alarmEntities
+package com.amro.weathertastic.model.alarmDatabase
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -10,9 +10,6 @@ data class AlertModel(
     @PrimaryKey(autoGenerate = true) var id: Int=0,
     val days:List<String>?,
     val alertType:String,
-    val periodType:String,
-    val startTime:String,
-    val endTime:String,
     val maxMinValue:String,
     val thresholdValue:Double
 )

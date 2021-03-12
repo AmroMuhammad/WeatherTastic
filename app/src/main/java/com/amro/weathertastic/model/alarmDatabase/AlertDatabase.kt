@@ -1,4 +1,4 @@
-package com.amro.weathertastic.model.alarmEntities
+package com.amro.weathertastic.model.alarmDatabase
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

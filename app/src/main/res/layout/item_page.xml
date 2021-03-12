@@ -21,6 +21,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+            <com.github.matteobattilana.weather.WeatherView
+                android:id="@+id/weather_view"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:fadeOutTime="3000"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:lifeTime="3000" />
+
         <com.sofakingforever.stars.AnimatedStarsView
             android:id="@+id/stars_white"
             android:layout_width="0dp"
@@ -103,13 +114,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"/>
-
-            <com.github.matteobattilana.weather.WeatherView
-                android:id="@+id/weather_view"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:fadeOutTime="3000"
-                app:lifeTime="3000" />
 
         </LinearLayout>
 

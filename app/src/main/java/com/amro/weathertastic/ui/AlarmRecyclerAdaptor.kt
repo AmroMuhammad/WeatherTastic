@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.amro.weathertastic.R
 import com.amro.weathertastic.databinding.AlarmItemBinding
 import com.amro.weathertastic.utils.AlarmReceiver
-import com.amro.weathertastic.model.alarmEntities.AlertModel
+import com.amro.weathertastic.model.alarmDatabase.AlertModel
 import com.amro.weathertastic.viewModel.AlarmViewModel
 
 class AlarmRecyclerAdaptor(val list: ArrayList<AlertModel>,val viewModel: AlarmViewModel) : RecyclerView.Adapter<AlarmRecyclerAdaptor.ViewHolder>() {

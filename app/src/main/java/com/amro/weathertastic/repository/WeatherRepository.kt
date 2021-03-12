@@ -4,8 +4,8 @@ import android.app.Application
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
-import com.amro.weathertastic.model.alarmEntities.AlertDataSource
-import com.amro.weathertastic.model.alarmEntities.AlertModel
+import com.amro.weathertastic.model.alarmDatabase.AlertDataSource
+import com.amro.weathertastic.model.alarmDatabase.AlertModel
 import com.amro.weathertastic.model.entities.WeatherResponse
 import com.amro.weathertastic.model.localDataSource.LocalDataSource
 import com.amro.weathertastic.model.remoteDataSource.RemoteDataSource

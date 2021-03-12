@@ -7,8 +7,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.util.Log
-import com.amro.weathertastic.model.alarmEntities.AlertDataSource
-import com.amro.weathertastic.model.alarmEntities.AlertModel
+import com.amro.weathertastic.model.alarmDatabase.AlertDataSource
+import com.amro.weathertastic.model.alarmDatabase.AlertModel
 import com.amro.weathertastic.model.entities.DailyItem
 import com.amro.weathertastic.model.entities.WeatherResponse
 import com.amro.weathertastic.model.localDataSource.LocalDataSource

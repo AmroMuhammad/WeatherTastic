@@ -23,7 +23,7 @@ import com.amro.weathertastic.R
 import com.amro.weathertastic.viewModel.AlarmViewModel
 import com.amro.weathertastic.databinding.AlarmFragmentBinding
 import com.amro.weathertastic.utils.AlarmReceiver
-import com.amro.weathertastic.model.alarmEntities.AlertModel
+import com.amro.weathertastic.model.alarmDatabase.AlertModel
 import com.amro.weathertastic.utils.Constants
 import java.text.SimpleDateFormat
 import java.util.*

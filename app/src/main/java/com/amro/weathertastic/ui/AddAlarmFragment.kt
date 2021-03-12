@@ -1,6 +1,5 @@
 package com.amro.weathertastic.ui
 
-import android.app.TimePickerDialog
 import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -10,18 +9,14 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.widget.TextView
-import android.widget.TimePicker
 import android.widget.Toast
 import com.amro.weathertastic.viewModel.AddAlarmViewModel
 import com.amro.weathertastic.R
 import com.amro.weathertastic.databinding.AddAlarmFragmentBinding
-import com.amro.weathertastic.model.alarmEntities.AlertModel
+import com.amro.weathertastic.model.alarmDatabase.AlertModel
 import com.amro.weathertastic.utils.Constants
 import org.angmarch.views.OnSpinnerItemSelectedListener
-import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.math.min
 
 class AddAlarmFragment : Fragment() {
 
@@ -35,8 +30,7 @@ class AddAlarmFragment : Fragment() {
     private var timeCondition = "anytime"
     private var maxOrMin = "min"
     private var thresholdValue = 0.0
-
-
+    private var savedUnit:String = "metric"
 
 
     override fun onCreateView(
@@ -50,6 +44,7 @@ class AddAlarmFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         lang = (activity?.getSharedPreferences(Constants.SHARED_PREF_SETTINGS,Context.MODE_PRIVATE)?.getString(Constants.LANGUAGE,"en").toString())
+        savedUnit = (activity?.getSharedPreferences(Constants.SHARED_PREF_SETTINGS,Context.MODE_PRIVATE)?.getString(Constants.UNITS,"metric").toString())
         binding.dayPicker.locale = Locale.forLanguageTag(lang)
         viewModel = ViewModelProvider(this).get(AddAlarmViewModel::class.java)
     }
@@ -60,29 +55,11 @@ class AddAlarmFragment : Fragment() {
         val dataset = resources.getStringArray(R.array.alertTypes).toList()
         binding.niceSpinner.attachDataSource(dataset);
 
-        binding.fromTimeTV.setOnClickListener {calenderTime(it as TextView,0,0)  }
-        binding.toTimeTV.setOnClickListener { calenderTime(it as TextView,12,0) }
-
-        binding.anytimeRB.setOnClickListener {
-            binding.fromTimeTV.visibility= GONE
-            binding.toTimeTV.visibility= GONE
-            timeCondition = "anytime"
-            binding.fromTimeTV.text = "--:--"
-            binding.toTimeTV.text = "--:--"
-        }
-
-        binding.periodOfTimeRB.setOnClickListener {
-            binding.fromTimeTV.visibility= VISIBLE
-            binding.toTimeTV.visibility= VISIBLE
-            timeCondition = "period"
-        }
-
         binding.saveBtn.setOnClickListener {
             if(isDataValidated()){
                 Toast.makeText(requireContext(),"Data is Validated",Toast.LENGTH_SHORT).show()  //add object to database
                 thresholdValue = binding.valueET.text.trim().toString().toDouble()
-                val alert = AlertModel(days = returnChoosenDays(),alertType = alarmType,periodType = timeCondition,
-                    startTime = binding.fromTimeTV.text.toString(),endTime = binding.toTimeTV.text.toString(),maxMinValue = maxOrMin,thresholdValue = thresholdValue)
+                val alert = AlertModel(days = returnChoosenDays(),alertType = alarmType,maxMinValue = maxOrMin,thresholdValue = thresholdValue)
                 viewModel.insertAlert(alert)
                 activity?.onBackPressed()
 
@@ -108,14 +85,45 @@ class AddAlarmFragment : Fragment() {
                 }
                 if(alarmType == "Rain" || alarmType == "Temperature" || alarmType == "Wind" || alarmType == "Cloudiness"){
                     binding.valueET.visibility = VISIBLE
+                    binding.radioGroupMaxMin.visibility = VISIBLE
+                    binding.unitTV.visibility = VISIBLE
                     binding.valueET.setText("")
+                    checkUnit(alarmType)
                 }else{
                     binding.valueET.visibility = GONE
+                    binding.radioGroupMaxMin.visibility = GONE
+                    binding.unitTV.visibility = GONE
                     binding.valueET.setText("0.0")
                 }
             }
 
+    }
 
+    private fun checkUnit(alarmType: String) {
+        when(alarmType){
+            "Rain" -> {
+                    if(savedUnit == "metric"){
+                        binding.unitTV.text = context?.resources?.getString(R.string.rainUnit)
+                    }else{
+                        binding.unitTV.text = context?.resources?.getString(R.string.rainUnit)
+                    }
+            }
+            "Temperature" -> {
+                if(savedUnit == "metric"){
+                    binding.unitTV.text = "C"
+                }else{
+                    binding.unitTV.text = "F"
+                }
+            }
+            "Wind" -> {
+                if(savedUnit == "metric"){
+                    binding.unitTV.text = context?.resources?.getString(R.string.meterSec)
+                }else{
+                    binding.unitTV.text = context?.resources?.getString(R.string.mileHr)
+                }
+            }
+            "Cloudiness" -> {binding.unitTV.text = "%"}
+        }
     }
 
     private fun isDataValidated(): Boolean {
@@ -124,9 +132,6 @@ class AddAlarmFragment : Fragment() {
             return false
         }else if(alarmType == ""){
             Toast.makeText(requireContext(),resources.getString(R.string.alertType),Toast.LENGTH_SHORT).show()
-            return false
-        }else if( (binding.fromTimeTV.text == "--:--" || binding.toTimeTV.text == "--:--") && timeCondition == "period"){
-            Toast.makeText(requireContext(),resources.getString(R.string.time),Toast.LENGTH_SHORT).show()
             return false
         }else if(binding.valueET.text.trim().isEmpty()){
             Toast.makeText(requireContext(),resources.getString(R.string.threshold),Toast.LENGTH_SHORT).show()
@@ -147,22 +152,4 @@ class AddAlarmFragment : Fragment() {
         return if(arr.isEmpty()) null else arr
     }
 
-
-    private fun calenderTime(textView:TextView,hour:Int,min:Int){
-        TimePickerDialog(requireContext(), object: TimePickerDialog.OnTimeSetListener{
-            override fun onTimeSet(p0: TimePicker?, p1: Int, p2: Int) {
-                if(textView.id == R.id.fromTimeTV){
-                    calenderFrom.set(Calendar.HOUR_OF_DAY,p1)
-                    calenderFrom.set(Calendar.MINUTE,p2)
-                    calenderFrom.set(Calendar.SECOND,0)
-                    textView.setText(SimpleDateFormat("HH:mm").format(calenderFrom.time))
-                }else{
-                    calenderTo.set(Calendar.HOUR_OF_DAY,p1)
-                    calenderTo.set(Calendar.MINUTE,p2)
-                    calenderTo.set(Calendar.SECOND,0)  //check time in api
-                    textView.setText(SimpleDateFormat("HH:mm").format(calenderTo.time))
-                }
-            }
-        }, hour, min, false).show()
-    }
     }
