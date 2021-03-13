@@ -1,11 +1,9 @@
 package com.amro.weathertastic.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
@@ -45,13 +43,9 @@ class FavouriteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
         favouriteAdapter.viewModel = viewModel
-        // TODO: Use the ViewModel
-        Log.i(Constants.LOG_TAG,"in livedata2222")
         viewModel.fetchFavouriteList("0","0").observe(viewLifecycleOwner, {
-            Log.i(Constants.LOG_TAG,"in livedata")
                 if(it != null){
-                    if(!it.isEmpty()){
-                        Log.i(Constants.LOG_TAG,"in")
+                    if(it.isNotEmpty()){
                         //binding.textView3.text = it.size.toString()
                         favouriteAdapter.setIncomingList(it.reversed())
                         binding.backgroundNoData.visibility = View.GONE
@@ -68,7 +62,7 @@ class FavouriteFragment : Fragment() {
         }
     }
 
-    fun initRecyclers(){
+    private fun initRecyclers(){
         binding.favouriteRecycler.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL,false)
         binding.favouriteRecycler.adapter = favouriteAdapter
     }
@@ -89,7 +83,7 @@ class FavouriteFragment : Fragment() {
             override fun onPlaceSelected(carmenFeature: CarmenFeature) {
                 val lonDecimal = BigDecimal(carmenFeature.center()!!.longitude()).setScale(4, RoundingMode.HALF_DOWN)
                 val latDecimal = BigDecimal(carmenFeature.center()!!.latitude()).setScale(4, RoundingMode.HALF_DOWN)
-                Toast.makeText(context,"latitude $latDecimal \n longitude $lonDecimal", Toast.LENGTH_LONG).show()
+//                Toast.makeText(context,"latitude $latDecimal \n longitude $lonDecimal", Toast.LENGTH_LONG).show()
                 viewModel.fetchFavouriteList(latDecimal.toString(),lonDecimal.toString())
                 activity?.supportFragmentManager?.beginTransaction()?.remove(autocompleteFragment)?.commit()
                 binding.searchFragmentContainer.visibility= View.GONE
@@ -97,7 +91,6 @@ class FavouriteFragment : Fragment() {
             }
 
             override fun onCancel() {
-                Log.i(Constants.LOG_TAG,"cancel")
                 activity?.supportFragmentManager?.beginTransaction()?.remove(autocompleteFragment)?.commit()
                 binding.searchFragmentContainer.visibility= View.GONE
                 binding.favFloatingButton.visibility = View.VISIBLE
