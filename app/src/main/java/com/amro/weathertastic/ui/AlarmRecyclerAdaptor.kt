@@ -29,9 +29,9 @@ class AlarmRecyclerAdaptor(val list: ArrayList<AlertModel>,val viewModel: AlarmV
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if(list[position].maxMinValue == "max"){
-            holder.binding.descriptiomTV.text = context.resources.getString(R.string.checkMore)+" ${list[position].thresholdValue} "+checkUnit(list[position].alertType)
+            holder.binding.descriptiomTV.text = context.resources.getString(R.string.checkMore)+" ${list[position].thresholdValue} "+viewModel.checkUnit(list[position].alertType,context,savedUnit)
         }else{
-            holder.binding.descriptiomTV.text = context.resources.getString(R.string.checkMore)+" ${list[position].thresholdValue} "+checkUnit(list[position].alertType)
+            holder.binding.descriptiomTV.text = context.resources.getString(R.string.checkMore)+" ${list[position].thresholdValue} "+viewModel.checkUnit(list[position].alertType,context,savedUnit)
         }
         setWeekImages(position,holder)
 
@@ -139,33 +139,5 @@ class AlarmRecyclerAdaptor(val list: ArrayList<AlertModel>,val viewModel: AlarmV
                 return R.raw.clearsky
             }
         }
-    }
-
-    private fun checkUnit(alertType:String):String{
-        when(alertType){
-            "Rain"->{
-                    return context.resources.getString(R.string.rainUnit)
-            }
-            "Temperature"->{
-                if(savedUnit == "metric"){
-                    return "C"
-                }
-                else{
-                    return "F"
-                }
-            }
-            "Wind"->{
-                if(savedUnit == "metric"){
-                    return context.resources.getString(R.string.meterSec)
-                }
-                else{
-                    return context.resources.getString(R.string.mileHr)
-                }
-            }
-            "Cloudiness"->{
-                return "%"
-            }
-        }
-        return ""
     }
 }

@@ -96,7 +96,7 @@ class AlarmFragment : Fragment() {
             }else if(binding.include.onOffSwitch.isChecked){
                 Toast.makeText(requireContext(),"Alarm is On",Toast.LENGTH_SHORT).show()
                 binding.include.alarmStateTV.text = resources.getString(R.string.alarmOn)
-                registerAll()
+                viewModel.registerAll(context,alarmList,hourDuration,calenderEvent, activity as AppCompatActivity)
                 binding.include.cardView2.visibility = View.GONE
                 binding.include.groupRB.visibility = View.GONE
                 sharedPref?.edit()?.putBoolean(Constants.isSwitchOn,true)?.apply()
@@ -107,7 +107,7 @@ class AlarmFragment : Fragment() {
                 binding.include.cardView2.visibility = View.VISIBLE
                 binding.include.groupRB.visibility = View.VISIBLE
                 binding.include.alarmTimeTV.text = "--:--"
-                unregisterAll()
+                viewModel.unregisterAll(context,alarmList,hourDuration)
                 sharedPref?.edit()?.putBoolean(Constants.isSwitchOn,false)?.apply()
                 binding.favFloatingButton.visibility = View.VISIBLE
             }
@@ -150,82 +150,9 @@ class AlarmFragment : Fragment() {
         _binding = null
     }
 
-
-    private fun registerAll(){
-        val notifyIntent = Intent(context, AlarmReceiver::class.java)
-        val alarmManager = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        for(element in alarmList){
-            if(Calendar.getInstance().timeInMillis >= calenderEvent.timeInMillis){
-                notifyIntent.putExtra(Constants.ALARM_ID,element.id)
-                var time = calenderEvent.timeInMillis
-                calenderEvent.timeInMillis = time.plus(Constants.HOUR_24_IN_SECONDS)
-                var pendingIntent = PendingIntent.getBroadcast(context,element.id,notifyIntent,PendingIntent.FLAG_UPDATE_CURRENT)
-                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,calenderEvent.timeInMillis,pendingIntent)
-                Log.i(Constants.LOG_TAG,"twentyfour${calenderEvent.timeInMillis}")
-                if(hourDuration == 72){
-                    pendingIntent = PendingIntent.getBroadcast(context,element.id+1000,notifyIntent,PendingIntent.FLAG_UPDATE_CURRENT)
-                    alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,calenderEvent.timeInMillis+Constants.HOUR_24_IN_SECONDS,pendingIntent)
-                    Log.i(Constants.LOG_TAG,"fourtyeight${calenderEvent.timeInMillis+Constants.HOUR_24_IN_SECONDS}")
-                    pendingIntent = PendingIntent.getBroadcast(context,element.id+2000,notifyIntent,PendingIntent.FLAG_UPDATE_CURRENT)
-                    alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,calenderEvent.timeInMillis+Constants.HOUR_48_IN_SECONDS,pendingIntent)
-                    Log.i(Constants.LOG_TAG,"sevenTwo${calenderEvent.timeInMillis+Constants.HOUR_48_IN_SECONDS}")
-                }else if(hourDuration == 48){
-                    pendingIntent = PendingIntent.getBroadcast(context,element.id+1000,notifyIntent,PendingIntent.FLAG_UPDATE_CURRENT)
-                    alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,calenderEvent.timeInMillis+Constants.HOUR_24_IN_SECONDS,pendingIntent)
-                    Log.i(Constants.LOG_TAG,"fourtyeight${calenderEvent.timeInMillis+Constants.HOUR_24_IN_SECONDS}")
-                }
-            }else{
-                notifyIntent.putExtra(Constants.ALARM_ID,element.id)
-                var pendingIntent = PendingIntent.getBroadcast(activity,element.id,notifyIntent,PendingIntent.FLAG_UPDATE_CURRENT)
-                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,calenderEvent.timeInMillis,pendingIntent)
-                Log.i(Constants.LOG_TAG,"twentyfour${calenderEvent.timeInMillis}")
-                if(hourDuration == 72){
-                    pendingIntent = PendingIntent.getBroadcast(context,element.id+1000,notifyIntent,PendingIntent.FLAG_UPDATE_CURRENT)
-                    alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,calenderEvent.timeInMillis+Constants.HOUR_24_IN_SECONDS,pendingIntent)
-                    Log.i(Constants.LOG_TAG,"fourtyeight${calenderEvent.timeInMillis+Constants.HOUR_24_IN_SECONDS}")
-                    pendingIntent = PendingIntent.getBroadcast(context,element.id+2000,notifyIntent,PendingIntent.FLAG_UPDATE_CURRENT)
-                    alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,calenderEvent.timeInMillis+Constants.HOUR_48_IN_SECONDS,pendingIntent)
-                    Log.i(Constants.LOG_TAG,"sevenTwo${calenderEvent.timeInMillis+Constants.HOUR_48_IN_SECONDS}")
-                }else if(hourDuration == 48){
-                    pendingIntent = PendingIntent.getBroadcast(context,element.id+1000,notifyIntent,PendingIntent.FLAG_UPDATE_CURRENT)
-                    alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,calenderEvent.timeInMillis+Constants.HOUR_24_IN_SECONDS,pendingIntent)
-                    Log.i(Constants.LOG_TAG,"fourtyeight${calenderEvent.timeInMillis+Constants.HOUR_24_IN_SECONDS}")
-                }
-            }
-        }
-    }
-
-    private fun unregisterAll(){
-        for(element in alarmList){
-        val notifyIntent = Intent(context, AlarmReceiver::class.java)
-        var pendingIntent = PendingIntent.getBroadcast(context,element.id,notifyIntent,PendingIntent.FLAG_UPDATE_CURRENT)
-        val alarmManager = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        if (alarmManager != null) {
-            alarmManager.cancel(pendingIntent)
-        }
-            if(hourDuration == 72){
-            pendingIntent = PendingIntent.getBroadcast(context,element.id+1000,notifyIntent,PendingIntent.FLAG_UPDATE_CURRENT)
-            if (alarmManager != null) {
-                alarmManager.cancel(pendingIntent)
-            }
-            pendingIntent = PendingIntent.getBroadcast(context,element.id+2000,notifyIntent,PendingIntent.FLAG_UPDATE_CURRENT)
-            if (alarmManager != null) {
-                alarmManager.cancel(pendingIntent)
-            }
-            }else if(hourDuration == 48){
-            pendingIntent = PendingIntent.getBroadcast(context,element.id+1000,notifyIntent,PendingIntent.FLAG_UPDATE_CURRENT)
-            if (alarmManager != null) {
-                alarmManager.cancel(pendingIntent)
-            }
-            }
-        }
-    }
-
     fun initRecyclers(){
         binding.alarmRecycler.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL,false)
         binding.alarmRecycler.adapter = alarmAdaptor
     }
-
-
 
 }
