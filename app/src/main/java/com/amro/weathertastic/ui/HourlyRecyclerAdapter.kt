@@ -10,11 +10,12 @@ import com.amro.weathertastic.databinding.WeatherItemBinding
 import com.amro.weathertastic.model.entities.DailyItem
 import com.amro.weathertastic.model.entities.HourlyItem
 import com.amro.weathertastic.utils.Constants
+import com.amro.weathertastic.viewModel.HomeViewModel
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-class HourlyRecyclerAdapter(var list: List<HourlyItem?>, private val timezoneOffset: Int) : RecyclerView.Adapter<HourlyRecyclerAdapter.ViewHolder>() {
+class HourlyRecyclerAdapter(var list: List<HourlyItem?>, private val timezoneOffset: Int,val viewModel: HomeViewModel) : RecyclerView.Adapter<HourlyRecyclerAdapter.ViewHolder>() {
     private lateinit var context: Context
     private lateinit var savedUnit: String
     private lateinit var savedLang: String
@@ -31,7 +32,7 @@ class HourlyRecyclerAdapter(var list: List<HourlyItem?>, private val timezoneOff
         var araNum = NumberFormat.getInstance(Locale(savedLang)).format(list[position]?.temp);
         holder.binding.degreeMin.text = araNum.toString()
         holder.binding.condTV.text = list[position]?.weather?.get(0)?.description.toString()
-        holder.binding.cityTimeTV.text = getDayTime(position)
+        holder.binding.cityTimeTV.text = viewModel.getDayTime(list[position]?.dt!!,timezoneOffset,savedLang)
         araNum = NumberFormat.getInstance(Locale(savedLang)).format(list[position]?.windSpeed);
         holder.binding.windValueTV.text = araNum.toString()
         araNum = NumberFormat.getInstance(Locale(savedLang)).format(list[position]?.clouds);
@@ -40,8 +41,7 @@ class HourlyRecyclerAdapter(var list: List<HourlyItem?>, private val timezoneOff
         holder.binding.humValueTV.text = araNum.toString()
         araNum = NumberFormat.getInstance(Locale(savedLang)).format(list[position]?.pressure);
         holder.binding.pressvalueTV.text = araNum.toString()
-        holder.binding.condImg.setAnimation(getIcon(list[position]?.weather?.get(0)?.icon!!))
-
+        holder.binding.condImg.setAnimation(viewModel.getIcon(list[position]?.weather?.get(0)?.icon!!))
 
         if (savedUnit == "metric") {
             //wind and pressure
@@ -60,59 +60,5 @@ class HourlyRecyclerAdapter(var list: List<HourlyItem?>, private val timezoneOff
 
 
     inner class ViewHolder(val binding: HourlyItemBinding) : RecyclerView.ViewHolder(binding.root)
-
-    private fun getDayTime(position: Int):String{
-        val calender = Calendar.getInstance()
-        calender.timeInMillis = (list[position]?.dt?.plus(timezoneOffset)?.minus(7200)?.toLong() ?: 10)*1000L
-        val dateFormat = SimpleDateFormat("EE, HH:MM",Locale(savedLang));
-        return dateFormat.format(calender.time)
-    }
-
-    fun getIcon(id:String): Int{
-        when(id){
-            "01d"->{
-                return R.raw.clearsky
-            }
-            "01n"->{
-                return R.raw.clearsky
-            }
-            "02d"->{
-                return R.raw.scattered
-            }
-            "02n"->{
-                return R.raw.scattered
-            }
-            "03d","03n","04d","04n"->{
-                return R.raw.scattered
-            }
-            "09d","10d"->{
-                return R.raw.rain
-            }
-            "09n","10n"->{
-                return R.raw.rain
-            }
-            "11d"->{
-                return R.raw.thunder
-            }
-            "11n"->{
-                return R.raw.thunder
-            }
-            "13d"->{
-                return R.raw.snow
-            }
-            "13n"->{
-                return R.raw.snow
-            }
-            "50d"->{
-                return R.raw.mist
-            }
-            "50n"->{
-                return R.raw.mist
-            }
-            else->{
-                return R.raw.clearsky
-            }
-        }
-    }
 
 }

@@ -16,6 +16,7 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -26,6 +27,8 @@ import androidx.navigation.ui.setupWithNavController
 import com.amro.weathertastic.R
 import com.amro.weathertastic.databinding.ActivityMainBinding
 import com.amro.weathertastic.utils.Constants
+import com.amro.weathertastic.viewModel.HomeViewModel
+import com.amro.weathertastic.viewModel.MainViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -33,11 +36,16 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
+    private lateinit var viewModel: MainViewModel
 //    private val
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setAppLocale(getSharedPreferences(Constants.SHARED_PREF_SETTINGS, Context.MODE_PRIVATE).getString(Constants.LANGUAGE,"en")!!)
+    viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+    viewModel.setAppLocale(getSharedPreferences(Constants.SHARED_PREF_SETTINGS, Context.MODE_PRIVATE).getString(Constants.LANGUAGE,"en")!!,this@MainActivity)
         binding = ActivityMainBinding.inflate(layoutInflater)
+
+    //initialize viewModel
+
     //hide status bar
     getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
@@ -48,22 +56,20 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.findNavController()
 
         appBarConfiguration = AppBarConfiguration(setOf(R.id.homeFragment, R.id.favouriteFragment, R.id.alarmFragment))
-//        setSupportActionBar(binding.toolbar)
-//        setupActionBarWithNavController(navController, appBarConfiguration)
 
         //inflate and connect Bottom Navigation view to Nav Comp
         binding.bottomNav.setupWithNavController(navController)
 
-        if(isFirstTime()){
-            createSettingsSharedPreferences()
-            if(isOnline(this)){
+        if(viewModel.isFirstTime(this@MainActivity)){
+            viewModel.createSettingsSharedPreferences(this@MainActivity)
+            if(viewModel.isOnline(this)){
                 getSharedPreferences(Constants.SHARED_PREF_SETTINGS, Context.MODE_PRIVATE).edit().putBoolean(Constants.SETTINGS_IS_FIRST_TIME,false).apply()
             }else{
                 showErrorDialog(this)
             }
         } else{
         }
-        if(dayOrNight(getDayTime(),"06:00","17:00") == "day" ){
+        if(viewModel.dayOrNight(viewModel.getDayTime(),"06:00","17:00") == "day" ){
             binding.starsWhite.onStop()
             binding.stars.onStop()
             binding.stars.visibility = View.GONE
@@ -85,42 +91,10 @@ class MainActivity : AppCompatActivity() {
         val builder = AlertDialog.Builder(context)
         builder.setTitle(R.string.NetworkError)
         builder.setMessage("Kindly enable internet for first time to launch properly").setCancelable(false)
-
         builder.setPositiveButton(R.string.Exit) { _, _ ->
             finish()
         }
         builder.show()
-    }
-
-    private fun isFirstTime():Boolean{
-        val sharedPref = getSharedPreferences(Constants.SHARED_PREF_SETTINGS, MODE_PRIVATE)
-        val editor = sharedPref?.edit()
-        return if(! sharedPref?.contains(Constants.SETTINGS_IS_FIRST_TIME)!!){
-            editor?.putBoolean(Constants.SETTINGS_IS_FIRST_TIME,true)?.apply()
-            true
-        }else{
-            false
-        }
-    }
-
-    private fun isOnline(context: Context): Boolean {
-        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        if (connectivityManager != null) {
-            val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-            if (capabilities != null) {
-                if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
-                    Log.i(Constants.LOG_TAG, "NetworkCapabilities.TRANSPORT_CELLULAR")
-                    return true
-                } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
-                    Log.i(Constants.LOG_TAG, "NetworkCapabilities.TRANSPORT_WIFI")
-                    return true
-                } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
-                    Log.i(Constants.LOG_TAG, "NetworkCapabilities.TRANSPORT_ETHERNET")
-                    return true
-                }
-            }
-        }
-        return false
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -157,7 +131,7 @@ class MainActivity : AppCompatActivity() {
             setPositiveButton(R.string.save,object : DialogInterface.OnClickListener{
                 override fun onClick(p0: DialogInterface?, p1: Int) {
                     sharedPref.edit().putString(Constants.LANGUAGE,newLang).apply()
-                    setAppLocale(newLang)
+                    viewModel.setAppLocale(newLang,this@MainActivity)
                     val intent = getIntent()
                     finish()
                     startActivity(intent)
@@ -212,44 +186,11 @@ class MainActivity : AppCompatActivity() {
         resources.updateConfiguration(config, dm);
     }*/
 
-    fun setAppLocale(languageCode: String?) {
-        val locale = Locale(languageCode)
-        Locale.setDefault(locale)
-        val resources: Resources = resources
-        val config: Configuration = resources.configuration
-        config.setLocale(locale)
-        resources.updateConfiguration(config, resources.displayMetrics)
-    }
 
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
 
-    private fun createSettingsSharedPreferences(){
-        val sharedPref = getSharedPreferences(Constants.SHARED_PREF_SETTINGS, MODE_PRIVATE)
-        val editor = sharedPref?.edit()
-        editor?.putString(Constants.LANGUAGE,Constants.LANGUAGE_VALUE)?.apply()
-        editor?.putString(Constants.UNITS,Constants.UNITS_VALUE)?.apply()
-    }
 
-    private fun dayOrNight(currentTime: String,sunrise:String,sunset:String): String {
-        val currentNum = currentTime.substringBefore(":").toInt()
-        val sunriseNum = sunrise.substringBefore(":").toInt()
-        val sunsetNum = sunset.substringBefore(":").toInt()
-        if(currentNum in sunriseNum until sunsetNum){
-            return "day"
-        }else{
-            return "night"
-        }
-    }
-
-
-
-    private fun getDayTime():String{
-        val calender = Calendar.getInstance()
-        val dateFormat = SimpleDateFormat("HH:MM", Locale("en"));
-        Log.i(Constants.LOG_TAG, "${dateFormat.format(calender.time)}")
-        return dateFormat.format(calender.time)
-    }
 
 }

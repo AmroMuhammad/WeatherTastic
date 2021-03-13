@@ -14,6 +14,7 @@ import com.amro.weathertastic.utils.SunriseViewLibrary.Time
 import com.amro.weathertastic.databinding.ItemPageBinding
 import com.amro.weathertastic.model.entities.WeatherResponse
 import com.amro.weathertastic.utils.Constants
+import com.amro.weathertastic.viewModel.HomeViewModel
 import com.github.matteobattilana.weather.PrecipType
 import com.jem.fliptabs.FlipTab
 import java.io.IOException
@@ -22,7 +23,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-    class ViewPagerAdapter(private var list:ArrayList<WeatherResponse>) : RecyclerView.Adapter<ViewPagerAdapter.ViewHolder>() {
+    class ViewPagerAdapter(private var list:ArrayList<WeatherResponse>,val viewModel: HomeViewModel) : RecyclerView.Adapter<ViewPagerAdapter.ViewHolder>() {
         private lateinit var context: Context
         private lateinit var savedUnit: String
         private lateinit var savedLang: String
@@ -43,23 +44,25 @@ import kotlin.collections.ArrayList
         override fun onBindViewHolder(holder: ViewPagerAdapter.ViewHolder, position: Int) {
             //setting two recyclers
             initRecyclers(holder)
-            holder.binding.hourlyRecycler.adapter = HourlyRecyclerAdapter(list[position].hourly!!,list[position].timezoneOffset!!)
-            holder.binding.dailyRecycler.adapter = DailyRecyclerAdapter(list[position].daily!!,list[position].timezoneOffset!!)
+            holder.binding.hourlyRecycler.adapter = HourlyRecyclerAdapter(list[position].hourly!!,list[position].timezoneOffset!!,viewModel)
+            holder.binding.dailyRecycler.adapter = DailyRecyclerAdapter(list[position].daily!!,list[position].timezoneOffset!!,viewModel)
 
             //assigning values
-            holder.binding.mainCard.cityNameTV.text = getCityName(position)
+            holder.binding.mainCard.cityNameTV.text = viewModel.getCityName(context,savedLang,list[position].lat,list[position].lon,list[position].timezone!!)
             holder.binding.mainCard.condTV.text = list[position].current!!.weather?.get(0)!!.description!!
-            holder.binding.mainCard.cityTimeDayTV.text = getDayTime(position)
+            holder.binding.mainCard.cityTimeDayTV.text = viewModel.getDayTime(list[position].current?.dt!!,list[position].timezoneOffset!!,savedLang)
             val araNum = NumberFormat.getInstance(Locale(savedLang)).format(list[position].current!!.temp);
             holder.binding.mainCard.degreeMin.text = araNum.toString()
             holder.binding.mainCard.condImg.setAnimation(
-                getIcon(
+                viewModel.getIcon(
                     list[position].current?.weather?.get(
                         0
                     )?.icon!!
                 )
             )
-            if (dayOrNight(getDayTime(position), sunRiseTime(position), sunsetTime(position)) == "day"
+            if (viewModel.dayOrNight(viewModel.getDayTime(list[position].current?.dt!!,list[position].timezoneOffset!!,savedLang)
+                    ,viewModel.sunRiseTime(list[position].current?.sunrise!!,list[position].timezoneOffset!!,savedLang)
+                    ,viewModel.sunsetTime(list[position].current?.sunset!!,list[position].timezoneOffset!!,savedLang)) == "day"
             ) {
                 holder.binding.stars.visibility = View.GONE
                 holder.binding.starsWhite.visibility = View.GONE
@@ -106,14 +109,10 @@ import kotlin.collections.ArrayList
             }
 
             //sunrise and sunset
-            holder.binding.ssv.sunriseTime = Time(
-                sunRiseTime(position).substringBefore(":").toInt(),
-                sunRiseTime(position).substringAfter(":").toInt()
-            );
-            holder.binding.ssv.sunsetTime = Time(
-                sunsetTime(position).substringBefore(":").toInt(),
-                sunsetTime(position).substringAfter(":").toInt()
-            )
+            holder.binding.ssv.sunriseTime = Time(viewModel.sunRiseTime(list[position].current?.sunrise!!,list[position].timezoneOffset!!,savedLang).substringBefore(":").toInt()
+                ,viewModel.sunRiseTime(list[position].current?.sunrise!!,list[position].timezoneOffset!!,savedLang).substringAfter(":").toInt());
+            holder.binding.ssv.sunsetTime = Time(viewModel.sunsetTime(list[position].current?.sunset!!,list[position].timezoneOffset!!,savedLang).substringBefore(":").toInt()
+                ,viewModel.sunsetTime(list[position].current?.sunset!!,list[position].timezoneOffset!!,savedLang).substringAfter(":").toInt())
             holder.binding.ssv.labelFormatter = object : SimpleSunriseSunsetLabelFormatter() {
                 private fun formatLabel(time: Time): String {
                     return String.format(
@@ -132,7 +131,7 @@ import kotlin.collections.ArrayList
                     return formatLabel(sunset)
                 }
             }
-            holder.binding.ssv.startAnimate(getTimeInCalender(position))
+            holder.binding.ssv.startAnimate(viewModel.getTimeInCalender(list[position].current?.dt!!,list[position].timezoneOffset!!))
 
             //rain or snow
             when (list[position].current?.weather?.get(0)?.main) {
@@ -208,105 +207,4 @@ import kotlin.collections.ArrayList
             holder.binding.hourlyRecycler.setHasFixedSize(true)
             holder.binding.dailyRecycler.setHasFixedSize(true)
         }
-
-        private fun getCityName(position: Int):String{
-            var locationAddress = ""
-            val geocoder = Geocoder(context, Locale(savedLang));
-            try {
-                if(savedLang=="ar"){
-                    locationAddress = geocoder.getFromLocation(list[position].lat,list[position].lon,1)[0].countryName ?: list[position].timezone!!
-                }else{
-                locationAddress = geocoder.getFromLocation(list[position].lat,list[position].lon,1)[0].adminArea ?: list[position].timezone!!
-                locationAddress += ", ${geocoder.getFromLocation(list[position].lat,list[position].lon,1)[0].countryName ?: list[position].timezone!!}"}
-            } catch (e: IOException){
-                e.printStackTrace()
-            }
-            return locationAddress
-        }
-
-        private fun getDayTime(position: Int):String{
-            val calender = Calendar.getInstance()
-            calender.timeInMillis = (list[position].current?.dt?.plus(list[position].timezoneOffset!!)?.minus(7200)?.toLong() ?: 10)*1000L
-            val dateFormat = SimpleDateFormat("EE, HH:MM",Locale(savedLang));
-            return dateFormat.format(calender.time)
-        }
-
-        private fun getTimeInCalender(position: Int):Calendar{
-            val calenderr = Calendar.getInstance()
-            calenderr.timeInMillis = (list[position].current?.dt?.plus(list[position].timezoneOffset!!)?.minus(7200)?.toLong() ?: 10)*1000L
-            return calenderr
-        }
-
-        private fun sunRiseTime(position: Int):String{
-            val calender = Calendar.getInstance()
-            calender.timeInMillis = (list[position].current?.sunrise?.plus(list[position].timezoneOffset!!)?.minus(7200)?.toLong() ?: 10)*1000L
-            val dateFormat = SimpleDateFormat("HH:MM",Locale(savedLang));
-            return dateFormat.format(calender.time)
-        }
-
-        private fun sunsetTime(position: Int):String{
-            val calender = Calendar.getInstance()
-            calender.timeInMillis = (list[position].current?.sunset?.plus(list[position].timezoneOffset!!)?.minus(7200)?.toLong() ?: 10)*1000L
-            val dateFormat = SimpleDateFormat("HH:MM",Locale(savedLang));
-            return dateFormat.format(calender.time)
-        }
-
-        private fun dayOrNight(currentTime: String,sunrise:String,sunset:String): String {
-            val currentNum = currentTime.substringAfter(" ").substringBefore(":")
-            val sunriseNum = sunrise.substringBefore(":")
-            val sunsetNum = sunset.substringBefore(":")
-            if(currentNum in sunriseNum..sunsetNum){
-                return "day"
-            }else{
-                return "night"
-            }
-        }
-
-        fun getIcon(id:String): Int{
-            when(id){
-                "01d"->{
-                    return R.raw.clearsky
-                }
-                "01n"->{
-                    return R.raw.clearsky
-                }
-                "02d"->{
-                    return R.raw.scattered
-                }
-                "02n"->{
-                    return R.raw.scattered
-                }
-                "03d","03n","04d","04n"->{
-                    return R.raw.scattered
-                }
-                "09d","10d"->{
-                    return R.raw.rain
-                }
-                "09n","10n"->{
-                    return R.raw.rain
-                }
-                "11d"->{
-                    return R.raw.thunder
-                }
-                "11n"->{
-                    return R.raw.thunder
-                }
-                "13d"->{
-                    return R.raw.snow
-                }
-                "13n"->{
-                    return R.raw.snow
-                }
-                "50d"->{
-                    return R.raw.mist
-                }
-                "50n"->{
-                    return R.raw.mist
-                }
-                else->{
-                    return R.raw.clearsky
-                }
-            }
-        }
-
 }

@@ -76,7 +76,7 @@ class WeatherRepository(application: Application) {
             return localAlarmDatabase.getAllAlarms()
     }
 
-    fun getCurrentForBroadCast(latitude:String=lat,longitude:String=long){
+    fun refreshCurrentLocation(latitude:String=lat,longitude:String=long){
         runBlocking(Dispatchers.IO) {
             launch {
                 try{
@@ -115,7 +115,7 @@ class WeatherRepository(application: Application) {
             }
     }
 
-    fun fetchFavFromLocalDatabase():List<WeatherResponse>?{
+    fun getUnrefreshedData():List<WeatherResponse>?{
         var unrefreshedList:List<WeatherResponse>? = null
         runBlocking(Dispatchers.IO){
             launch {

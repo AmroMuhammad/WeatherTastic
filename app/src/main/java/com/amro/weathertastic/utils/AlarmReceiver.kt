@@ -34,7 +34,7 @@ class AlarmReceiver : BroadcastReceiver() {
         alarmId = intent.getExtras()!!.getInt(Constants.ALARM_ID)
         Log.i(Constants.LOG_TAG, intent.getExtras()!!.getInt(Constants.ALARM_ID).toString())
         repo = WeatherRepository(context.applicationContext as Application)
-        repo.getCurrentForBroadCast()
+        repo.refreshCurrentLocation()
 
         val lat = context.getSharedPreferences(Constants.SHARED_PREF_CURRENT_LOCATION,Context.MODE_PRIVATE).getString(Constants.CURRENT_LATITUDE,"0.0")
         val lon = context.getSharedPreferences(Constants.SHARED_PREF_CURRENT_LOCATION,Context.MODE_PRIVATE).getString(Constants.CURRENT_LONGITUDE,"0.0")
