@@ -37,18 +37,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         repository.refreshCurrentLocation(lat,lon)
     }
 
-    fun saveCurrentLocationToSharedPref(latitude: String,longitude: String,activity: FragmentActivity){
-        val sharedPref = activity.getSharedPreferences(Constants.SHARED_PREF_CURRENT_LOCATION, AppCompatActivity.MODE_PRIVATE)
-        val editor = sharedPref?.edit()
-        if(sharedPref?.getString(Constants.CURRENT_LONGITUDE,"null") != longitude){
-            editor?.putString(Constants.OLD_LATITUDE,sharedPref.getString(Constants.CURRENT_LATITUDE,"null"))?.apply()
-            editor?.putString(Constants.OLD_LONGITUDE,sharedPref.getString(Constants.CURRENT_LONGITUDE,"null"))?.apply()
-            editor?.putString(Constants.CURRENT_LATITUDE,latitude)?.apply()
-            editor?.putString(Constants.CURRENT_LONGITUDE,longitude)?.apply()
-            refreshCurrentLocation(latitude,longitude)
-        }
-    }
-
     fun getIcon(id:String): Int{
         when(id){
             "01d"->{

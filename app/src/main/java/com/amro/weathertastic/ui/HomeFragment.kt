@@ -63,15 +63,18 @@ class HomeFragment : Fragment() {
         viewModel.loadAllData().observe(viewLifecycleOwner, {
             if(it != null ) {
                 if(it.isNotEmpty()) {
+                    binding.progressbar.visibility = View.GONE;
                     Log.i(Constants.LOG_TAG, "Here")
                     viewPagerAdapter.setIncomingList(it.reversed())
                     binding.indicator.setViewPager2(binding.viewPager2)
                     binding.backgroundNoData.visibility = View.GONE
                 }else{
                 binding.backgroundNoData.visibility = View.VISIBLE
+                    binding.progressbar.visibility = View.VISIBLE
                 }
             }else{
                 binding.backgroundNoData.visibility = View.VISIBLE
+                binding.progressbar.visibility = View.VISIBLE
             }
         })
 
@@ -142,7 +145,19 @@ class HomeFragment : Fragment() {
             val location = locationResult.lastLocation
             val lonDecimal = BigDecimal(location.longitude).setScale(4, RoundingMode.HALF_DOWN)
             val latDecimal = BigDecimal(location.latitude).setScale(4, RoundingMode.HALF_DOWN)
-            viewModel.saveCurrentLocationToSharedPref(latDecimal.toString(),lonDecimal.toString(),activity!!)
+            saveCurrentLocationToSharedPref(latDecimal.toString(),lonDecimal.toString())
+        }
+    }
+
+    fun saveCurrentLocationToSharedPref(latitude: String,longitude: String){
+        val sharedPref = activity?.getSharedPreferences(Constants.SHARED_PREF_CURRENT_LOCATION, AppCompatActivity.MODE_PRIVATE)
+        val editor = sharedPref?.edit()
+        if(sharedPref?.getString(Constants.CURRENT_LONGITUDE,"null") != longitude){
+            editor?.putString(Constants.OLD_LATITUDE,sharedPref.getString(Constants.CURRENT_LATITUDE,"null"))?.apply()
+            editor?.putString(Constants.OLD_LONGITUDE,sharedPref.getString(Constants.CURRENT_LONGITUDE,"null"))?.apply()
+            editor?.putString(Constants.CURRENT_LATITUDE,latitude)?.apply()
+            editor?.putString(Constants.CURRENT_LONGITUDE,longitude)?.apply()
+            viewModel.refreshCurrentLocation(latitude,longitude)
         }
     }
 

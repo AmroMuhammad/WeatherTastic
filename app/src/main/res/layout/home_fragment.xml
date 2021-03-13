@@ -17,6 +17,12 @@
         android:id="@+id/backgroundNoData"
         android:scaleType="centerCrop"/>
 
+    <ProgressBar
+        android:id="@+id/progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/homeRefreshLayout"
         android:layout_width="match_parent"
