@@ -76,16 +76,16 @@ class WeatherRepository(application: Application) {
             return localAlarmDatabase.getAllAlarms()
     }
 
-    fun getCurrentForBroadCast(){
+    fun getCurrentForBroadCast(latitude:String=lat,longitude:String=long){
         runBlocking(Dispatchers.IO) {
             launch {
                 try{
             if (lat != null) {
-                val response = remoteDataSource.getWeatherService().getAllData(lat, long, Constants.EXCLUDE_MINUTELY, units, language, Constants.WEATHER_API_KEY)
+                val response = remoteDataSource.getWeatherService().getAllData(latitude, longitude, Constants.EXCLUDE_MINUTELY, units, language, Constants.WEATHER_API_KEY)
                 if (response.isSuccessful) {
                     localDataSource.insertDefault(response.body())
                     localDataSource.deleteDefault(oldLat,oldLong)
-                    Log.i(Constants.LOG_TAG, "success")
+                    Log.i(Constants.LOG_TAG, "success22")
                 }
             }
             }catch(e:Exception){
@@ -93,7 +93,7 @@ class WeatherRepository(application: Application) {
             }
         }
         }
-        Log.i(Constants.LOG_TAG, "outhere")
+        Log.i(Constants.LOG_TAG, "outhere22")
     }
 
     fun deleteAlarmById(id:String) {

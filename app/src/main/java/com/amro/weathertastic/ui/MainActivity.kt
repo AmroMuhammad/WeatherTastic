@@ -84,7 +84,7 @@ class MainActivity : AppCompatActivity() {
     private fun showErrorDialog(context: Context){
         val builder = AlertDialog.Builder(context)
         builder.setTitle(R.string.NetworkError)
-        builder.setMessage("Kindly enable internet for first time to launch properly")
+        builder.setMessage("Kindly enable internet for first time to launch properly").setCancelable(false)
 
         builder.setPositiveButton(R.string.Exit) { _, _ ->
             finish()

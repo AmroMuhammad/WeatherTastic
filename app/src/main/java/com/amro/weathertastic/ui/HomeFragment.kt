@@ -107,6 +107,7 @@ class HomeFragment : Fragment() {
                 with(locationRequest) {
                     priority = LocationRequest.PRIORITY_HIGH_ACCURACY
                     interval = 1000
+                    numUpdates = 10
                 }
                 val fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity())
                 fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper())
@@ -152,6 +153,7 @@ class HomeFragment : Fragment() {
             editor?.putString(Constants.OLD_LONGITUDE,sharedPref.getString(Constants.CURRENT_LONGITUDE,"null"))?.apply()
             editor?.putString(Constants.CURRENT_LATITUDE,latitude)?.apply()
             editor?.putString(Constants.CURRENT_LONGITUDE,longitude)?.apply()
+            viewModel.ghghghghghghgh(latitude,longitude)
         }
     }
 
@@ -160,15 +162,17 @@ class HomeFragment : Fragment() {
         startActivity(intent)
     }
 
-    private fun requestPermission() {
-        ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION), Constants.LOCATION_PERMISSION_CODE)
+    private fun requestPermission(){
+        var permissions= arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
+        requestPermissions(permissions, Constants.LOCATION_PERMISSION_CODE)
+
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == Constants.LOCATION_PERMISSION_CODE) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 getLatestLocation()
+            }
         }
     }
 

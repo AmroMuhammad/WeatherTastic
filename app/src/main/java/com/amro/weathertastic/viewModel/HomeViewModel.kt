@@ -20,4 +20,8 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     fun getUnrefreshedData():List<WeatherResponse>?{
         return repository.fetchFavFromLocalDatabase()
     }
+
+    fun ghghghghghghgh(lat: String,lon: String) {
+        repository.getCurrentForBroadCast(lat,lon)
+    }
 }
