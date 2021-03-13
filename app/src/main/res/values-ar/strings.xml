@@ -55,7 +55,7 @@
     <string name="rainUnit">مم</string>
     <string name="checkMore">تحقق من ان القيمة اكبر من</string>
     <string name="checkLess">تحقق من ان القيمة اصغر من</string>
-
+    <string name="deleteAlarm">من فضلك اغلق المنبه قبل المسح</string>
 
 
 </resources>

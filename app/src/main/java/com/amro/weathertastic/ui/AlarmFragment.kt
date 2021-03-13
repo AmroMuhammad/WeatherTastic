@@ -40,6 +40,7 @@ class AlarmFragment : Fragment() {
     private lateinit var sharedPref:SharedPreferences
     private var switchCase = false
     private lateinit var alarmAdaptor: AlarmRecyclerAdaptor
+    var length:Int?= null
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -55,29 +56,40 @@ class AlarmFragment : Fragment() {
         initRecyclers()
         sharedPref = activity?.getSharedPreferences(Constants.SHARED_PREF_SETTINGS,Context.MODE_PRIVATE)!!
         switchCase = sharedPref!!.getBoolean(Constants.isSwitchOn,false)
-//        if(switchCase){
-//            binding.include.onOffSwitch.isChecked = switchCase
-//            binding.include.cardView2.visibility = View.GONE
-//        }else{
-//            binding.include.onOffSwitch.isChecked = switchCase
-//            binding.include.cardView2.visibility = View.VISIBLE
-//
-//        }
+        if(switchCase){
+            binding.include.onOffSwitch.isChecked = switchCase
+            binding.include.cardView2.visibility = View.GONE
+            binding.include.groupRB.visibility = View.GONE
+            binding.include.alarmStateTV.text = resources.getString(R.string.alarmOn)
+            binding.include.alarmTimeTV.text = "11:11"
+        }else{
+            binding.include.onOffSwitch.isChecked = switchCase
+            binding.include.cardView2.visibility = View.VISIBLE
+            binding.include.groupRB.visibility = View.VISIBLE
+            binding.include.alarmStateTV.text = resources.getString(R.string.alarmOff)
+            binding.include.alarmTimeTV.text = "--:--"
+        }
 
 
         viewModel.getAllData().observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             if(it!= null){
-                if(! it.isEmpty()){
+                if(it.isNotEmpty()){
                 Toast.makeText(requireContext(),it.toString(),Toast.LENGTH_SHORT).show()
                 alarmList.addAll(it)
+                    length = alarmList.size
+                    Log.i(Constants.LOG_TAG,"get All Data1  $length" )
                 alarmAdaptor.setIncomingList(it)
                     binding.backgroundNoData.visibility = View.GONE
-
                 }else{
-                    binding.backgroundNoData.visibility = View.VISIBLE
+                    alarmList.addAll(it)
+                    length=it.size
+                    Log.i(Constants.LOG_TAG,"get All Data2  $length" )
 
+                    binding.backgroundNoData.visibility = View.VISIBLE
                 }
             }else{
+                Log.i(Constants.LOG_TAG,"get All Data  $length" )
+                length=null
                 binding.backgroundNoData.visibility = View.VISIBLE
             }
 
@@ -87,10 +99,13 @@ class AlarmFragment : Fragment() {
         })
 
         binding.include.onOffSwitch.setOnClickListener{
-            if(binding.include.alarmTimeTV.text == "--:--"){
+            if(!binding.include.onOffSwitch.isChecked){
+                length =1;
+            }
+            if(binding.include.alarmTimeTV.text == "--:--" ){
                 Toast.makeText(requireContext(),resources.getString(R.string.cautionTime),Toast.LENGTH_SHORT).show()
                 binding.include.onOffSwitch.isChecked=false
-            }else if(alarmList== null || alarmList.size ==0){
+            }else if(length== null || length ==0){
                 Toast.makeText(requireContext(),"kindly add alert",Toast.LENGTH_SHORT).show()
                 binding.include.onOffSwitch.isChecked=false
             }else if(binding.include.onOffSwitch.isChecked){
@@ -140,7 +155,6 @@ class AlarmFragment : Fragment() {
                     calenderEvent.set(Calendar.SECOND,0)
                     textView.setText(SimpleDateFormat("HH:mm").format(calenderEvent.time))
                 Log.i(Constants.LOG_TAG,"${calenderEvent.timeInMillis}")
-
             }
         }, hour, min, false).show()
     }

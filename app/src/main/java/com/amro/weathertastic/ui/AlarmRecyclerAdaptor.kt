@@ -4,9 +4,12 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.compose.runtime.saveable.SaveableStateRegistry
 import androidx.recyclerview.widget.RecyclerView
@@ -20,6 +23,7 @@ import com.amro.weathertastic.viewModel.AlarmViewModel
 class AlarmRecyclerAdaptor(val list: ArrayList<AlertModel>,val viewModel: AlarmViewModel) : RecyclerView.Adapter<AlarmRecyclerAdaptor.ViewHolder>() {
     private lateinit var context: Context
     private var savedUnit:String = "metric"
+    private  var mainAlarmState:Boolean = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         context = parent.context
@@ -36,7 +40,12 @@ class AlarmRecyclerAdaptor(val list: ArrayList<AlertModel>,val viewModel: AlarmV
         setWeekImages(position,holder)
 
         holder.binding.alarmItemContainer.setOnLongClickListener(View.OnLongClickListener {
-            showDeletionDialog(position)
+            mainAlarmState = context?.getSharedPreferences(Constants.SHARED_PREF_SETTINGS,Context.MODE_PRIVATE)!!.getBoolean(Constants.isSwitchOn,false)
+            if(mainAlarmState){
+                Toast.makeText(context,context.resources.getString(R.string.deleteAlarm),Toast.LENGTH_SHORT).show()
+            }else{
+                showDeletionDialog(position)
+            }
             true
         })
         holder.binding.condImg.setAnimation(getIcon(list[position].alertType,holder))
@@ -48,7 +57,7 @@ class AlarmRecyclerAdaptor(val list: ArrayList<AlertModel>,val viewModel: AlarmV
         builder.setMessage(R.string.alertMessage1)
 
         builder.setPositiveButton(R.string.yes) { _, _ ->
-            unregisterAlarm(list[position].id)
+            unregisterAll(list[position].id)
             viewModel.deleteAlarmById(list[position].id.toString())
 
         }
@@ -57,20 +66,26 @@ class AlarmRecyclerAdaptor(val list: ArrayList<AlertModel>,val viewModel: AlarmV
         builder.show()
     }
 
-    private fun unregisterAlarm(id:Int){
+    fun unregisterAll(id:Int){
             val notifyIntent = Intent(context, AlarmReceiver::class.java)
-            var pendingIntent = PendingIntent.getBroadcast(context,id,notifyIntent,PendingIntent.FLAG_UPDATE_CURRENT)
+            var pendingIntent = PendingIntent.getBroadcast(context,id,notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT)
             val alarmManager = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             if (alarmManager != null) {
                 alarmManager.cancel(pendingIntent)
+                Log.i(Constants.LOG_TAG,"id inside recycler $id")
             }
-                pendingIntent = PendingIntent.getBroadcast(context,id+1000,notifyIntent,PendingIntent.FLAG_UPDATE_CURRENT)
+        pendingIntent = PendingIntent.getBroadcast(context,id+2000,notifyIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT)
                 if (alarmManager != null) {
                     alarmManager.cancel(pendingIntent)
+                    Log.i(Constants.LOG_TAG, "id inside recycler ${id+2000}")
                 }
-                pendingIntent = PendingIntent.getBroadcast(context,id+2000,notifyIntent,PendingIntent.FLAG_UPDATE_CURRENT)
+
+        pendingIntent = PendingIntent.getBroadcast(context,id+1000,notifyIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT)
                 if (alarmManager != null) {
                     alarmManager.cancel(pendingIntent)
+                    Log.i(Constants.LOG_TAG, "id inside recycler ${id+1000}")
                 }
     }
 
