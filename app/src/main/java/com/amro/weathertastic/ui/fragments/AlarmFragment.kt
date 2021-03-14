@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.amro.weathertastic.R
 import com.amro.weathertastic.databinding.AlarmFragmentBinding
 import com.amro.weathertastic.model.alarmDatabase.AlertModel
-import com.amro.weathertastic.ui.AlarmFragmentDirections
 import com.amro.weathertastic.ui.adapters.AlarmRecyclerAdaptor
 import com.amro.weathertastic.utils.Constants
 import com.amro.weathertastic.viewModel.AlarmViewModel
