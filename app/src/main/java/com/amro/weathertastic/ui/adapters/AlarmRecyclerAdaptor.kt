@@ -1,17 +1,15 @@
-package com.amro.weathertastic.ui
+package com.amro.weathertastic.ui.adapters
 
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.compose.runtime.saveable.SaveableStateRegistry
 import androidx.recyclerview.widget.RecyclerView
 import com.amro.weathertastic.R
 import com.amro.weathertastic.databinding.AlarmItemBinding

@@ -1,5 +1,4 @@
 <resources>
-    <string name="hello">مرحبا</string>
     <string name="caution">تحذير</string>
     <string name="alertMessage1">هل تريد مسح هذا العنصر؟</string>
     <string name="yes">نعم</string>
@@ -9,7 +8,6 @@
     <string name="getPermission">الحصول علي إذن</string>
     <string name="ignore">تجاهل</string>
     <string name="NetworkError">خطأ في الاتصال</string>
-    <string name="NetworkMessage">يرجى تشغيل الإنترنت لأول مرة لاستخدام التطبيق بشكل صحيح</string>
     <string name="Exit">خروج</string>
     <string name="language">اختيار اللغة</string>
     <string name="save">حفظ</string>
@@ -28,13 +26,8 @@
     <string name="cloudiness">غيوم</string>
     <string name="thunderstorm">عواصف رعدية</string>
     <string name="empty"></string>
-    <string name="anytime">أي وقت</string>
-    <string name="periodOfTime">فترة معينة</string>
-    <string name="from">من</string>
-    <string name="to">الي</string>
     <string name="weekend">من فضلك اختر علي الاقل يوم واحد</string>
     <string name="alertType">من فضلك اختر نوع الانذار</string>
-    <string name="time">من فضلك اختر وقت البدأ و الانتهاء</string>
     <string name="alarmOff">المنبه مغلق</string>
     <string name="alarmOn">المنبه مفعل</string>
     <string name="checkEvent">تحقق من الحالة عند</string>
@@ -54,8 +47,8 @@
     <string name="alarmType">نوع المنبه</string>
     <string name="rainUnit">مم</string>
     <string name="checkMore">تحقق من ان القيمة اكبر من</string>
-    <string name="checkLess">تحقق من ان القيمة اصغر من</string>
     <string name="deleteAlarm">من فضلك اغلق المنبه قبل المسح</string>
+    <string name="addAlarm">من فضلك اضف منبه اولا</string>
 
 
 </resources>

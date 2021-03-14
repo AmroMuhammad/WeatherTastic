@@ -1,8 +1,6 @@
-    package com.amro.weathertastic.ui
+    package com.amro.weathertastic.ui.adapters
 
 import android.content.Context
-import android.location.Geocoder
-import android.opengl.Visibility
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,9 +15,7 @@ import com.amro.weathertastic.utils.Constants
 import com.amro.weathertastic.viewModel.HomeViewModel
 import com.github.matteobattilana.weather.PrecipType
 import com.jem.fliptabs.FlipTab
-import java.io.IOException
 import java.text.NumberFormat
-import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -32,7 +28,7 @@ import kotlin.collections.ArrayList
         override fun onCreateViewHolder(
             parent: ViewGroup,
             viewType: Int
-        ): ViewPagerAdapter.ViewHolder {
+        ): ViewHolder {
             context = parent.context
             savedUnit = context.getSharedPreferences(Constants.SHARED_PREF_SETTINGS, Context.MODE_PRIVATE).getString(Constants.UNITS, "metric").toString()
             savedLang = context.getSharedPreferences(Constants.SHARED_PREF_SETTINGS, Context.MODE_PRIVATE).getString(Constants.LANGUAGE, "en").toString()
@@ -41,8 +37,8 @@ import kotlin.collections.ArrayList
             return view
         }
 
-        
-        override fun onBindViewHolder(holder: ViewPagerAdapter.ViewHolder, position: Int) {
+
+        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             //setting two recyclers
             initRecyclers(holder)
             holder.binding.hourlyRecycler.adapter = HourlyRecyclerAdapter(list[position].hourly!!,list[position].timezoneOffset!!,viewModel)
@@ -202,7 +198,7 @@ import kotlin.collections.ArrayList
 
     inner class ViewHolder(val binding: ItemPageBinding) : RecyclerView.ViewHolder(binding.root)
 
-        fun initRecyclers(holder:ViewHolder){
+        fun initRecyclers(holder: ViewHolder){
             holder.binding.hourlyRecycler.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
             holder.binding.dailyRecycler.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
             holder.binding.hourlyRecycler.setHasFixedSize(true)

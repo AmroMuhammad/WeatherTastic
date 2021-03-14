@@ -9,28 +9,16 @@
     <color name="white">#FFFFFFFF</color>
     <color name="trans">#00FFFFFF</color>
     <color name="greyCard">#E6E6E6</color>
-    <color name="greyText">#E6E6E6</color>
     <color name="sepratorNight">#F44336</color>
     <color name="sepratorDay">#000000</color>
     <color name="sunColor">#FF9800</color>
     <color name="sunShadow">#DCC658</color>
-    <color name="menuColor1">#000A2F</color>
-    <color name="menuColor2">#E4931A</color>
 
 
     <!-- Customizing colors for disabled days-->
     <color name="dayPressed">@color/colorPrimaryDark</color>
-    <color name="daySelected">@color/colorPrimary</color>
-    <color name="daySelectedTextColor">@android:color/white</color>
-    <color name="dayDeselected">#FAFAFA</color>
-    <color name="dayDeselectedTextColor">@android:color/black</color>
 
     <!-- Customizing colors for disabled days-->
-    <color name="daySelectedAndDisabled">#43444F</color>
-    <color name="daySelectedAndDisabledTextColor">@color/daySelectedTextColor</color>
-    <color name="dayDeselectedAndDisabled">@color/dayDeselected</color>
-    <color name="dayDeselectedAndDisabledTextColor">@android:color/darker_gray</color>
-    <color name="yellow">#FFC107</color>
 
     <color name="star_color_1">#ffffff</color>
     <color name="star_color_2">#25ADFF</color>

@@ -6,7 +6,7 @@
     android:id="@+id/alarmConstraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.AlarmFragment"
+    tools:context=".ui.fragments.AlarmFragment"
     android:backgroundTint="#00000000">
 
     <androidx.appcompat.widget.Toolbar

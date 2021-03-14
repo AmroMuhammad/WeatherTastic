@@ -5,7 +5,7 @@
     android:id="@+id/favConstraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.FavouriteFragment"
+    tools:context=".ui.fragments.FavouriteFragment"
     android:backgroundTint="#00000000">
 
     <androidx.appcompat.widget.Toolbar

@@ -1,11 +1,10 @@
-package com.amro.weathertastic.ui
+package com.amro.weathertastic.ui.fragments
 
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Typeface
 import android.location.LocationManager
 import android.os.Bundle
 import android.os.Looper
@@ -14,19 +13,15 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import androidx.viewpager2.widget.ViewPager2
 import com.amro.weathertastic.R
 import com.amro.weathertastic.databinding.HomeFragmentBinding
-import com.amro.weathertastic.model.entities.WeatherResponse
+import com.amro.weathertastic.ui.adapters.ViewPagerAdapter
 import com.amro.weathertastic.utils.Constants
 import com.amro.weathertastic.viewModel.HomeViewModel
 import com.google.android.gms.location.LocationCallback
@@ -41,7 +36,7 @@ class HomeFragment : Fragment() {
     private lateinit var viewModel: HomeViewModel
     private var _binding: HomeFragmentBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewPagerAdapter :ViewPagerAdapter
+    private lateinit var viewPagerAdapter : ViewPagerAdapter
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

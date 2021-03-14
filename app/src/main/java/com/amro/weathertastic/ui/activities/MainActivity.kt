@@ -1,19 +1,13 @@
-package com.amro.weathertastic.ui
+package com.amro.weathertastic.ui.activities
 
 import android.content.Context
 import android.content.DialogInterface
-import android.content.res.Configuration
-import android.content.res.Resources
-import android.graphics.drawable.ColorDrawable
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -21,15 +15,11 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.onNavDestinationSelected
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.amro.weathertastic.R
 import com.amro.weathertastic.databinding.ActivityMainBinding
 import com.amro.weathertastic.utils.Constants
-import com.amro.weathertastic.viewModel.HomeViewModel
 import com.amro.weathertastic.viewModel.MainViewModel
-import java.text.SimpleDateFormat
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -124,7 +114,7 @@ class MainActivity : AppCompatActivity() {
             setTitle(R.string.language)
             setSingleChoiceItems(list,selectedLangNum,object: DialogInterface.OnClickListener{
                 override fun onClick(p0: DialogInterface?, p1: Int) {
-                        Toast.makeText(this@MainActivity,list[p1],Toast.LENGTH_SHORT).show()
+//                        Toast.makeText(this@MainActivity,list[p1],Toast.LENGTH_SHORT).show()
                     newLang = if(list[p1] == "English")"en" else "ar"
                 }
             })
@@ -157,7 +147,7 @@ class MainActivity : AppCompatActivity() {
             setTitle(R.string.units)
             setSingleChoiceItems(list,selectedUnitNum,object: DialogInterface.OnClickListener{
                 override fun onClick(p0: DialogInterface?, p1: Int) {
-                    Toast.makeText(this@MainActivity,list[p1],Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(this@MainActivity,list[p1],Toast.LENGTH_SHORT).show()
                     newUnit = list[p1]
                 }
             })

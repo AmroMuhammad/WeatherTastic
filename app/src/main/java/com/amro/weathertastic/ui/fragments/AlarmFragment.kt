@@ -1,15 +1,10 @@
-package com.amro.weathertastic.ui
+package com.amro.weathertastic.ui.fragments
 
-import android.app.AlarmManager
-import android.app.PendingIntent
 import android.app.TimePickerDialog
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,14 +12,17 @@ import android.widget.TextView
 import android.widget.TimePicker
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.amro.weathertastic.R
-import com.amro.weathertastic.viewModel.AlarmViewModel
 import com.amro.weathertastic.databinding.AlarmFragmentBinding
-import com.amro.weathertastic.utils.AlarmReceiver
 import com.amro.weathertastic.model.alarmDatabase.AlertModel
+import com.amro.weathertastic.ui.AlarmFragmentDirections
+import com.amro.weathertastic.ui.adapters.AlarmRecyclerAdaptor
 import com.amro.weathertastic.utils.Constants
+import com.amro.weathertastic.viewModel.AlarmViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -74,7 +72,7 @@ class AlarmFragment : Fragment() {
         viewModel.getAllData().observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             if(it!= null){
                 if(it.isNotEmpty()){
-                Toast.makeText(requireContext(),it.toString(),Toast.LENGTH_SHORT).show()
+//                Toast.makeText(requireContext(),it.toString(),Toast.LENGTH_SHORT).show()
                 alarmList.addAll(it)
                     length = alarmList.size
                     Log.i(Constants.LOG_TAG,"get All Data1  $length" )
@@ -106,10 +104,10 @@ class AlarmFragment : Fragment() {
                 Toast.makeText(requireContext(),resources.getString(R.string.cautionTime),Toast.LENGTH_SHORT).show()
                 binding.include.onOffSwitch.isChecked=false
             }else if(length== null || length ==0){
-                Toast.makeText(requireContext(),"kindly add alert",Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(),resources.getString(R.string.addAlarm),Toast.LENGTH_SHORT).show()
                 binding.include.onOffSwitch.isChecked=false
             }else if(binding.include.onOffSwitch.isChecked){
-                Toast.makeText(requireContext(),"Alarm is On",Toast.LENGTH_SHORT).show()
+//                Toast.makeText(requireContext(),"Alarm is On",Toast.LENGTH_SHORT).show()
                 binding.include.alarmStateTV.text = resources.getString(R.string.alarmOn)
                 viewModel.registerAll(context,alarmList,hourDuration,calenderEvent, activity as AppCompatActivity)
                 binding.include.cardView2.visibility = View.GONE
@@ -117,7 +115,7 @@ class AlarmFragment : Fragment() {
                 sharedPref?.edit()?.putBoolean(Constants.isSwitchOn,true)?.apply()
                 binding.favFloatingButton.visibility = View.GONE
             }else{
-                Toast.makeText(requireContext(),"Alarm is Off",Toast.LENGTH_SHORT).show()
+//                Toast.makeText(requireContext(),"Alarm is Off",Toast.LENGTH_SHORT).show()
                 binding.include.alarmStateTV.text = resources.getString(R.string.alarmOff)
                 binding.include.cardView2.visibility = View.VISIBLE
                 binding.include.groupRB.visibility = View.VISIBLE
@@ -135,13 +133,13 @@ class AlarmFragment : Fragment() {
         binding.include.groupRB.setOnCheckedChangeListener { radioGroup, i ->
             if(i == R.id.radioButton24){
                 hourDuration = 24
-                Toast.makeText(requireContext(),"$hourDuration",Toast.LENGTH_SHORT).show()
+//                Toast.makeText(requireContext(),"$hourDuration",Toast.LENGTH_SHORT).show()
             }else if(i == R.id.radioButton48){
                 hourDuration = 48
-                Toast.makeText(requireContext(),"$hourDuration",Toast.LENGTH_SHORT).show()
+//                Toast.makeText(requireContext(),"$hourDuration",Toast.LENGTH_SHORT).show()
             }else{
                 hourDuration = 72
-                Toast.makeText(requireContext(),"$hourDuration",Toast.LENGTH_SHORT).show()
+//                Toast.makeText(requireContext(),"$hourDuration",Toast.LENGTH_SHORT).show()
             }
         }
     }

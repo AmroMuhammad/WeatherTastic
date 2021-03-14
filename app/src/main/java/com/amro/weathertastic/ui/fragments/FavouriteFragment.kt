@@ -1,4 +1,4 @@
-package com.amro.weathertastic.ui
+package com.amro.weathertastic.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.amro.weathertastic.R
 import com.amro.weathertastic.databinding.FavouriteFragmentBinding
+import com.amro.weathertastic.ui.adapters.FavouriteRecyclerAdaptor
 import com.amro.weathertastic.utils.Constants
 import com.amro.weathertastic.viewModel.FavouriteViewModel
 import com.mapbox.api.geocoding.v5.models.CarmenFeature

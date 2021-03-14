@@ -7,17 +7,17 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.amro.weathertastic.ui.HomeFragment"
+        android:name="com.amro.weathertastic.ui.fragments.HomeFragment"
         android:label="@string/home"
         tools:layout="@layout/home_fragment" />
     <fragment
         android:id="@+id/favouriteFragment"
-        android:name="com.amro.weathertastic.ui.FavouriteFragment"
+        android:name="com.amro.weathertastic.ui.fragments.FavouriteFragment"
         android:label="@string/favourite"
         tools:layout="@layout/favourite_fragment" />
     <fragment
         android:id="@+id/alarmFragment"
-        android:name="com.amro.weathertastic.ui.AlarmFragment"
+        android:name="com.amro.weathertastic.ui.fragments.AlarmFragment"
         android:label="@string/alarm"
         tools:layout="@layout/alarm_fragment" >
         <action
@@ -26,7 +26,7 @@
     </fragment>
     <fragment
         android:id="@+id/addAlarmFragment"
-        android:name="com.amro.weathertastic.ui.AddAlarmFragment"
+        android:name="com.amro.weathertastic.ui.fragments.AddAlarmFragment"
         android:label="add_alarm_fragment"
         tools:layout="@layout/add_alarm_fragment" />
 </navigation>

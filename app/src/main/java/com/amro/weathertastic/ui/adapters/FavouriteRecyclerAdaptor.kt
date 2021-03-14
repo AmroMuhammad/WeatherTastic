@@ -1,4 +1,4 @@
-package com.amro.weathertastic.ui
+package com.amro.weathertastic.ui.adapters
 
 import android.content.Context
 import android.view.LayoutInflater

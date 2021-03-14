@@ -1,4 +1,4 @@
-package com.amro.weathertastic.ui
+package com.amro.weathertastic.ui.fragments
 
 import android.content.Context
 import androidx.lifecycle.ViewModelProvider
@@ -57,7 +57,7 @@ class AddAlarmFragment : Fragment() {
 
         binding.saveBtn.setOnClickListener {
             if(isDataValidated()){
-                Toast.makeText(requireContext(),"Data is Validated",Toast.LENGTH_SHORT).show()  //add object to database
+//                Toast.makeText(requireContext(),"Data is Validated",Toast.LENGTH_SHORT).show()  //add object to database
                 thresholdValue = binding.valueET.text.trim().toString().toDouble()
                 val alert = AlertModel(days = returnChoosenDays(),alertType = alarmType,maxMinValue = maxOrMin,thresholdValue = thresholdValue)
                 viewModel.insertAlert(alert)
@@ -69,10 +69,10 @@ class AddAlarmFragment : Fragment() {
         binding.radioGroupMaxMin.setOnCheckedChangeListener { radioGroup, i ->
             if(i==R.id.maxRB){
                 maxOrMin = "max"
-                Toast.makeText(requireContext(),"max",Toast.LENGTH_SHORT).show()
+//                Toast.makeText(requireContext(),"max",Toast.LENGTH_SHORT).show()
             }
             else{ maxOrMin = "min"
-                Toast.makeText(requireContext(),"min",Toast.LENGTH_SHORT).show()
+//                Toast.makeText(requireContext(),"min",Toast.LENGTH_SHORT).show()
             }
         }
 

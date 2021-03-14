@@ -1,4 +1,4 @@
-package com.amro.weathertastic.ui
+package com.amro.weathertastic.ui.activities
 
 import android.content.Intent
 import com.amro.weathertastic.R

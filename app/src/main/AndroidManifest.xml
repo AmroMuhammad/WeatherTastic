@@ -17,7 +17,7 @@
         android:roundIcon="@drawable/ic_icon"
         android:supportsRtl="true"
         android:theme="@style/Theme.WeatherTastic">
-        <activity android:name=".ui.SplashActivity">
+        <activity android:name=".ui.activities.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,7 +35,7 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".ui.MainActivity">
+        <activity android:name=".ui.activities.MainActivity">
         </activity>
 
         <meta-data
