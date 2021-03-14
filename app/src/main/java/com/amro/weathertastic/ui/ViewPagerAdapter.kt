@@ -41,6 +41,7 @@ import kotlin.collections.ArrayList
             return view
         }
 
+        
         override fun onBindViewHolder(holder: ViewPagerAdapter.ViewHolder, position: Int) {
             //setting two recyclers
             initRecyclers(holder)
